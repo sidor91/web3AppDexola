@@ -1,11 +1,73 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+@font-face {
+  font-family: 'Roboto Mono';
   font-weight: 400;
+  src: url('@/utils/fonts/Roboto_Mono/static/RobotoMono-Regular.ttf') format('truetype');
+  font-display: swap;
+}
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+@font-face {
+  font-family: 'Roboto Mono';
+  font-weight: 500;
+  src: url('@/utils/fonts/Roboto_Mono/static/RobotoMono-Medium.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kanit';
+  font-weight: 400;
+  src: url('@/utils/fonts/Kanit/Kanit-Regular.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kanit';
+  font-weight: 500;
+  src: url('@/utils/fonts/Kanit/Kanit-Medium.ttf') format('truetype');
+  font-display: swap;
+}
+
+
+:root {
+    --font-title-mobile: normal 500 28px/1.2 "Kanit";
+	--font-title-tablet: normal 500 40px/1.4 "Kanit";
+	--font-title-web: normal 500 48px/1.4 "Kanit";
+
+	--font-counter-numbers-mobile: normal 700 18 "Roboto Mono";
+	--font-counter-numbers-tablet: normal 700 28/1.7 "Roboto Mono";
+	--font-counter-numbers-web: normal 700 36/1.3 "Roboto Mono";
+
+	--font-counter-units-mobile: normal 400 12/1.6 "Roboto Mono";
+	--font-counter-units-tablet: normal 400 16/1.25 "Roboto Mono";
+	--font-counter-units-web: normal 400 16/3 "Roboto Mono";
+
+	--font-counter-text-mobile: normal 400 12 "Roboto Mono";
+	--font-counter-text-tablet-web: normal 400 16 "Roboto Mono";
+
+	--font-tabs-title-mobile: normal 400 14 "Roboto Mono";
+	--font-tabs-title-tablet: normal 500 16 "Roboto Mono";
+	--font-tabs-title-web: normal 500 16/1.4 "Roboto Mono";
+
+	--font-body-mobile: normal 400 14px/1 "Roboto Mono";
+	--font-body-tablet-web: normal 400 16px/1.5 "Roboto Mono";
+
+	--font-button-web-tablet: normal 500 16px/1.5 "Roboto Mono";
+	--font-button-mobile: normal 500 14px/1.7 "Roboto Mono";
+
+	--font-form-error-message: normal 500 13px/1.85 "Roboto Mono";
+
+	--color-white: #fff;
+	--color-black: #000;
+	--color-accent-blue: #204ffe;
+	/* --color-dark-grey: #2f2f2f; */
+	--color-light-grey: #b3b3b3;
+	/* --color-background: #060412; */
+	/* --color-warning-rose: #eb3795; */
+	--color-button: rgb(39, 42, 46);
+	--color-button-hover: rgba(39, 42, 46, 0.9);
+
+	--width-mobile: 375px;
+	--width-tablet: 744px;
+	--width-web: 1440px;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,56 +76,47 @@
   -webkit-text-size-adjust: 100%;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+	width: 100vw;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	background-color: var(--color-black);
+	color: var(--color-white);
+	font-family: "Roboto Mono", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li,
+img,
+ol {
+	margin: 0;
+	padding: 0;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+ul,
+ol,
+li {
+	list-style: none;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+		monospace;
 }
