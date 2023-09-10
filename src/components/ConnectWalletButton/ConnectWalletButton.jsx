@@ -19,7 +19,8 @@ function ConnectWalletButton() {
 	const dimensions = useWindowDimensions();
 
 	const { address, isConnected } = useAccount();
-	const addressToShow = address.slice(0,16)
+	const addressToShow = address?.slice(0, 16);
+
 	const { data: struData } = useBalance({
 		address,
 		token: VITE_STRU_TOKEN,
