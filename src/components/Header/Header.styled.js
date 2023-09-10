@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
-import { StyledButton } from "@/components/SharedElements.styled";
+
 
 export const StyledHeader = styled.header`
 	/* width: 100%; */
@@ -27,36 +27,6 @@ export const StyledHeader = styled.header`
 	@media ${media.minDesktop} {
 		padding-left: 40px;
 		padding-right: 40px;
-	}
-`;
-
-// export const Container = styled.div`
-// width: 100%;
-// 	max-width: var(--width-web);
-// 	padding: 3px 24px;
-// 	display: flex;
-// 	justify-content: space-between;
-// 	box-sizing: border-box;
-// 	align-items: center;
-// 	margin-left: auto;
-// 	margin-right: auto;
-
-// 	@media ${media.minTablet} {
-// 		padding-top: 15px;
-// 		padding-bottom: 15px;
-// 	}
-
-// 	@media ${media.minDesktop} {
-// 		padding-left: 120px;
-// 		padding-right: 120px;
-// 	}
-// `;
-
-export const Button = styled(StyledButton)`
-	padding: 10px 23px;
-
-	@media ${media.minTablet} {
-		padding: 12px 40px;
 	}
 `;
 

@@ -26,6 +26,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Kanit';
+  font-weight: 600;
+  src: url('@/utils/fonts/Kanit/Kanit-SemiBold.ttf') format('truetype');
+  font-display: swap;
+}
+
+
 
 :root {
     --font-title-mobile: normal 500 28px/1.2 "Kanit";
@@ -52,6 +60,10 @@
 
 	--font-button-web-tablet: normal 500 16px/1.5 "Roboto Mono";
 	--font-button-mobile: normal 500 14px/1.7 "Roboto Mono";
+
+	--font-balance-mobile: normal 500 12px "Kanit";
+	--font-balance-tablet-web: normal 600 14px/1.14 "Kanit";
+
 
 	--font-form-error-message: normal 500 13px/1.85 "Roboto Mono";
 

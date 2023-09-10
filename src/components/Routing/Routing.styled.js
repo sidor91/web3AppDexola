@@ -54,7 +54,7 @@ export const NavigationLink = styled(NavLink)`
 	}
 
 	&:nth-child(1) {
-		margin-right: 68px;
+		margin-right: 65px;
 
 		@media ${media.minTablet} {
 			margin-right: 0;
