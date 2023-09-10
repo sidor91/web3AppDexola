@@ -10,10 +10,14 @@ export const Button = styled(StyledButton)`
 	}
 `;
 
-export const BalanceContainer = styled.div`
-display: flex;
-align-items: center;
-`
+export const BalanceContainer = styled.button`
+	display: flex;
+	align-items: center;
+	background-color: transparent;
+	border: none;
+	color: var(--color-white);
+	cursor: pointer;
+`;
 
 export const Icon = styled.img`
 margin-right: 8px;

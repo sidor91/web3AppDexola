@@ -50,7 +50,7 @@ function ConnectWalletButton() {
 					{loading && "Loading..."}
 				</Button>
 			) : (
-				<BalanceContainer>
+				<BalanceContainer onClick={() => onOpen()}>
 					<Icon src={struIcon} width={24} height={24} />
 					<BalanceText style={{ marginRight: 12 }}>
 						{struBalance} stru
@@ -59,7 +59,9 @@ function ConnectWalletButton() {
 					<BalanceText>{sepoliaBalance} eth</BalanceText>
 					{dimensions >= 744 ? (
 						<>
-							<BalanceText style={{marginLeft: 8, marginRight: 8}}>|</BalanceText>
+							<BalanceText style={{ marginLeft: 8, marginRight: 8 }}>
+								|
+							</BalanceText>
 							<BalanceText>{addressToShow}...</BalanceText>
 						</>
 					) : null}
