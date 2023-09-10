@@ -30,7 +30,3 @@ export const StyledHeader = styled.header`
 	}
 `;
 
-export const LogoIcon = styled.img`
-	width: 34.5px;
-	height: 19.5px;
-`;

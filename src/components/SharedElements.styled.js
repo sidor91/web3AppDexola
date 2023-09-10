@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
 
-export const H2heading = styled.h2`
+export const H1heading = styled.h1`
 	font: var(--font-title-mobile);
 	color: var(--color-white);
 
@@ -63,19 +63,17 @@ export const StyledSection = styled.section`
 	width: 100%;
 	box-sizing: border-box;
 	min-width: var(--width-mobile);
-	max-width: var(--width-web);
+	/* max-width: var(--width-web); */
 	margin-left: auto;
 	margin-right: auto;
-	padding-left: 24px;
-	padding-right: 24px;
 
-	@media ${media.minTablet} {
+	/* @media ${media.minTablet} {
 		padding-left: 48px;
 		padding-right: 48px;
-	}
+	} */
 
-	@media ${media.minDesktop} {
+	/* @media ${media.minDesktop} {
 		padding-left: 120px;
 		padding-right: 120px;
-	}
+	} */
 `;

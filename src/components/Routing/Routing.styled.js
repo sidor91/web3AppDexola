@@ -1,31 +1,42 @@
 import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
-import { StyledSection } from "@/components/SharedElements.styled";
 import { NavLink } from "react-router-dom";
 
-export const RoutingSection = styled(StyledSection)`
-	padding: 32px 24px 16px;
-	/* padding-left: 24px;
-    padding-right: 24px; */
+export const Container = styled.div`
+	width: 100%;
+	background-color: var(--color-black);
 	border-radius: 16px 16px 0px 0px;
-	/* border-bottom: 1px solid var(--color-accent-blue); */
 
 	@media ${media.minTablet} {
 		border-radius: 0;
-		/* width: calc(100% - 96px); */
+	}
+`;
+
+export const RoutingSection = styled.div`
+	padding: 32px 24px 16px;
+	display: flex;
+	max-width: var(--width-web);
+	box-sizing: border-box;
+	margin-left: auto;
+	margin-right: auto;
+
+	@media ${media.minTablet} {
 		padding-top: 59px;
-        padding-left: 48px;
-        padding-right: 48px;
+		padding-left: 48px;
+		padding-right: 48px;
+		justify-content: initial;
 	}
 
 	@media ${media.minDesktop} {
-		/* width: calc(100% - 240px); */
 		padding-top: 56px;
+		padding-left: 120px;
+		padding-right: 120px;
 	}
 `;
 
 export const NavigationLink = styled(NavLink)`
-	font: var(--font-body-mobile);
+	font: var(--font-tabs-title-mobile);
+	letter-spacing: -0.28px;
 	color: ${(props) => (props.$isactive ? "white" : "grey")};
 	text-decoration: none;
 	white-space: nowrap;
@@ -51,10 +62,12 @@ export const NavigationLink = styled(NavLink)`
 	@media ${media.minTablet} {
 		padding-left: 32px;
 		padding-right: 32px;
+		font: var(--font-tabs-title-tablet-web);
+		letter-spacing: normal;
 	}
 
 	&:nth-child(1) {
-		margin-right: 65px;
+		margin-right: 68px;
 
 		@media ${media.minTablet} {
 			margin-right: 0;

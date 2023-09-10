@@ -1,4 +1,4 @@
-import { StyledHeader, LogoIcon } from "./Header.styled";
+import { StyledHeader } from "./Header.styled";
 import Logo from "@/assets/Logo.svg";
 import {
 	useConnect,
@@ -37,8 +37,14 @@ function Header() {
 
 	return (
 		<StyledHeader>
-			<LogoIcon src={Logo} alt="Logo" aria-label="Logo DX" />
-			<ConnectWalletButton/>
+			<img
+				src={Logo}
+				alt="Logo"
+				aria-label="Logo DX"
+				width={34.5}
+				height={19.5}
+			/>
+			<ConnectWalletButton />
 		</StyledHeader>
 	);
 }
