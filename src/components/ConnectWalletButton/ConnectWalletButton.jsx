@@ -10,27 +10,14 @@ import { useAccount, useBalance } from "wagmi";
 import struIcon from "@/assets/struIcon.png";
 import ethIcon from "@/assets/ethIcon.svg";
 import useWindowDimensions from "@/utils/hooks/useWindowDimensions";
-
-const { VITE_STRU_TOKEN } = import.meta.env;
+import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
 
 function ConnectWalletButton() {
 	const [loading, setLoading] = useState(false);
 	const { open } = useWeb3Modal();
 	const dimensions = useWindowDimensions();
-
-	const { address, isConnected } = useAccount();
-	const addressToShow = address?.slice(0, 16);
-
-	const { data: struData } = useBalance({
-		address,
-		token: VITE_STRU_TOKEN,
-	});
-	const struBalance = struData?.formatted;
-
-	const { data: sepoliaData } = useBalance({
-		address,
-	});
-	const sepoliaBalance = Number(sepoliaData?.formatted).toFixed(1);
+const { addressToShow, struBalance, sepoliaBalance, isConnected } =
+	useAccountAndBalance();
 
 	async function onOpen() {
 		setLoading(true);

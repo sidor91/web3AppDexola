@@ -22,21 +22,26 @@ export const Container = styled.div`
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
-
-	padding-left: 24px;
-	padding-right: 24px;
+	padding: 22px 24px 24px;
 
 	@media ${media.minTablet} {
-		padding-left: 48px;
-		padding-right: 48px;
+		padding: 32px 48px 33.5px;
 	}
 
 	@media ${media.minDesktop} {
-		padding-left: 120px;
-		padding-right: 120px;
+		padding: 24px 120px 48px;
 	}
 `;
 
 export const Header = styled(H1heading)`
-text-transform: uppercase;
+	margin-bottom: 26px;
+	padding-right: 67px;
+
+	@media ${media.minTablet} {
+		margin-bottom: 17.5px;
+	}
+
+	@media ${media.minDesktop} {
+		margin-bottom: 16px;
+	}
 `;
