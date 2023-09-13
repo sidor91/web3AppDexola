@@ -7,8 +7,8 @@ function useAccountAndBalance() {
 	const [sepoliaBalance, setSepoliaBalance] = useState(0);
 	const [addressToShow, setAddressToShow] = useState('');
 	
-	const { isConnected, address  } = useAccount({
-		onConnect({address}) {
+	const { address, isConnected } = useAccount({
+		onConnect({ address }) {
 			setAddressToShow(address.slice(0, 16));
 		},
 	});
@@ -30,7 +30,7 @@ function useAccountAndBalance() {
 		},
 	});
 
-	return { addressToShow, struBalance, sepoliaBalance, isConnected };
+	return { addressToShow, struBalance, sepoliaBalance, isConnected, address };
 }
 
 export default useAccountAndBalance;

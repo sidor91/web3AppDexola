@@ -1,18 +1,24 @@
 import useContract from "@/utils/hooks/useContract";
-import { useRef, useState, useEffect } from "react";
-import { waitForTransaction, fetchTransaction } from "@wagmi/core";
-import { parseEther, formatEther } from "viem";
-const { VITE_STRU_STAKING_CONTRACT, VITE_STRU_TOKEN } = import.meta.env;
+import { useRef } from "react";
+import { parseEther } from "viem";
 
 function StakePage() {
-	const { stakeWrite, approvalWrite, allowanceAmount, stake } = useContract();
+	const { stake, withdraw, claimReward } = useContract();
 	const formRef = useRef(null);
 
 	const handleSubmit = async (data) => {
 		data.preventDefault();
 		const { value } = data.currentTarget[0];
-        await stake(value);
-        formRef.current.reset();
+		await stake(value);
+
+		// const amount = parseEther("1");
+		// const response = await withdraw({ args: [amount] });
+		// console.log(response);
+
+        // const claimRewardsData = await claimReward();
+        // console.log(claimRewardsData);
+
+		formRef.current.reset();
 	};
 
 	return (

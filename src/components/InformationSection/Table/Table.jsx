@@ -13,15 +13,24 @@ import {
 import helpIcon from "@/assets/helpIcon.svg";
 import useWindowDimensions from "@/utils/hooks/useWindowDimensions";
 import useContract from "@/utils/hooks/useContract";
+import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
 
 function Table() {
 	const [balance, setBalance] = useState(0);
+	const [rewardsValue, setRewardsValue] = useState(0);
 	const dimensions = useWindowDimensions();
 	const { stakingBalance, APR, DAYS, rewards } = useContract();
-
-	useEffect(() => {
+	const { isConnected } = useAccountAndBalance();
+		
+		useEffect(() => {
+	if (isConnected) {
 		setBalance(stakingBalance);
-	}, [stakingBalance]);
+		setRewardsValue(rewards);
+	} else {
+		setBalance(0);
+		setRewardsValue(0);
+	}
+}, [isConnected, stakingBalance, rewards]);
 
 	return (
 		<StyledTable>
@@ -29,12 +38,9 @@ function Table() {
 			<Tbody>
 				<TR>
 					<TD aria-label="Staked balance">
-						<Value>
-							{/* {balance} */}
-							1000
-						</Value>
+						<Value>{balance}</Value>
 						<Units>STRU</Units>
-						<Icon src={helpIcon}/>
+						<Icon src={helpIcon} />
 					</TD>
 					<TD aria-label="APR">
 						<Value>≈{APR}%</Value>
@@ -47,10 +53,7 @@ function Table() {
 						<Value>{DAYS}</Value>
 					</TD>
 					<TD aria-label="Rewards">
-						<Value>
-							{/* {rewards} */}
-						100
-						</Value>
+						<Value>{rewardsValue}</Value>
 						<Units>STRU</Units>
 						<Icon src={helpIcon} />
 					</TD>

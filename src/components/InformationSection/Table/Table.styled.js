@@ -33,6 +33,7 @@ export const TD = styled.td`
 	/* position: relative; */
 
 	&:not(:last-child) {
+		/* padding-right: 20px; */
 		padding-right: 10px;
 
 		@media ${media.minTablet} {
