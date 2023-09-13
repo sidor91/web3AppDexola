@@ -30,9 +30,10 @@ export const TR = styled.tr`
 export const TD = styled.td`
 	width: fit-content;
 	box-sizing: content-box;
+	/* position: relative; */
 
 	&:not(:last-child) {
-		padding-right: 20px;
+		padding-right: 10px;
 
 		@media ${media.minTablet} {
 			padding-right: 24px;
@@ -152,6 +153,11 @@ export const Icon = styled.img`
 	margin: 0;
 	padding: 0;
 	margin-left: 5px;
+	/* position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: 20px; */
+	
 	width: 10px;
 	height: 10px;
 

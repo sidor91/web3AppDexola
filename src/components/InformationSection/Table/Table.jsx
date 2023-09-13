@@ -17,10 +17,10 @@ import useContract from "@/utils/hooks/useContract";
 function Table() {
 	const [balance, setBalance] = useState(0);
 	const dimensions = useWindowDimensions();
-	const { stakingBalance } = useContract();
+	const { stakingBalance, APR, DAYS, rewards } = useContract();
 
 	useEffect(() => {
-			setBalance(stakingBalance);
+		setBalance(stakingBalance);
 	}, [stakingBalance]);
 
 	return (
@@ -30,23 +30,27 @@ function Table() {
 				<TR>
 					<TD aria-label="Staked balance">
 						<Value>
-							{balance}
+							{/* {balance} */}
+							1000
 						</Value>
 						<Units>STRU</Units>
-						<Icon src={helpIcon} />
+						<Icon src={helpIcon}/>
 					</TD>
 					<TD aria-label="APR">
-						<Value>≈8%</Value>
+						<Value>≈{APR}%</Value>
 						<Icon
 							src={helpIcon}
 							style={dimensions >= 1440 ? { marginRight: 18 } : {}}
 						/>
 					</TD>
 					<TD aria-label="Days">
-						<Value>0</Value>
+						<Value>{DAYS}</Value>
 					</TD>
 					<TD aria-label="Rewards">
-						<Value>0</Value>
+						<Value>
+							{/* {rewards} */}
+						100
+						</Value>
 						<Units>STRU</Units>
 						<Icon src={helpIcon} />
 					</TD>
