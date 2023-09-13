@@ -53,7 +53,7 @@ const { addressToShow, struBalance, sepoliaBalance, isConnected } =
 				<BalanceContainer onClick={() => onOpen()}>
 					<Icon src={struIcon} width={24} height={24} />
 					<BalanceText style={{ marginRight: 12 }}>
-						{spBalance} stru
+						{struBalance} stru
 					</BalanceText>
 					<Icon src={ethIcon} width={24} height={24} />
 					<BalanceText>{sepBalance} eth</BalanceText>

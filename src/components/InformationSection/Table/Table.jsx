@@ -30,7 +30,7 @@ function Table() {
 				<TR>
 					<TD aria-label="Staked balance">
 						<Value>
-							{balance.toFixed(2)}
+							{balance}
 						</Value>
 						<Units>STRU</Units>
 						<Icon src={helpIcon} />

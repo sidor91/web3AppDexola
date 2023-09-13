@@ -1,31 +1,50 @@
 import useContract from "@/utils/hooks/useContract";
 import { useRef, useState, useEffect } from "react";
-import { waitForTransaction } from "@wagmi/core";
-const { VITE_STRU_STAKING_CONTRACT } = import.meta.env;
+import { waitForTransaction, fetchTransaction } from "@wagmi/core";
+import { useAccount } from "wagmi";
+import { parseEther, formatEther } from "viem";
+const { VITE_STRU_STAKING_CONTRACT, VITE_STRU_TOKEN } = import.meta.env;
 
 function StakePage() {
-	const { stakeWrite, approvalWrite } = useContract();
+	const { stakeWrite, approvalWrite, allowanceAmount } = useContract();
 	const formRef = useRef(null);
+	const { address } = useAccount();
 
 	const stake = async (data) => {
 		data.preventDefault();
-		const { value } = data.currentTarget[0];
-
+        const { value } = data.currentTarget[0];
+        const amountToSend = parseEther(value);
+		const allowance = formatEther(allowanceAmount);
 		try {
-			const { hash: approvalHash } = await approvalWrite({
-				args: [VITE_STRU_STAKING_CONTRACT, value],
-			});
+			console.log(formatEther(allowanceAmount));
+			console.log(value);
 
-			const { status } = await waitForTransaction({
-				hash: approvalHash,
-			});
-			console.log(data);
-			if (status === "success") {
-				const { hash: transactionHash } = await stakeWrite({ args: [value] });
-				const data = await waitForTransaction({
+			if (Number(value) > Number(allowance)) {
+				const { hash: approvalHash } = await approvalWrite({
+					args: [VITE_STRU_STAKING_CONTRACT, amountToSend],
+				});
+				const { status: approvalStatus } = await waitForTransaction({
+					hash: approvalHash,
+				});
+				console.log(approvalStatus);
+
+				if (approvalStatus === "success") {
+					const { hash: transactionHash } = await stakeWrite({
+						args: [amountToSend],
+					});
+					const transactionData = await waitForTransaction({
+						hash: transactionHash,
+					});
+					console.log(transactionData);
+				}
+			} else {
+				const { hash: transactionHash } = await stakeWrite({
+					args: [amountToSend],
+				});
+				const transactionData = await waitForTransaction({
 					hash: transactionHash,
 				});
-				console.log(data);
+				console.log(transactionData);
 			}
 
 			formRef.current.reset();
