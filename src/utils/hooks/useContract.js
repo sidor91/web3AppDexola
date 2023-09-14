@@ -40,7 +40,7 @@ function useContract() {
 		watch: true,
 		onSuccess(data) {
 			const value = formatEther(data);
-			setStakingBalance(Math.floor(Number(value)));
+			setStakingBalance(Math.floor(Number(value)).toFixed(2));
 		},
 	});
 
@@ -73,7 +73,7 @@ function useContract() {
 		onSuccess(data) {
 			const value = Number(data);
 			const timeStamp = Date.now() / 1000;
-			const result = Math.floor((value - timeStamp) / 86400);
+			const result = Math.ceil((value - timeStamp) / 86400);
 			setDAYS(result);
 		},
 	});
@@ -85,7 +85,7 @@ function useContract() {
 		watch: true,
 		onSuccess(data) {
 			const value = (formatEther(data));
-			const result = Math.floor(Number(value));
+			const result = Math.floor(Number(value)).toFixed(2);
 			setRewards(result)
 		},
 	});

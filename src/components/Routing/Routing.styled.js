@@ -12,7 +12,7 @@ export const Container = styled.div`
 	}
 `;
 
-export const RoutingSection = styled.div`
+export const RoutingSection = styled.nav`
 	padding: 32px 24px 16px;
 	display: flex;
 	max-width: var(--width-web);
@@ -35,35 +35,11 @@ export const RoutingSection = styled.div`
 `;
 
 export const NavigationLink = styled(NavLink)`
-	font: var(--font-tabs-title-mobile);
-	letter-spacing: -0.28px;
-	color: ${(props) => (props.$isactive ? "white" : "grey")};
 	text-decoration: none;
-	white-space: nowrap;
-	position: relative;
-	${(props) =>
-		props.$isactive &&
-		`&::after {
-		content: "";
-		width: 100%;
-        height: 6px;
-		background-color: var(--color-accent-blue);
-		position: absolute;
-		bottom: -16px;
-		left: 0;
-
-        @media ${media.minTablet} {
-		height: 8px;
-        width: calc(100% - 64px);
-        left: 32px;
-	}
-	}`}
 
 	@media ${media.minTablet} {
 		padding-left: 32px;
 		padding-right: 32px;
-		font: var(--font-tabs-title-tablet-web);
-		letter-spacing: normal;
 	}
 
 	&:nth-child(1) {
@@ -82,3 +58,39 @@ export const NavigationLink = styled(NavLink)`
 		}
 	}
 `;
+
+export const LinkText = styled.span`
+	font: var(--font-tabs-title-mobile);
+	letter-spacing: -0.28px;
+	color: var(--color-light-grey);
+	white-space: nowrap;
+	position: relative;
+
+	&:hover {
+		color: var(--color-white);
+	}
+
+	@media ${media.minTablet} {
+		font: var(--font-tabs-title-tablet-web);
+		letter-spacing: normal;
+	}
+`;
+
+export const LinkTextActive = styled(LinkText)`
+	color: var(--color-white);
+
+	&::after {
+		content: "";
+		width: 100%;
+		height: 6px;
+		background-color: var(--color-accent-blue);
+		position: absolute;
+		bottom: -16px;
+		left: 0;
+
+		@media ${media.minTablet} {
+			height: 8px;
+		}
+	}
+`;
+

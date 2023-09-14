@@ -1,20 +1,41 @@
-import { RoutingSection, NavigationLink, Container } from "./Routing.styled";
-import { useLocation } from "react-router-dom";
+import {
+	RoutingSection,
+	NavigationLink,
+	Container,
+	LinkText,
+	LinkTextActive,
+} from "./Routing.styled";
 
 function Routing() {
-    const { pathname } = useLocation()
-
 	return (
 		<Container>
 			<RoutingSection>
-				<NavigationLink to="stake" $isactive={pathname === "/stake"}>
-					Stake
+				<NavigationLink to="stake">
+					{({ isActive }) =>
+						isActive ? (
+							<LinkTextActive>Stake</LinkTextActive>
+						) : (
+							<LinkText>Stake</LinkText>
+						)
+					}
 				</NavigationLink>
-				<NavigationLink to="withdraw" $isactive={pathname === "/withdraw"}>
-					Withdraw
+				<NavigationLink to="withdraw">
+					{({ isActive }) =>
+						isActive ? (
+							<LinkTextActive>Withdraw</LinkTextActive>
+						) : (
+							<LinkText>Withdraw</LinkText>
+						)
+					}
 				</NavigationLink>
-				<NavigationLink to="rewards" $isactive={pathname === "/rewards"}>
-					Claim rewards
+				<NavigationLink to="rewards">
+					{({ isActive }) =>
+						isActive ? (
+							<LinkTextActive>Claim rewards</LinkTextActive>
+						) : (
+							<LinkText>Claim rewards</LinkText>
+						)
+					}
 				</NavigationLink>
 			</RoutingSection>
 		</Container>

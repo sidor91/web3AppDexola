@@ -1,13 +1,13 @@
 import { Container, Header, Section } from "./InformationSection.styled";
 import Routing from "@/components/Routing/Routing";
-import Table from '@/components/InformationSection/Table/Table';
+import Stats from "@/components/InformationSection/Stats/Stats";
 
 function InformationSection() {
     return (
 			<Section>
 				<Container>
                 <Header>StarRunner Token staking</Header>
-                <Table/>
+				<Stats/>
 				</Container>
 				<Routing />
 			</Section>
