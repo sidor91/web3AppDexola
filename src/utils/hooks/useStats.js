@@ -5,18 +5,18 @@ import { useState, useEffect } from "react";
 function useStats  ()  {
 	const [balance, setBalance] = useState(0);
 	const [rewardsValue, setRewardsValue] = useState(0);
-	const { stakingBalance, APR, DAYS, rewards } = useContract();
+	const { BALANCE, APR, DAYS, REWARDS } = useContract();
 	const { isConnected } = useAccountAndBalance();
 
 	useEffect(() => {
 		if (isConnected) {
-			setBalance(stakingBalance);
-			setRewardsValue(rewards);
+			setBalance(BALANCE);
+			setRewardsValue(REWARDS);
 		} else {
 			setBalance(0);
 			setRewardsValue(0);
 		}
-    }, [isConnected, stakingBalance, rewards]);
+	}, [isConnected, BALANCE, REWARDS]);
     
     const statsArray = [
 			{

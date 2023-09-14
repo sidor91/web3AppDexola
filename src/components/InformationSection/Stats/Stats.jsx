@@ -5,6 +5,7 @@ import {
 	Value,
 	Units,
 	Description,
+	DescriptionContainer,
 	IconHelper,
 } from "./Stats.styled";
 import useStats from "@/utils/hooks/useStats";
@@ -18,10 +19,12 @@ function Stats() {
 				<SubContainer key={index}>
 					<ValueContainer>
 						<Value>{value}</Value>
-						<Units>{units}</Units>
+						{units && <Units>{units}</Units>}
 					</ValueContainer>
-                    {helperText && <IconHelper src={helpIcon} />}
-					<Description>{description}</Description>
+					{helperText && <IconHelper src={helpIcon} />}
+					<DescriptionContainer>
+						<Description>{description}</Description>
+					</DescriptionContainer>
 				</SubContainer>
 			))}
 		</Container>

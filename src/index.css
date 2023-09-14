@@ -47,9 +47,18 @@
 	--font-title-tablet: normal 500 40px/1.4 "Kanit";
 	--font-title-web: normal 500 48px/1.4 "Kanit";
 
+	--font-subtitle-mobile: normal 500 18px "Kanit";
+	--font-subtitle-tablet-web: normal 500 24px "Kanit";
+
 	--font-counter-numbers-mobile: normal 700 18px "Roboto Mono";
 	--font-counter-numbers-tablet: normal 700 28px/1.7 "Roboto Mono";
 	--font-counter-numbers-web: normal 700 36px/1.3 "Roboto Mono";
+
+	--font-reward-rate-value-mobile: normal 700 18px "Roboto Mono";
+	--font-reward-rate-value-tablet-web: normal 700 20px "Roboto Mono";
+
+	--font-reward-rate-units-mobile: normal 400 12px "Roboto Mono";
+	--font-reward-rate-units-tablet-web: normal 400 16px "Roboto Mono";
 
 	--font-counter-units-mobile: normal 400 12px/1.6 "Roboto Mono";
 	--font-counter-units-tablet: normal 400 16px/1.25 "Roboto Mono";
@@ -76,7 +85,7 @@
 	--color-white: #fff;
 	--color-black: #000;
 	--color-accent-blue: #204ffe;
-	/* --color-dark-grey: #2f2f2f; */
+	--color-dark-grey: #2f2f2f;
 	--color-light-grey: #b3b3b3;
 	/* --color-background: #060412; */
 	/* --color-warning-rose: #eb3795; */

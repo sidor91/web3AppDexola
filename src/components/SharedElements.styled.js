@@ -14,16 +14,12 @@ export const H1heading = styled.h1`
 	}
 `;
 
-export const H3heading = styled.h3`
+export const H2heading = styled.h3`
 	font: var(--font-subtitle-mobile);
 	color: var(--color-white);
 
 	@media ${media.minTablet} {
-		font: var(--font-subtitle-tablet);
-	}
-
-	@media ${media.minDesktop} {
-		font: var(--font-subtitle-web);
+		font: var(--font-subtitle-tablet-web);
 	}
 `;
 
@@ -32,11 +28,7 @@ export const Paragraph = styled.p`
 	color: var(--color-light-grey);
 
 	@media ${media.minTablet} {
-		font: var(--font-body-tablet);
-	}
-
-	@media ${media.minDesktop} {
-		font: var(--font-body-web);
+		font: var(--font-body-tablet-web);
 	}
 `;
 
@@ -64,8 +56,8 @@ export const StyledSection = styled.section`
 	box-sizing: border-box;
 	min-width: var(--width-mobile);
 	/* max-width: var(--width-web); */
-	margin-left: auto;
-	margin-right: auto;
+	/* margin-left: auto;
+	margin-right: auto; */
 
 	/* @media ${media.minTablet} {
 		padding-left: 48px;

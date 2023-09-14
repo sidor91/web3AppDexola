@@ -1,5 +1,5 @@
-import STRUContractAbi from "@/contractABI";
-import STRUTokenAbi from "@/tokenABI";
+import STRUContractAbi from "@/contracts/contractABI";
+import STRUTokenAbi from "@/contracts/tokenABI";
 import { useContractRead, useContractWrite } from "wagmi";
 import { waitForTransaction } from "@wagmi/core";
 import { formatEther, parseEther } from "viem";
@@ -18,12 +18,15 @@ const token = {
 };
 
 function useContract() {
-	const [stakingBalance, setStakingBalance] = useState(0);
-	const [rewardForDuration, setRewardForDuration] = useState(null);
-	const [totalSupply, setTotalSupply] = useState(null);
+	const [BALANCE, setBALANCE] = useState(0);
 	const [DAYS, setDAYS] = useState(0);
 	const [APR, setApr] = useState(0);
-	const [rewards, setRewards] = useState(0);
+	const [REWARDS, setREWARDS] = useState(0);
+	const [REWARDRATE, setREWARDRATE] = useState(0);
+	const [rewardForDuration, setRewardForDuration] = useState(null);
+	const [totalSupply, setTotalSupply] = useState(null);
+	const [remaining, setRemaining] = useState(null);
+	const [rewardRateMethodValue, setRewardRateMethodValue] = useState(null)
 	const { address } = useAccountAndBalance();
 
 	useEffect(() => {
@@ -33,6 +36,16 @@ function useContract() {
 		}
 	}, [rewardForDuration, totalSupply]);
 
+	useEffect(() => {
+		if (remaining && rewardRateMethodValue && BALANCE && totalSupply) {
+			const available = remaining * rewardRateMethodValue;
+			const numberedBalance = Number(BALANCE);
+			const value =
+				(numberedBalance * available) / totalSupply + numberedBalance;
+			setREWARDRATE(Math.floor(value));
+		}
+	}, [remaining, rewardRateMethodValue, BALANCE, totalSupply]);
+
 	useContractRead({
 		...contract,
 		functionName: address ? "balanceOf" : null,
@@ -40,10 +53,18 @@ function useContract() {
 		watch: true,
 		onSuccess(data) {
 			const value = formatEther(data);
-			setStakingBalance(Math.floor(Number(value)).toFixed(2));
+			setBALANCE(Number(value).toFixed(2));
 		},
 	});
 
+	useContractRead({
+		...contract,
+		functionName: "rewardRate",
+		watch: true,
+		onSuccess(data) {
+			setRewardRateMethodValue(Number(formatEther(data)));
+		}
+	});
 	
 
 	useContractRead({
@@ -73,8 +94,10 @@ function useContract() {
 		onSuccess(data) {
 			const value = Number(data);
 			const timeStamp = Date.now() / 1000;
-			const result = Math.ceil((value - timeStamp) / 86400);
-			setDAYS(result);
+			const remainingValue = value - timeStamp;
+			setRemaining(remainingValue);
+			const daysValue = Math.ceil((value - timeStamp) / 86400);
+			setDAYS(daysValue);
 		},
 	});
 
@@ -86,7 +109,7 @@ function useContract() {
 		onSuccess(data) {
 			const value = (formatEther(data));
 			const result = Math.floor(Number(value)).toFixed(2);
-			setRewards(result)
+			setREWARDS(result);
 		},
 	});
 	
@@ -159,14 +182,12 @@ function useContract() {
 	
 	
 	return {
-		stakingBalance,
-		stakeWrite,
-		approvalWrite,
-		allowanceAmount,
-		stake,
+		BALANCE,
+		REWARDRATE,
 		APR,
 		DAYS,
-		rewards,
+		REWARDS,
+		stake,
 		withdraw,
 		claimReward,
 	};

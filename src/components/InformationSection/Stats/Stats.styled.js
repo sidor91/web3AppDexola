@@ -24,11 +24,15 @@ export const SubContainer = styled.div`
 
 export const ValueContainer = styled.div`
 	display: inline-flex;
+	
+	justify-content: start;
     align-items: baseline;
 `;
 
 export const Value = styled.p`
 	display: inline-flex;
+	
+	
 	font: var(--font-counter-numbers-mobile);
 
 	@media ${media.minTablet} {
@@ -42,10 +46,12 @@ export const Value = styled.p`
 
 export const Units = styled.p`
 	display: inline-flex;
+	
+	
 	font: var(--font-counter-units-mobile);
 	line-height: 1.66;
 	margin-left: 4px;
-    text-transform: uppercase;
+	text-transform: uppercase;
 
 	@media ${media.minTablet} {
 		font: var(--font-counter-units-tablet);
@@ -56,13 +62,24 @@ export const Units = styled.p`
 	@media ${media.minDesktop} {
 		font: var(--font-counter-units-web);
 		line-height: normal;
-        margin-right: 12px;
+		margin-right: 12px;
+	}
+`;
+
+export const DescriptionContainer = styled.div`
+	margin-top: 4px;
+	display: flex;
+	justify-content: center;
+	@media ${media.minTablet} {
+		justify-content: start;
 	}
 `;
 
 export const Description = styled.p`
 	font: var(--font-counter-text-mobile);
+	display: inline-flex;
 	@media ${media.minTablet} {
+		margin-top: 0;
 		font: var(--font-counter-text-tablet-web);
 	}
 `;
