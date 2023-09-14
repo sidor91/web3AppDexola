@@ -30,6 +30,7 @@ export const SubContainer = styled.div`
 	@media ${media.minTablet} {
 		padding: 32px 24px;
 		border: 1px solid var(--color-accent-blue);
+		margin-bottom: 366px;
 	}
 `;
 

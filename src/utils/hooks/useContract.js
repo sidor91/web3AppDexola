@@ -26,7 +26,8 @@ function useContract() {
 	const [rewardForDuration, setRewardForDuration] = useState(null);
 	const [totalSupply, setTotalSupply] = useState(null);
 	const [remaining, setRemaining] = useState(null);
-	const [rewardRateMethodValue, setRewardRateMethodValue] = useState(null)
+	const [rewardRateMethodValue, setRewardRateMethodValue] = useState(null);
+	
 	const { address } = useAccountAndBalance();
 
 	useEffect(() => {

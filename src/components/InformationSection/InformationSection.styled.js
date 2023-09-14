@@ -10,6 +10,9 @@ export const Section = styled(StyledSection)`
 
 	@media ${media.minTablet} {
 		background-image: url(${topBackgroundTablet});
+		background-position: center;
+		background-size: cover;
+		background-repeat: no-repeat;
 	}
 
 	@media ${media.minDesktop} {

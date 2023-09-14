@@ -12,6 +12,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useContract from "@/utils/hooks/useContract";
+import Form from '@/components/Form/Form';
 
 function OperationsSection() {
 	const [title, setTitle] = useState("");
@@ -45,6 +46,7 @@ function OperationsSection() {
 							</RewardRateContainer>
 						)}
 					</TitleContainer>
+					<Form/>
 				</SubContainer>
 			</Container>
 		</Section>
