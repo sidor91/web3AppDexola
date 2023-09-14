@@ -24,6 +24,7 @@ function Form() {
 	const { BALANCE, REWARDS } = useContractReadOperations();
 	const { struBalance, isConnected } = useAccountAndBalance();
 	const { withdraw, stake, claimReward } = useStakeOperations();
+	const formRef = useRef(null);
 
 	useEffect(() => {
 		switch (pathname) {
@@ -43,8 +44,7 @@ function Form() {
 		}
 	}, [pathname, BALANCE, REWARDS, struBalance, isConnected]);
 
-	const formRef = useRef(null);
-
+	
 	const handleSubmit = async (data) => {
 		data.preventDefault();
 		const { value } = data.currentTarget[0];

@@ -11,13 +11,13 @@ import {
 } from "./OperationsSection.styled";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Form from '@/components/Form/Form';
+import Form from "@/components/Form/Form";
 import { useContractReadOperations } from "@/utils/hooks/useContract";
 
 function OperationsSection() {
 	const [title, setTitle] = useState("");
-    const { pathname } = useLocation();
-    const { REWARDRATE } = useContractReadOperations();
+	const { pathname } = useLocation();
+	const { REWARDRATE } = useContractReadOperations();
 
 	useEffect(() => {
 		switch (pathname) {
@@ -40,13 +40,13 @@ function OperationsSection() {
 						<Title>{title}</Title>
 						{pathname === "/stake" && (
 							<RewardRateContainer>
-								<Text>{'Reward rate:'}</Text>
+								<Text>{"Reward rate:"}</Text>
 								<RateValue>{REWARDRATE}</RateValue>
 								<RateUnits>{"STRU/week"}</RateUnits>
 							</RewardRateContainer>
 						)}
 					</TitleContainer>
-					<Form/>
+					<Form />
 				</SubContainer>
 			</Container>
 		</Section>

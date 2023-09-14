@@ -88,7 +88,6 @@ export const useStakeOperations = () => {
 
 export const useContractReadOperations = () => {
 	const { address, isConnected } = useAccountAndBalance();
-
 	const [BALANCE, setBALANCE] = useState(0);
 	const [DAYS, setDAYS] = useState(0);
 	const [REWARDS, setREWARDS] = useState(0);
