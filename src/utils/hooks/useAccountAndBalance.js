@@ -1,5 +1,5 @@
 import { useAccount, useBalance } from "wagmi";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 const { VITE_STRU_TOKEN } = import.meta.env;
 
 function useAccountAndBalance() {

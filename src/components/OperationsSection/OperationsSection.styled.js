@@ -25,6 +25,7 @@ export const Container = styled.div`
 `;
 
 export const SubContainer = styled.div`
+margin-top: -1px;
 	padding-top: 29px;
 	padding-bottom: 56px;
 	@media ${media.minTablet} {

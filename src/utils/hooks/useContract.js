@@ -27,7 +27,7 @@ function useContract() {
 	const [totalSupply, setTotalSupply] = useState(null);
 	const [remaining, setRemaining] = useState(null);
 	const [rewardRateMethodValue, setRewardRateMethodValue] = useState(null);
-	
+
 	const { address } = useAccountAndBalance();
 
 	useEffect(() => {
@@ -117,37 +117,128 @@ function useContract() {
 // /////////////////////////////////////////////////////////
 // Functions related to stake method 
 	
-	const { data: allowanceAmount } = useContractRead({
-		...token,
-		functionName: address ? "allowance" : null,
-		watch: true,
-		args: [address, VITE_STRU_STAKING_CONTRACT],
-	});
+	// const { data: allowanceAmount } = useContractRead({
+	// 	...token,
+	// 	functionName: address ? "allowance" : null,
+	// 	watch: true,
+	// 	args: [address, VITE_STRU_STAKING_CONTRACT],
+	// });
 
-	const { writeAsync: stakeWrite } = useContractWrite({
-		...contract,
-		functionName: "stake",
-	});
+	// const { writeAsync: stakeWrite } = useContractWrite({
+	// 	...contract,
+	// 	functionName: "stake",
+	// });
 
-	const { writeAsync: approvalWrite } = useContractWrite({
-		...token,
-		functionName: "approve",
-	});
+	// const { writeAsync: approvalWrite } = useContractWrite({
+	// 	...token,
+	// 	functionName: "approve",
+	// });
 
-	const stake = async (value) => {
-		const allowance = formatEther(allowanceAmount);
-		try {
-			const amountToSend = parseEther(value);
+	// const stake = async (value) => {
+	// 	const allowance = formatEther(allowanceAmount);
+	// 	try {
+	// 		const amountToSend = parseEther(value);
 
-			if (Number(value) > Number(allowance)) {
-				const { hash: approvalHash } = await approvalWrite({
-					args: [VITE_STRU_STAKING_CONTRACT, amountToSend],
-				});
-				const { status: approvalStatus } = await waitForTransaction({
-					hash: approvalHash,
-				});
+	// 		if (Number(value) > Number(allowance)) {
+	// 			const { hash: approvalHash } = await approvalWrite({
+	// 				args: [VITE_STRU_STAKING_CONTRACT, amountToSend],
+	// 			});
+	// 			const { status: approvalStatus } = await waitForTransaction({
+	// 				hash: approvalHash,
+	// 			});
 
-				if (approvalStatus === "success") {
+	// 			if (approvalStatus === "success") {
+	// 				const { hash } = await stakeWrite({
+	// 					args: [amountToSend],
+	// 				});
+	// 				const transactionData = await waitForTransaction({
+	// 					hash,
+	// 				});
+	// 				console.log(transactionData);
+	// 			}
+	// 		} else {
+	// 			const { hash } = await stakeWrite({
+	// 				args: [amountToSend],
+	// 			});
+	// 			const transactionData = await waitForTransaction({
+	// 				hash,
+	// 			});
+	// 			console.log(transactionData);
+	// 		}
+	// 	} catch (error) {
+	// 		console.log(error.message);
+	// 	}
+	// };
+// //////////////////////////////////////////
+	
+	// const { writeAsync: withdraw } = useContractWrite({
+	// 	...contract,
+	// 	functionName: "withdraw",
+	// });
+
+	// const { writeAsync: claimReward } = useContractWrite({
+	// 	...contract,
+	// 	functionName: "claimReward",
+	// });
+	
+	
+	return {
+		BALANCE,
+		REWARDRATE,
+		APR,
+		DAYS,
+		REWARDS,
+		// stake,
+		// withdraw,
+		// claimReward,
+	};
+}
+
+export default useContract;
+
+export const useStakeOperations = () => {
+	const { address, isConnected } = useAccountAndBalance();
+	
+		const { data: allowanceAmount } = useContractRead({
+			...token,
+			functionName: isConnected ? "allowance" : null,
+			watch: true,
+			args: [address, VITE_STRU_STAKING_CONTRACT],
+		});
+
+		const { writeAsync: stakeWrite } = useContractWrite({
+			...contract,
+			functionName: "stake",
+		});
+
+		const { writeAsync: approvalWrite } = useContractWrite({
+			...token,
+			functionName: "approve",
+		});
+
+		const stake = async (value) => {
+			const allowance = formatEther(allowanceAmount);
+			try {
+				const amountToSend = parseEther(value);
+
+				if (Number(value) > Number(allowance)) {
+					const { hash: approvalHash } = await approvalWrite({
+						args: [VITE_STRU_STAKING_CONTRACT, amountToSend],
+					});
+					const { status: approvalStatus } = await waitForTransaction({
+						hash: approvalHash,
+					});
+
+					if (approvalStatus === "success") {
+						const { hash } = await stakeWrite({
+							args: [amountToSend],
+						});
+						const transactionData = await waitForTransaction({
+							hash,
+						});
+						console.log(transactionData);
+					}
+				} else {
 					const { hash } = await stakeWrite({
 						args: [amountToSend],
 					});
@@ -156,20 +247,10 @@ function useContract() {
 					});
 					console.log(transactionData);
 				}
-			} else {
-				const { hash } = await stakeWrite({
-					args: [amountToSend],
-				});
-				const transactionData = await waitForTransaction({
-					hash,
-				});
-				console.log(transactionData);
+			} catch (error) {
+				console.log(error.message);
 			}
-		} catch (error) {
-			console.log(error.message);
-		}
-	};
-// //////////////////////////////////////////
+		};
 	
 	const { writeAsync: withdraw } = useContractWrite({
 		...contract,
@@ -181,17 +262,32 @@ function useContract() {
 		functionName: "claimReward",
 	});
 	
-	
-	return {
-		BALANCE,
-		REWARDRATE,
-		APR,
-		DAYS,
-		REWARDS,
-		stake,
-		withdraw,
-		claimReward,
-	};
+	return { stake, withdraw, claimReward };
 }
 
-export default useContract;
+export const useContractReadOperations = () => {
+	const { address, isConnected } = useAccountAndBalance();
+
+	const { data, isError, isLoading } = useContractReads({
+		contracts: [
+			{
+				// ...wagmigotchiContract,
+				functionName: "getAlive",
+			},
+			{
+				// ...wagmigotchiContract,
+				functionName: "getBoredom",
+			},
+			{
+				// ...mlootContract,
+				functionName: "getChest",
+				args: [69],
+			},
+			{
+				// ...mlootContract,
+				functionName: "getWaist",
+				args: [69],
+			},
+		],
+	});
+}

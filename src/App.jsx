@@ -10,7 +10,7 @@ const SharedLayout = lazy(() => import("@/components/SharedLayout"));
 function App() {
 	return (
 		<Suspense fallback={<Fallback />}>
-			<BrowserRouter>
+			<BrowserRouter basename="/stake">
 				<Routes>
 					<Route path="/" element={<Navigate to="/stake" />} />
 					<Route path="/" element={<SharedLayout />}>
