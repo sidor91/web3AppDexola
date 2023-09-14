@@ -9,50 +9,57 @@ import {
 } from "./Form.styled";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import useContract, { useStakeOperations } from "@/utils/hooks/useContract";
+import {
+	useStakeOperations,
+	useContractReadOperations,
+} from "@/utils/hooks/useContract";
 import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
-
+import {  parseEther } from "viem";
 
 function Form() {
 	const [buttonTitle, setButtonTitle] = useState("");
 	const [placeholder, setPlaceholder] = useState("");
 	const [availableAmount, setAvailableAmount] = useState(0);
 	const { pathname } = useLocation();
-	const { BALANCE, REWARDS } = useContract();
-	const { struBalance } = useAccountAndBalance();
+	const { BALANCE, REWARDS } = useContractReadOperations();
+	const { struBalance, isConnected } = useAccountAndBalance();
 	const { withdraw, stake, claimReward } = useStakeOperations();
 
 	useEffect(() => {
 		switch (pathname) {
 			case "/stake":
 				setButtonTitle("Stake");
-				setAvailableAmount(struBalance);
+				setAvailableAmount(() => (isConnected ? struBalance : 0));
 				setPlaceholder("Enter stake amount");
 				break;
 			case "/withdraw":
 				setButtonTitle("Withdraw");
-				setAvailableAmount(BALANCE);
+				setAvailableAmount(() => (isConnected ? BALANCE : 0));
 				setPlaceholder("Enter withdraw amount");
 				break;
 			case "/rewards":
 				setButtonTitle("claim rewards");
-				setAvailableAmount(REWARDS);
-				setPlaceholder("Enter stake amount");
+				setAvailableAmount(() => (isConnected ? REWARDS : 0));
 		}
-	}, [pathname]);
+	}, [pathname, BALANCE, REWARDS, struBalance, isConnected]);
 
 	const formRef = useRef(null);
 
 	const handleSubmit = async (data) => {
 		data.preventDefault();
 		const { value } = data.currentTarget[0];
-        await stake(value);
-		// const amount = parseEther("1");
-		// const response = await withdraw({ args: [amount] });
-		// console.log(response);
+		const amountToSend = parseEther(value);
 
-	    // const claimRewardsData = await claimReward();
-	    // console.log(claimRewardsData);
+		switch (pathname) {
+			case "/stake":
+				await stake(amountToSend);
+				break;
+			case "/withdraw":
+				await withdraw({ args: [amountToSend] });
+				break;
+			case "/rewards":
+				await claimReward();
+		}
 
 		formRef.current.reset();
 	};
