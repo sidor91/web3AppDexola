@@ -86,9 +86,11 @@ export const SubmitButton = styled(StyledButton)`
 	padding-top: 12px;
 	padding-bottom: 12px;
 	line-height: 1.5;
+	margin-bottom: 56px;
 
 	@media ${media.minTablet} {
 		padding: 12px 40px;
 		width: fit-content;
+		margin-bottom: 32px;
 	}
 `;

@@ -25,21 +25,32 @@ export const Container = styled.div`
 `;
 
 export const SubContainer = styled.div`
-margin-top: -1px;
-	padding-top: 29px;
-	padding-bottom: 56px;
+	margin-top: -1px;
+	/* padding-top: 29px; */
+	/* padding-bottom: 56px; */
 	@media ${media.minTablet} {
-		padding: 32px 24px;
+		/* padding: 32px 24px; */
+		padding-left: 24px;
+		padding-right: 24px;
 		border: 1px solid var(--color-accent-blue);
 		margin-bottom: 366px;
+	}
+
+	@media ${media.minDesktop} {
+		margin-bottom: 108px;
 	}
 `;
 
 export const TitleContainer = styled.div`
+	margin-top: 29px;
 	padding-bottom: 8px;
 	border-bottom: 1px solid var(--color-dark-grey);
-    display: flex;
-    justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
+
+	@media ${media.minTablet} {
+		margin-top: 32px;
+	}
 `;
 
 export const Title = styled(H2heading)``;

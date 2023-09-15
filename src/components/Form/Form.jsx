@@ -9,10 +9,7 @@ import {
 } from "./Form.styled";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import {
-	useStakeOperations,
-	useContractReadOperations,
-} from "@/utils/hooks/useContract";
+import { useStake, useWithdraw, useClaimReward, useContractReadOperations } from "@/utils/hooks/useContract";
 import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
 import {  parseEther } from "viem";
 
@@ -23,7 +20,9 @@ function Form() {
 	const { pathname } = useLocation();
 	const { BALANCE, REWARDS } = useContractReadOperations();
 	const { struBalance, isConnected } = useAccountAndBalance();
-	const { withdraw, stake, claimReward } = useStakeOperations();
+	const stake = useStake();
+	const withdraw = useWithdraw();
+	const claimReward = useClaimReward();
 	const formRef = useRef(null);
 
 	useEffect(() => {
@@ -55,7 +54,7 @@ function Form() {
 				await stake(amountToSend);
 				break;
 			case "/withdraw":
-				await withdraw({ args: [amountToSend] });
+				await withdraw(amountToSend);
 				break;
 			case "/rewards":
 				await claimReward();

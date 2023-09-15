@@ -9,15 +9,18 @@ import {
 	RateValue,
 	RateUnits,
 } from "./OperationsSection.styled";
+import NotAuthorizedSection from "@/components/NotAuthorizedSection/NotAuthorizedSection";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Form from "@/components/Form/Form";
 import { useContractReadOperations } from "@/utils/hooks/useContract";
+import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
 
 function OperationsSection() {
 	const [title, setTitle] = useState("");
 	const { pathname } = useLocation();
 	const { REWARDRATE } = useContractReadOperations();
+	const { isConnected } = useAccountAndBalance();
 
 	useEffect(() => {
 		switch (pathname) {
@@ -36,17 +39,23 @@ function OperationsSection() {
 		<Section>
 			<Container>
 				<SubContainer>
-					<TitleContainer>
-						<Title>{title}</Title>
-						{pathname === "/stake" && (
-							<RewardRateContainer>
-								<Text>{"Reward rate:"}</Text>
-								<RateValue>{REWARDRATE}</RateValue>
-								<RateUnits>{"STRU/week"}</RateUnits>
-							</RewardRateContainer>
-						)}
-					</TitleContainer>
-					<Form />
+					{isConnected ? (
+						<>
+							<TitleContainer>
+								<Title>{title}</Title>
+								{pathname === "/stake" && (
+									<RewardRateContainer>
+										<Text>{"Reward rate:"}</Text>
+										<RateValue>{REWARDRATE}</RateValue>
+										<RateUnits>{"STRU/week"}</RateUnits>
+									</RewardRateContainer>
+								)}
+							</TitleContainer>
+							<Form />
+						</>
+					) : (
+						<NotAuthorizedSection />
+					)}
 				</SubContainer>
 			</Container>
 		</Section>

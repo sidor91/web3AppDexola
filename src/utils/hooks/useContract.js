@@ -17,7 +17,7 @@ const token = {
 	abi: STRUTokenAbi,
 };
 
-export const useStakeOperations = () => {
+export const useStake = () => {
 	const { address, isConnected } = useAccountAndBalance();
 
 	const { data: allowanceAmount } = useContractRead({
@@ -39,6 +39,7 @@ export const useStakeOperations = () => {
 
 	const stake = async (value) => {
 		const allowance = formatEther(allowanceAmount);
+	
 		try {
 			if (Number(value) > Number(allowance)) {
 				const { hash: approvalHash } = await approvalWrite({
@@ -71,19 +72,54 @@ export const useStakeOperations = () => {
 		}
 	};
 
-	const { writeAsync: withdraw } = useContractWrite({
+	return stake;
+};
+
+
+
+export const useWithdraw = () => {
+	const { writeAsync: withdrawWrite } = useContractWrite({
 		...contract,
 		functionName: "withdraw",
 	});
 
-	const withdrawWrite = (value) => {};
+	const withdraw = async (value) => {
+		try {
+			const { hash } = await withdrawWrite({
+				args: [value],
+			});
+			const transactionData = await waitForTransaction({
+				hash,
+			});
+			console.log(transactionData);
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+	return withdraw;
+};
 
-	const { writeAsync: claimReward } = useContractWrite({
+
+
+export const useClaimReward = () => {
+	const { writeAsync: claimRewardWrite } = useContractWrite({
 		...contract,
 		functionName: "claimReward",
 	});
 
-	return { stake, withdraw, claimReward };
+	const claimReward = async () => {
+		try {
+			const { hash } = await claimRewardWrite();
+			const transactionData = await waitForTransaction({
+				hash,
+			});
+			console.log(transactionData);
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
+
+	return claimReward;
 };
 
 export const useContractReadOperations = () => {
@@ -112,7 +148,6 @@ export const useContractReadOperations = () => {
 			return Math.floor(value);
 		}
 	}, [remaining, rewardRateMethodValue, BALANCE, totalSupply]);
-	
 
 	useContractRead({
 		...contract,
