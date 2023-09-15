@@ -26,7 +26,7 @@ function useStats() {
 			helperText: "Staking rewards get allocated on this sum",
 		},
 		{
-			value: `≈${APR}%`,
+			value: `≈${APR || 0}%`,
 			units: "",
 			description: "APR",
 			helperText:

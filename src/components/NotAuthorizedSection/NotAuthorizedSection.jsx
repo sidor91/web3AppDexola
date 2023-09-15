@@ -9,6 +9,7 @@ function NotAuthorizedSection() {
         const connectWalletButton = document.getElementById("connectWallet");
         connectWalletButton && connectWalletButton.click();
     }
+    
 	return (
 		<Container>
 			<Icon src={walletIcon} width={96} height={96} />

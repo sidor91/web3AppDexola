@@ -3,7 +3,7 @@ import { media } from "@/utils/mediaRules";
 import { StyledButton } from "@/components/SharedElements.styled";
 
 export const Button = styled(StyledButton)`
-	padding: 10px 23px;
+	padding: 8px 24px;
 
 	@media ${media.minTablet} {
 		padding: 12px 40px;

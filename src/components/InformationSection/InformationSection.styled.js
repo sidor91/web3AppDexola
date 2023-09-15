@@ -7,12 +7,18 @@ import topBackgroundWeb from "@/assets/topBackgroundDesktop.webp";
 
 export const Section = styled(StyledSection)`
 	background-image: url(${topBackgroundMobile});
+	position: sticky;
+	top: 46px;
+	left: 0;
+	z-index: 88;
+	background-color: var(--color-black);
 
 	@media ${media.minTablet} {
 		background-image: url(${topBackgroundTablet});
 		background-position: center;
 		background-size: cover;
 		background-repeat: no-repeat;
+		position: initial;
 	}
 
 	@media ${media.minDesktop} {

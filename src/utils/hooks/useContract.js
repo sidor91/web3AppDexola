@@ -142,9 +142,8 @@ export const useContractReadOperations = () => {
 	const REWARDRATE = useMemo(() => {
 		if (remaining && rewardRateMethodValue && BALANCE && totalSupply) {
 			const available = remaining * rewardRateMethodValue;
-			const numberedBalance = Number(BALANCE);
 			const value =
-				(numberedBalance * available) / totalSupply + numberedBalance;
+				(Number(BALANCE) * available) / totalSupply + Number(BALANCE);
 			return Math.floor(value);
 		}
 	}, [remaining, rewardRateMethodValue, BALANCE, totalSupply]);

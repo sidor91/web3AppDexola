@@ -46,7 +46,7 @@ function OperationsSection() {
 								{pathname === "/stake" && (
 									<RewardRateContainer>
 										<Text>{"Reward rate:"}</Text>
-										<RateValue>{REWARDRATE}</RateValue>
+										<RateValue>{REWARDRATE || 0}</RateValue>
 										<RateUnits>{"STRU/week"}</RateUnits>
 									</RewardRateContainer>
 								)}

@@ -3,8 +3,6 @@ import { media } from "@/utils/mediaRules";
 
 
 export const StyledHeader = styled.header`
-	/* width: 100%; */
-	/* flex: 1; */
 	min-width: var(--width-mobile);
 	max-width: var(--width-web);
 	box-sizing: border-box;
@@ -15,10 +13,10 @@ export const StyledHeader = styled.header`
 	align-items: center;
 	margin-left: auto;
 	margin-right: auto;
-	/* position: sticky;
+	position: sticky;
 	top: 0;
-	z-index: 999;
-	background-color: var(--color-background); */
+	z-index: 88;
+	background-color: var(--color-black);
 
 	@media ${media.minTablet} {
 		padding: 11px 48px;

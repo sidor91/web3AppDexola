@@ -33,7 +33,6 @@ export const Paragraph = styled.p`
 `;
 
 export const StyledButton = styled.button`
-	/* display: flex; */
 	background-color: var(--color-button);
 	color: var(--color-white);
 	text-transform: uppercase;
@@ -55,17 +54,4 @@ export const StyledSection = styled.section`
 	width: 100%;
 	box-sizing: border-box;
 	min-width: var(--width-mobile);
-	/* max-width: var(--width-web); */
-	/* margin-left: auto;
-	margin-right: auto; */
-
-	/* @media ${media.minTablet} {
-		padding-left: 48px;
-		padding-right: 48px;
-	} */
-
-	/* @media ${media.minDesktop} {
-		padding-left: 120px;
-		padding-right: 120px;
-	} */
 `;

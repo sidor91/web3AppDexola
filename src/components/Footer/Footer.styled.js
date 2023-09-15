@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
 
 export const StyledFooter = styled.footer`
-	/* width: 100%; */
 	min-width: var(--width-mobile);
 	border-top: 1px solid var(--color-accent-blue);
 	box-sizing: border-box;

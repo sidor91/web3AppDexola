@@ -6,7 +6,9 @@ import {
 	Paragraph,
 } from "@/components/SharedElements.styled";
 
-export const Section = styled(StyledSection)``;
+export const Section = styled(StyledSection)`
+flex-grow: 1;
+`;
 
 export const Container = styled.div`
 	padding-left: 24px;
@@ -26,10 +28,7 @@ export const Container = styled.div`
 
 export const SubContainer = styled.div`
 	margin-top: -1px;
-	/* padding-top: 29px; */
-	/* padding-bottom: 56px; */
 	@media ${media.minTablet} {
-		/* padding: 32px 24px; */
 		padding-left: 24px;
 		padding-right: 24px;
 		border: 1px solid var(--color-accent-blue);
