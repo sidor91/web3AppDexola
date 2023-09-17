@@ -4,10 +4,11 @@ import Stats from "@/components/InformationSection/Stats/Stats";
 
 function InformationSection() {
     return (
-			<Section>
+		<Section
+		>
 				<Container>
-                <Header>StarRunner Token staking</Header>
-				<Stats/>
+					<Header>StarRunner Token staking</Header>
+					<Stats />
 				</Container>
 				<Routing />
 			</Section>

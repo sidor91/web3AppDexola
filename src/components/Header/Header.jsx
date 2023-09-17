@@ -1,11 +1,11 @@
-import { StyledHeader } from "./Header.styled";
+import { StyledHeader, Icon } from "./Header.styled";
 import Logo from "@/assets/Logo.svg";
 import ConnectWalletButton from "@/components/ConnectWalletButton/ConnectWalletButton";
 
 function Header() {
 	return (
 		<StyledHeader>
-			<img
+			<Icon
 				src={Logo}
 				alt="Logo"
 				aria-label="Logo DX"

@@ -4,13 +4,16 @@ import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 import Fallback from "@/components/Fallback/Fallback";
 import InformationSection from "@/components/InformationSection/InformationSection";
+import { BackgroundContainer } from "./SharedLayout.styled";
 
 function SharedLayout() {
 	return (
 		<>
-			<Header />
-			<main>
+			<BackgroundContainer>
+				<Header />
 				<InformationSection />
+			</BackgroundContainer>
+			<main>
 				<Suspense fallback={<Fallback />}>
 					<Outlet />
 				</Suspense>

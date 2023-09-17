@@ -5,7 +5,9 @@ import Fallback from "@/components/Fallback/Fallback";
 const OperationsSection = lazy(() =>
 	import("@/components/OperationsSection/OperationsSection")
 );
-const SharedLayout = lazy(() => import("@/components/SharedLayout"));
+const SharedLayout = lazy(() =>
+	import("@/components/SharedLayout/SharedLayout")
+);
 
 function App() {
 	return (

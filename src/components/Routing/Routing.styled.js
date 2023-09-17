@@ -6,8 +6,10 @@ export const Container = styled.div`
 	width: 100%;
 	background-color: var(--color-black);
 	border-radius: 16px 16px 0px 0px;
+	border-bottom: 1px solid var(--color-accent-blue);
 
 	@media ${media.minTablet} {
+		border-bottom: none;
 		border-radius: 0;
 	}
 `;

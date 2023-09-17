@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
 
 export const StyledFooter = styled.footer`
+	background-color: var(--color-black);
 	min-width: var(--width-mobile);
 	border-top: 1px solid var(--color-accent-blue);
 	box-sizing: border-box;
-	margin-top: 9px;
 
 	@media ${media.minTablet} {
 		margin-top: 0;

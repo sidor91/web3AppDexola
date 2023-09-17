@@ -6,23 +6,25 @@ import topBackgroundTablet from "@/assets/topBackgroundTablet.webp";
 import topBackgroundWeb from "@/assets/topBackgroundDesktop.webp";
 
 export const Section = styled(StyledSection)`
-	background-image: url(${topBackgroundMobile});
-	position: sticky;
-	top: 46px;
+	/* background-image: url(${topBackgroundMobile}); */
+	/* position: sticky;
+	top: ${({ $isconnected }) => ($isconnected ? "30" : "46px")};
 	left: 0;
-	z-index: 88;
-	background-color: var(--color-black);
+	z-index: 88; */
+	/* background-color: var(--color-black); */
 
 	@media ${media.minTablet} {
-		background-image: url(${topBackgroundTablet});
-		background-position: center;
+		/* background-image: url(${topBackgroundTablet}); */
+		/* background-position: center;
 		background-size: cover;
-		background-repeat: no-repeat;
-		position: initial;
+		background-repeat: no-repeat; */
+		/* top: 69px; */
+		/* position: initial;
+		z-index: 1; */
 	}
 
 	@media ${media.minDesktop} {
-		background-image: url(${topBackgroundWeb});
+		/* background-image: url(${topBackgroundWeb}); */
 	}
 `;
 

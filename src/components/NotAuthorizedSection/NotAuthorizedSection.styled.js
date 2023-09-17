@@ -4,19 +4,19 @@ import { Paragraph, StyledButton } from "@/components/SharedElements.styled";
 
 
 export const Container = styled.div`
-	margin-top: 149px;
-	margin-bottom: 56px;
+	padding-top: 149px;
+	padding-bottom: 65px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
 	@media ${media.minTablet} {
-		margin: 63px 39px;
+		padding: 63px 39px;
     }
 
     @media ${media.minDesktop} {
-		margin-left: 321px;
-        margin-right: 321px;
+		padding-left: 321px;
+        padding-right: 321px;
 	}
 `;
 

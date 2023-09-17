@@ -17,14 +17,25 @@ export const Input = styled.input`
 	font: var(--font-input-mobile);
 	color: var(--color-white);
 
+	&[type="number"] {
+	appearance: textfield;
+	}
+
 	&:focus {
 		outline: none;
+	}
+
+	&::-webkit-inner-spin-button,
+	&::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		appearance: none;
+		margin: 0;
 	}
 
 	@media ${media.minTablet} {
 		font: var(--font-input-tablet);
 		margin-bottom: 38px;
-        width: 391px;
+		width: 391px;
 	}
 
 	@media ${media.minDesktop} {

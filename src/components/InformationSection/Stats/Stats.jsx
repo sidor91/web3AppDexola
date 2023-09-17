@@ -10,6 +10,8 @@ import {
 } from "./Stats.styled";
 import useStats from "@/utils/hooks/useStats";
 import helpIcon from "@/assets/helpIcon.svg";
+import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip } from "react-tooltip";
 
 function Stats() {
     const stats = useStats();
@@ -21,12 +23,17 @@ function Stats() {
 						<Value>{value}</Value>
 						{units && <Units>{units}</Units>}
 					</ValueContainer>
-					{helperText && <IconHelper src={helpIcon} />}
+					{helperText && (
+						<a data-tooltip-id="my-tooltip" data-tooltip-content={helperText}>
+							<IconHelper src={helpIcon} />
+						</a>
+					)}
 					<DescriptionContainer>
 						<Description>{description}</Description>
 					</DescriptionContainer>
 				</SubContainer>
 			))}
+			<Tooltip id="my-tooltip" />
 		</Container>
 	);
 }

@@ -13,11 +13,12 @@ export const StyledHeader = styled.header`
 	align-items: center;
 	margin-left: auto;
 	margin-right: auto;
-	position: sticky;
+	/* position: sticky;
 	top: 0;
-	z-index: 88;
-	background-color: var(--color-black);
-
+	z-index: 88; */
+	/* background-color: var(--color-black); */
+	/* background-color: transparent; */
+	
 	@media ${media.minTablet} {
 		padding: 11px 48px;
 	}
@@ -27,4 +28,9 @@ export const StyledHeader = styled.header`
 		padding-right: 40px;
 	}
 `;
+
+export const Icon = styled.img`
+padding-top: 14px;
+padding-bottom: 14px;
+`
 

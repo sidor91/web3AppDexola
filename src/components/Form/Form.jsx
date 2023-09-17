@@ -8,10 +8,12 @@ import {
 	LabelUnits,
 } from "./Form.styled";
 import { useLocation } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useStake, useWithdraw, useClaimReward, useContractReadOperations } from "@/utils/hooks/useContract";
 import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
-import {  parseEther } from "viem";
+import { parseEther } from "viem";
+import { useFormik } from "formik";
+import * as Yup from 'yup';
 
 function Form() {
 	const [buttonTitle, setButtonTitle] = useState("");
@@ -23,7 +25,6 @@ function Form() {
 	const stake = useStake();
 	const withdraw = useWithdraw();
 	const claimReward = useClaimReward();
-	const formRef = useRef(null);
 
 	useEffect(() => {
 		switch (pathname) {
@@ -43,11 +44,16 @@ function Form() {
 		}
 	}, [pathname, BALANCE, REWARDS, struBalance, isConnected]);
 
+	const initialValues = {
+		amount: '',
+	}
+
+	const validationSchema = pathname !== '/rewards' && Yup.object({
+		amount: Yup.number("amount should be a number").required("required")
+	})
 	
-	const handleSubmit = async (data) => {
-		data.preventDefault();
-		const { value } = data.currentTarget[0];
-		const amountToSend = parseEther(value);
+	const onSubmit = async ({amount}) => {
+		const amountToSend = parseEther(amount.toString());
 
 		switch (pathname) {
 			case "/stake":
@@ -59,13 +65,29 @@ function Form() {
 			case "/rewards":
 				await claimReward();
 		}
-
-		formRef.current.reset();
+		formik.handleReset();
 	};
 
+	const formik = useFormik({
+		initialValues,
+		onSubmit,
+		validationSchema
+	});
+
 	return (
-		<StyledForm onSubmit={handleSubmit} ref={formRef}>
-			{pathname !== "/rewards" && <Input placeholder={placeholder} />}
+		<StyledForm onSubmit={formik.handleSubmit}>
+			{pathname !== "/rewards" && (
+				<Input
+					placeholder={placeholder}
+					type="number"
+					min="1e-18"
+					max={availableAmount}
+					name="amount"
+					onChange={formik.handleChange}
+					value={formik.values.amount}
+					onBlur={formik.handleBlur}
+				/>
+			)}
 			<Label>
 				<LabelText>Available:</LabelText>
 				<LabelValue>{availableAmount}</LabelValue>

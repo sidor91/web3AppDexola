@@ -5,29 +5,19 @@ import {
 	BalanceText,
 } from "./ConnectWalletButton.styled";
 import { useWeb3Modal } from "@web3modal/react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import struIcon from "@/assets/struIcon.png";
 import ethIcon from "@/assets/ethIcon.svg";
 import useWindowDimensions from "@/utils/hooks/useWindowDimensions";
 import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
 
-function ConnectWalletButton({
-	// buttonStyle
-}) {
-	// const [account, setAccount] = useState("");
-	// const [sepBalance, setSepBalance] = useState(0);
-	// const [spBalance, setSpBalance] = useState(0);
+function ConnectWalletButton({}) {
 	const [loading, setLoading] = useState(false);
 	const { open } = useWeb3Modal();
 	const dimensions = useWindowDimensions();
 	const { addressToShow, struBalance, sepoliaBalance, isConnected } =
 		useAccountAndBalance();
-	const buttonRef = useRef(null)
-	// useEffect(() => {
-	// 	setAccount(addressToShow);
-	// 	setSepBalance(sepoliaBalance);
-	// 	setSpBalance(struBalance);
-	// }, [addressToShow, struBalance, sepoliaBalance, isConnected]);
+	const buttonRef = useRef(null);
 
 	async function onOpen() {
 		setLoading(true);
@@ -43,7 +33,7 @@ function ConnectWalletButton({
 					aria-label="join now"
 					disabled={loading}
 					ref={buttonRef}
-					id='connectWallet'
+					id="connectWallet"
 				>
 					{!isConnected && !loading && "Connect Wallet"}
 					{loading && "Loading..."}
