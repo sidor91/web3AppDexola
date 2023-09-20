@@ -14,25 +14,35 @@ function useContractReadData() {
 		const [amountToStake, setAmountToStake] = useState(null);
 
 	const rewardForDuration = useMemo(() => {
-		const value = Number(formatEther(rewardForDurationData));
-		return value;
+		if (rewardForDurationData) {
+			const value = Number(formatEther(rewardForDurationData));
+			return value;
+		}
 	}, [rewardForDurationData]);
 
 	const totalSupply = useMemo(() => {
-		const value = Number(formatEther(totalSupplyData));
-		return value;
+		if (totalSupplyData) {
+			const value = Number(formatEther(totalSupplyData));
+			return value;
+		}
 	}, [totalSupplyData]);
 
 	const rewardRateMethodValue = useMemo(
-		() => Number(formatEther(rewardRateMethodData)),
+		() => {
+			if (rewardRateMethodData) {
+				return Number(formatEther(rewardRateMethodData));
+			}
+		},
 		[rewardRateMethodData]
 	);
 
 	const remaining = useMemo(() => {
-		const value = Number(daysData);
-		const timeStamp = Date.now() / 1000;
-		const remainingValue = value - timeStamp;
-		return remainingValue;
+		if (daysData) {
+			const value = Number(daysData);
+			const timeStamp = Date.now() / 1000;
+			const remainingValue = value - timeStamp;
+			return remainingValue;
+		}
 	}, [daysData]);
 
 	const BALANCE = useMemo(() => {
