@@ -18,7 +18,7 @@ export const Input = styled.input`
 	color: var(--color-white);
 
 	&[type="number"] {
-	appearance: textfield;
+		appearance: textfield;
 	}
 
 	&:focus {

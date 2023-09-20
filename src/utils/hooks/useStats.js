@@ -1,11 +1,12 @@
 import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
-import { useState, useEffect } from "react";
-import { useContractReadOperations } from "@/utils/hooks/useContract";
+import { useState, useEffect, useMemo } from "react";
+import useContractReadData from "@/utils/hooks/useContractReadData";
+import { formatEther } from "viem";
 
 function useStats() {
 	const [balance, setBalance] = useState(0);
 	const [rewardsValue, setRewardsValue] = useState(0);
-	const { BALANCE, APR, DAYS, REWARDS } = useContractReadOperations();
+	const { BALANCE, REWARDS, DAYS, APR } = useContractReadData();
 	const { isConnected } = useAccountAndBalance();
 
 	useEffect(() => {
@@ -33,7 +34,7 @@ function useStats() {
 				"Displays the average for APR. Interest rate is calculated for each amount of tokens.",
 		},
 		{
-			value: DAYS,
+			value: `${DAYS || 0}`,
 			units: "",
 			description: "Days",
 			helperText: "",
@@ -46,7 +47,7 @@ function useStats() {
 		},
 	];
 
-	return statsArray;
+	return { statsArray, BALANCE, REWARDS };
 }
 
 export default useStats;

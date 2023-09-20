@@ -13,6 +13,8 @@ background-color: var(--color-black);
 export const Container = styled.div`
 	padding-left: 24px;
 	padding-right: 24px;
+	max-width: var(--width-web);
+	box-sizing: border-box;
 
 	@media ${media.minTablet} {
 		padding-left: 48px;
@@ -20,7 +22,8 @@ export const Container = styled.div`
 	}
 
 	@media ${media.minDesktop} {
-		max-width: var(--width-web);
+		margin-left: auto;
+		margin-right: auto;
 		padding-left: 120px;
 		padding-right: 120px;
 	}
@@ -28,6 +31,7 @@ export const Container = styled.div`
 
 export const SubContainer = styled.div`
 /* margin-top: -1px; */
+position: relative;
 	@media ${media.minTablet} {
 		padding-left: 24px;
 		padding-right: 24px;

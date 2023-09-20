@@ -9,22 +9,31 @@ import {
 } from "./Form.styled";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useStake, useWithdraw, useClaimReward, useContractReadOperations } from "@/utils/hooks/useContract";
+import useTransaction from "@/utils/hooks/useTransaction";
 import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
+import useContractReadData from "@/utils/hooks/useContractReadData";
 import { parseEther } from "viem";
 import { useFormik } from "formik";
-import * as Yup from 'yup';
+import * as Yup from "yup";
+import { useDebouncedCallback } from "use-debounce";
 
-function Form() {
+function Form(
+	{ setAmountToStake }
+) {
 	const [buttonTitle, setButtonTitle] = useState("");
 	const [placeholder, setPlaceholder] = useState("");
 	const [availableAmount, setAvailableAmount] = useState(0);
+	const [errorText, setErrorText] = useState(null);
 	const { pathname } = useLocation();
-	const { BALANCE, REWARDS } = useContractReadOperations();
+	const { BALANCE, REWARDS,
+	} = useContractReadData();
 	const { struBalance, isConnected } = useAccountAndBalance();
-	const stake = useStake();
-	const withdraw = useWithdraw();
-	const claimReward = useClaimReward();
+	const { stake, withdraw, claimReward, loadingOperation, isLoading } =
+		useTransaction();
+
+	const debouncedAmountToStake = useDebouncedCallback((value) => {
+		setAmountToStake(value);
+	}, 500);
 
 	useEffect(() => {
 		switch (pathname) {
@@ -42,36 +51,44 @@ function Form() {
 				setButtonTitle("claim rewards");
 				setAvailableAmount(() => (isConnected ? REWARDS : 0));
 		}
-	}, [pathname, BALANCE, REWARDS, struBalance, isConnected]);
+	}, [pathname, isConnected, struBalance, BALANCE, REWARDS]);
 
-	const initialValues = {
-		amount: '',
-	}
+	const validationSchema =
+		pathname !== "/rewards" &&
+		Yup.object({
+			amount: Yup.number("amount should be a number").required("required"),
+		});
 
-	const validationSchema = pathname !== '/rewards' && Yup.object({
-		amount: Yup.number("amount should be a number").required("required")
-	})
-	
-	const onSubmit = async ({amount}) => {
+	const onSubmit = async ({ amount }) => {
 		const amountToSend = parseEther(amount.toString());
-
-		switch (pathname) {
-			case "/stake":
-				await stake(amountToSend);
-				break;
-			case "/withdraw":
-				await withdraw(amountToSend);
-				break;
-			case "/rewards":
-				await claimReward();
+		try {
+			switch (pathname) {
+				case "/stake":
+					await stake(amountToSend);
+					break;
+				case "/withdraw":
+					await withdraw(amountToSend);
+					break;
+				case "/rewards":
+					await claimReward();
+			}
+		} catch ({ message }) {
+			const errorLines = message.split("\n");
+			const errorMessage = errorLines[0];
+			setErrorText(errorMessage);
+			console.log(errorMessage);
 		}
+
 		formik.handleReset();
+		setAmountToStake(0);
 	};
 
 	const formik = useFormik({
-		initialValues,
+		initialValues: {
+			amount: "",
+		},
 		onSubmit,
-		validationSchema
+		validationSchema,
 	});
 
 	return (
@@ -83,7 +100,10 @@ function Form() {
 					min="1e-18"
 					max={availableAmount}
 					name="amount"
-					onChange={formik.handleChange}
+					onChange={(e) => {
+						formik.handleChange(e);
+						debouncedAmountToStake(e.target.value);
+					}}
 					value={formik.values.amount}
 					onBlur={formik.handleBlur}
 				/>
@@ -99,5 +119,3 @@ function Form() {
 }
 
 export default Form;
-
-

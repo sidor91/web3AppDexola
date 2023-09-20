@@ -15,7 +15,7 @@ function ConnectWalletButton({}) {
 	const [loading, setLoading] = useState(false);
 	const { open } = useWeb3Modal();
 	const dimensions = useWindowDimensions();
-	const { addressToShow, struBalance, sepoliaBalance, isConnected } =
+	const { addressToShow, struBalance = 0, sepoliaBalance = 0, isConnected } =
 		useAccountAndBalance();
 	const buttonRef = useRef(null);
 

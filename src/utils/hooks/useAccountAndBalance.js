@@ -1,34 +1,33 @@
 import { useAccount, useBalance } from "wagmi";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 const { VITE_STRU_TOKEN } = import.meta.env;
 
 function useAccountAndBalance() {
-	const [struBalance, setStruBalance] = useState(0);
-	const [sepoliaBalance, setSepoliaBalance] = useState(0);
-	const [addressToShow, setAddressToShow] = useState('');
-	
+	const [addressToShow, setAddressToShow] = useState("");
+
 	const { address, isConnected } = useAccount({
 		onConnect({ address }) {
 			setAddressToShow(address.slice(0, 16));
 		},
 	});
 
-	useBalance({
+	const { data: struData } = useBalance({
 		address,
 		token: VITE_STRU_TOKEN,
 		watch: true,
-		onSuccess(data) {
-			setStruBalance(Number(data.formatted).toFixed(0));
-		},
 	});
 
-	useBalance({
+	const struBalance = useMemo(() => struData && Number(struData.formatted).toFixed(0), [struData]);
+
+	const { data: sepoliaData} = useBalance({
 		address,
 		watch: true,
-		onSuccess(data) {
-			setSepoliaBalance(Number(data.formatted).toFixed(1));
-		},
 	});
+
+	const sepoliaBalance = useMemo(
+		() => sepoliaData && Number(sepoliaData.formatted).toFixed(2),
+		[sepoliaData]
+	);
 
 	return { addressToShow, struBalance, sepoliaBalance, isConnected, address };
 }

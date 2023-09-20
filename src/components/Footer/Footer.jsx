@@ -1,6 +1,7 @@
 import { StyledFooter, Container, Text } from "./Footer.styled";
 
 function Footer() {
+
 	return (
 		<StyledFooter>
 			<Container>

@@ -14,10 +14,10 @@ import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
 
 function Stats() {
-    const stats = useStats();
+	const { statsArray } = useStats();
 	return (
 		<Container>
-			{stats.map(({ value, units, description, helperText }, index) => (
+			{statsArray.map(({ value, units, description, helperText }, index) => (
 				<SubContainer key={index}>
 					<ValueContainer>
 						<Value>{value}</Value>
