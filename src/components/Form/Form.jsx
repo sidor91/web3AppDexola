@@ -15,25 +15,33 @@ import useContractReadData from "@/utils/hooks/useContractReadData";
 import { parseEther } from "viem";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useDebouncedCallback } from "use-debounce";
+import TransactionStatusHandler from "@/components/TransactionStatusHandler/TransactionStatusHandler.jsx";
 
-function Form(
-	{ setAmountToStake }
-) {
+function Form({ setAmountToStake }) {
+	const [isTransactionStatusShown, setisTransactionStatusShown] =
+		useState(false);
 	const [buttonTitle, setButtonTitle] = useState("");
 	const [placeholder, setPlaceholder] = useState("");
 	const [availableAmount, setAvailableAmount] = useState(0);
 	const [errorText, setErrorText] = useState(null);
 	const { pathname } = useLocation();
-	const { BALANCE, REWARDS,
-	} = useContractReadData();
+	const { BALANCE, REWARDS } = useContractReadData();
 	const { struBalance, isConnected } = useAccountAndBalance();
-	const { stake, withdraw, claimReward, loadingOperation, isLoading } =
-		useTransaction();
+	const {
+		stake,
+		withdraw,
+		claimReward,
+		loadingOperation,
+		operationAmount,
+		isTransactionError,
+		isTransactionSuccess,
+		isLoading,
+		isError,
+	} = useTransaction();
 
-	const debouncedAmountToStake = useDebouncedCallback((value) => {
-		setAmountToStake(value);
-	}, 500);
+	useEffect(() => {
+		setisTransactionStatusShown(isError || isTransactionSuccess || isLoading);
+	}, [isError, isTransactionSuccess, isLoading]);
 
 	useEffect(() => {
 		switch (pathname) {
@@ -52,6 +60,7 @@ function Form(
 				setAvailableAmount(() => (isConnected ? REWARDS : 0));
 		}
 	}, [pathname, isConnected, struBalance, BALANCE, REWARDS]);
+	
 
 	const validationSchema =
 		pathname !== "/rewards" &&
@@ -61,6 +70,7 @@ function Form(
 
 	const onSubmit = async ({ amount }) => {
 		const amountToSend = parseEther(amount.toString());
+		const rewardsAvailableAmount = parseEther(availableAmount.toString());
 		try {
 			switch (pathname) {
 				case "/stake":
@@ -70,13 +80,13 @@ function Form(
 					await withdraw(amountToSend);
 					break;
 				case "/rewards":
-					await claimReward();
+					await claimReward(rewardsAvailableAmount);
 			}
 		} catch ({ message }) {
 			const errorLines = message.split("\n");
 			const errorMessage = errorLines[0];
-			setErrorText(errorMessage);
-			console.log(errorMessage);
+			// setErrorText(errorMessage);
+			// console.log(errorMessage);
 		}
 
 		formik.handleReset();
@@ -92,29 +102,42 @@ function Form(
 	});
 
 	return (
-		<StyledForm onSubmit={formik.handleSubmit}>
-			{pathname !== "/rewards" && (
-				<Input
-					placeholder={placeholder}
-					type="number"
-					min="1e-18"
-					max={availableAmount}
-					name="amount"
-					onChange={(e) => {
-						formik.handleChange(e);
-						debouncedAmountToStake(e.target.value);
-					}}
-					value={formik.values.amount}
-					onBlur={formik.handleBlur}
-				/>
-			)}
-			<Label>
-				<LabelText>Available:</LabelText>
-				<LabelValue>{availableAmount}</LabelValue>
-				<LabelUnits>STRU</LabelUnits>
-			</Label>
-			<SubmitButton type="submit">{buttonTitle}</SubmitButton>
-		</StyledForm>
+		<>
+			<StyledForm onSubmit={formik.handleSubmit}>
+				{pathname !== "/rewards" && (
+					<Input
+						placeholder={placeholder}
+						type="number"
+						min="1e-18"
+						max={availableAmount}
+						name="amount"
+						onChange={(e) => {
+							formik.handleChange(e);
+							setAmountToStake(e.target.value);
+						}}
+						value={formik.values.amount}
+						onBlur={formik.handleBlur}
+					/>
+				)}
+				<Label>
+					<LabelText>Available:</LabelText>
+					<LabelValue>{availableAmount}</LabelValue>
+					<LabelUnits>STRU</LabelUnits>
+				</Label>
+				<SubmitButton type="submit">{buttonTitle}</SubmitButton>
+				{isTransactionStatusShown && (
+					<TransactionStatusHandler
+						pathname={pathname}
+						isLoading={isLoading}
+						loadingOperation={loadingOperation}
+						operationAmount={operationAmount}
+						isTransactionSuccess={isTransactionSuccess}
+						isTransactionError={isTransactionError}
+						isError={isError}
+					/>
+				)}
+			</StyledForm>
+		</>
 	);
 }
 

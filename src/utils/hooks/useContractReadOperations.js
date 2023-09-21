@@ -1,8 +1,6 @@
 import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
 import { useContractRead } from "wagmi";
 import { contract } from "@/contracts/contracts.js";
-import { useMemo } from "react";
-import { formatEther } from "viem";
 
 export const useContractReadOperations = () => {
 	const { address, isConnected } = useAccountAndBalance();

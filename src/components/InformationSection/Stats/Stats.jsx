@@ -20,7 +20,7 @@ function Stats() {
 			{statsArray.map(({ value, units, description, helperText }, index) => (
 				<SubContainer key={index}>
 					<ValueContainer>
-						<Value>{value}</Value>
+						<Value>{value || 0}</Value>
 						{units && <Units>{units}</Units>}
 					</ValueContainer>
 					{helperText && (
