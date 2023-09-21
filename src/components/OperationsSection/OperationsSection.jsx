@@ -15,19 +15,15 @@ import { useState, useEffect } from "react";
 import Form from "@/components/Form/Form";
 import useContractReadData from "@/utils/hooks/useContractReadData";
 import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
-import TransactionStatusHandler from "@/components/TransactionStatusHandler/TransactionStatusHandler.jsx";
-import useTransaction from "@/utils/hooks/useTransaction";
 import { useDebouncedCallback } from "use-debounce";
+
 
 function OperationsSection() {
 	const [title, setTitle] = useState("");
 	const { pathname } = useLocation();
 	const { REWARDRATE, setAmountToStake } = useContractReadData();
 	const { isConnected } = useAccountAndBalance();
-	const { isTransactionError, isTransactionSuccess, isLoading } =
-		useTransaction();
-	const isTransactionStatusShown = isTransactionError || isTransactionSuccess || isLoading;
-
+	
 	const debouncedREWARDRATE = useDebouncedCallback((value) => {
 		setAmountToStake(value);
 	}, 500);
@@ -62,7 +58,6 @@ function OperationsSection() {
 								)}
 							</TitleContainer>
 							<Form setAmountToStake={debouncedREWARDRATE} />
-							{isTransactionStatusShown && <TransactionStatusHandler />}
 						</>
 					) : (
 						<NotAuthorizedSection />

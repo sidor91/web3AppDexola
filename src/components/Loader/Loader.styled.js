@@ -5,7 +5,6 @@ import {
 	H2heading,
 	Paragraph,
 } from "@/components/SharedElements.styled";
-import { Oval } from "react-loader-spinner";
 
 export const Container = styled.div`
 display: flex;

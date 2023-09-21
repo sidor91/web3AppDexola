@@ -11,7 +11,7 @@ function useContractReadData() {
 		rewardForDurationData,
 		totalSupplyData,
 	} = useContractReadOperations();
-		const [amountToStake, setAmountToStake] = useState(null);
+		const [amountToStake, setAmountToStake] = useState(0);
 
 	const rewardForDuration = useMemo(() => {
 		if (rewardForDurationData) {
@@ -47,15 +47,15 @@ function useContractReadData() {
 
 	const BALANCE = useMemo(() => {
 		if (balanceData) {
-			const value = formatEther(balanceData);
-			return Number(value).toFixed(2);
+			const value = Number(formatEther(balanceData));
+			return value.toFixed(2);
 		}
 	}, [balanceData]);
 
 	const REWARDS = useMemo(() => {
 		if (rewardsData) {
-			const value = formatEther(rewardsData);
-			const result = Math.floor(Number(value)).toFixed(2);
+			const value = Number(formatEther(rewardsData));
+			const result = value.toFixed(2);
 			return result;
 		}
 	}, [rewardsData]);
@@ -77,14 +77,18 @@ function useContractReadData() {
 	}, [rewardForDuration, totalSupply]);
 
 		const REWARDRATE = useMemo(() => {
-			if (remaining && rewardRateMethodValue && amountToStake && totalSupply) {
+			if (
+				remaining &&
+				rewardRateMethodValue &&
+				totalSupply &&
+				BALANCE
+			) {
 				const available = remaining * rewardRateMethodValue;
 				const value =
-					(Number(amountToStake) * available) / totalSupply +
-					Number(amountToStake);
+					(Number(BALANCE) * available) / totalSupply + Number(amountToStake);
 				return Math.floor(value);
 			}
-		}, [remaining, rewardRateMethodValue, amountToStake, totalSupply]);
+		}, [remaining, rewardRateMethodValue, amountToStake, totalSupply, BALANCE]);
 	
 
 	return {

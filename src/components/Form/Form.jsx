@@ -15,15 +15,14 @@ import useContractReadData from "@/utils/hooks/useContractReadData";
 import { parseEther } from "viem";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import TransactionStatusHandler from "@/components/TransactionStatusHandler/TransactionStatusHandler.jsx";
+import Loader from "@/components/Loader/Loader.jsx";
+import OperationStatusToast from "@/components/Toast/OperationStatusToast.jsx";
 
 function Form({ setAmountToStake }) {
-	const [isTransactionStatusShown, setisTransactionStatusShown] =
-		useState(false);
 	const [buttonTitle, setButtonTitle] = useState("");
 	const [placeholder, setPlaceholder] = useState("");
 	const [availableAmount, setAvailableAmount] = useState(0);
-	const [errorText, setErrorText] = useState(null);
+	const [operationAmount, setOperationAmount] = useState(0)
 	const { pathname } = useLocation();
 	const { BALANCE, REWARDS } = useContractReadData();
 	const { struBalance, isConnected } = useAccountAndBalance();
@@ -31,17 +30,13 @@ function Form({ setAmountToStake }) {
 		stake,
 		withdraw,
 		claimReward,
-		loadingOperation,
-		operationAmount,
-		isTransactionError,
+		// loadingOperation,
+		// operationAmount,
 		isTransactionSuccess,
 		isLoading,
+		isApprovalTransactionLoading,
 		isError,
 	} = useTransaction();
-
-	useEffect(() => {
-		setisTransactionStatusShown(isError || isTransactionSuccess || isLoading);
-	}, [isError, isTransactionSuccess, isLoading]);
 
 	useEffect(() => {
 		switch (pathname) {
@@ -74,19 +69,21 @@ function Form({ setAmountToStake }) {
 		try {
 			switch (pathname) {
 				case "/stake":
+					setOperationAmount(amountToSend);
 					await stake(amountToSend);
 					break;
 				case "/withdraw":
+					setOperationAmount(amountToSend);
 					await withdraw(amountToSend);
 					break;
 				case "/rewards":
+					setOperationAmount(rewardsAvailableAmount);
 					await claimReward(rewardsAvailableAmount);
 			}
 		} catch ({ message }) {
 			const errorLines = message.split("\n");
 			const errorMessage = errorLines[0];
-			// setErrorText(errorMessage);
-			// console.log(errorMessage);
+			console.log(errorMessage);
 		}
 
 		formik.handleReset();
@@ -125,15 +122,20 @@ function Form({ setAmountToStake }) {
 					<LabelUnits>STRU</LabelUnits>
 				</Label>
 				<SubmitButton type="submit">{buttonTitle}</SubmitButton>
-				{isTransactionStatusShown && (
-					<TransactionStatusHandler
-						pathname={pathname}
-						isLoading={isLoading}
-						loadingOperation={loadingOperation}
-						operationAmount={operationAmount}
-						isTransactionSuccess={isTransactionSuccess}
-						isTransactionError={isTransactionError}
+				{isLoading &&
+					!isError && (
+						<Loader
+							pathname={pathname}
+							isApprovalLoading={isApprovalTransactionLoading}
+							operationAmount={operationAmount}
+						/>
+					)}
+				{(isTransactionSuccess || isError) && (
+					<OperationStatusToast
 						isError={isError}
+						isTransactionSuccess={isTransactionSuccess}
+						pathname={pathname}
+						operationAmount={operationAmount}
 					/>
 				)}
 			</StyledForm>

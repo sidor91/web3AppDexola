@@ -1,7 +1,7 @@
 import useContractWriteOperations from "./useContractWriteOperations";
 import { useWaitForTransaction } from "wagmi";
 import { waitForTransaction } from "@wagmi/core";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { formatEther } from "viem";
 const { VITE_STRU_STAKING_CONTRACT } = import.meta.env;
 
@@ -21,11 +21,9 @@ function useTransaction() {
 		isWithDrawError,
 		isClaimRewardError,
 	} = useContractWriteOperations();
-	const [loadingOperation, setLoadingOperation] = useState("");
-	const [operationAmount, setOperationAmount] = useState(0);
-	const [isLoading, setIsLoading] = useState(false);
-	const [isError, setIsError] = useState(false);
 	const [hash, setHash] = useState(null);
+	const [isApprovalTransactionLoading, setIsApprovalTransactionLoading] =
+		useState(false);
 
 	const {
 		isError: isTransactionError,
@@ -33,67 +31,60 @@ function useTransaction() {
 		isLoading: isTransactionLoading,
 	} = useWaitForTransaction({
 		hash,
-		// onSettled() {
-		//     setLoadingOperation("");
-		//     setOperationAmount(0);
-		// },
 	});
 
-	useEffect(() => {
-		setIsLoading(
+	const isLoading = useMemo(
+		() =>
 			isApprovalLoading ||
-				isStakeLoading ||
-				isWithdrawLoading ||
-				isClaimRewardsLoading ||
-				isTransactionLoading
-		);
-	}, [
-		isApprovalLoading,
-		isStakeLoading,
-		isWithdrawLoading,
-		isClaimRewardsLoading,
-		isTransactionLoading,
-	]);
+			isApprovalTransactionLoading ||
+			isStakeLoading ||
+			isWithdrawLoading ||
+			isClaimRewardsLoading ||
+			isTransactionLoading,
+		[
+			isApprovalLoading,
+			isApprovalTransactionLoading,
+			isStakeLoading,
+			isWithdrawLoading,
+			isClaimRewardsLoading,
+			isTransactionLoading,
+		]
+	);
 
-	useEffect(() => {
-		setIsError(
+	const isError = useMemo(
+		() =>
 			isApprovalError ||
-				isStakeError ||
-				isWithDrawError ||
-				isClaimRewardError ||
-				isTransactionError
-		);
-	}, [
-		isApprovalError,
-		isStakeError,
-		isWithDrawError,
-		isClaimRewardError,
-		isTransactionError,
-	]);
+			isStakeError ||
+			isWithDrawError ||
+			isClaimRewardError ||
+			isTransactionError,
+		[
+			isApprovalError,
+			isStakeError,
+			isWithDrawError,
+			isClaimRewardError,
+			isTransactionError,
+		]
+	);
 
 	const stake = async (value) => {
 		const allowance = formatEther(allowanceAmount);
 		if (Number(value) > Number(allowance)) {
-			setLoadingOperation("Approving");
-			setOperationAmount(value);
+			setIsApprovalTransactionLoading(true);
 			const { hash: approvalHash } = await approvalWrite({
 				args: [VITE_STRU_STAKING_CONTRACT, value],
 			});
-			setHash(approvalHash);
 			const { status: approvalStatus } = await waitForTransaction({
 				hash: approvalHash,
 			});
-			if (approvalStatus === "success") {
+			approvalStatus && setIsApprovalTransactionLoading(false);
+			if (approvalStatus === "success") {		
 				const { hash: stakeHash } = await stakeWrite({
 					args: [value],
 				});
 				setHash(stakeHash);
-				setLoadingOperation("Adding");
-				setOperationAmount(value);
 			}
 		} else {
-			setLoadingOperation("Adding");
-			setOperationAmount(value);
 			const { hash: stakeHash } = await stakeWrite({
 				args: [value],
 			});
@@ -103,18 +94,13 @@ function useTransaction() {
 	};
 
 	const withdraw = async (value) => {
-		setLoadingOperation("Withdrawing");
-		setOperationAmount(value);
 		const { hash } = await withdrawWrite({
 			args: [value],
 		});
 		setHash(hash);
 	};
 
-	const claimReward = async (value) => {
-		console.log(formatEther(value));
-		setLoadingOperation("Claiming Rewards");
-		setOperationAmount(value);
+	const claimReward = async () => {
 		const { hash } = await claimRewardWrite();
 		setHash(hash);
 	};
@@ -123,9 +109,8 @@ function useTransaction() {
 		isTransactionError,
 		isTransactionSuccess,
 		isLoading,
+		isApprovalTransactionLoading,
 		isError,
-		loadingOperation,
-		operationAmount,
 		stake,
 		withdraw,
 		claimReward,
