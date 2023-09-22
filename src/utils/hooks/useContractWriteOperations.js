@@ -17,7 +17,6 @@ function useContractWriteOperations() {
 	const {
 		writeAsync: approvalWrite,
 		isLoading: isApprovalLoading,
-		isError: isApprovalError,
 	} = useContractWrite({
 		...token,
 		functionName: "approve",
@@ -26,7 +25,6 @@ function useContractWriteOperations() {
 	const {
 		writeAsync: stakeWrite,
 		isLoading: isStakeLoading,
-		isError: isStakeError,
 	} = useContractWrite({
 		...contract,
 		functionName: "stake",
@@ -35,7 +33,6 @@ function useContractWriteOperations() {
 	const {
 		writeAsync: withdrawWrite,
 		isLoading: isWithdrawLoading,
-		isError: isWithDrawError,
 	} = useContractWrite({
 		...contract,
 		functionName: "withdraw",
@@ -44,7 +41,6 @@ function useContractWriteOperations() {
 	const {
 		writeAsync: claimRewardWrite,
 		isLoading: isClaimRewardsLoading,
-		isError: isClaimRewardError,
 	} = useContractWrite({
 		...contract,
 		functionName: "claimReward",
@@ -60,10 +56,6 @@ function useContractWriteOperations() {
 		isWithdrawLoading,
 		claimRewardWrite,
 		isClaimRewardsLoading,
-		isApprovalError,
-		isStakeError,
-		isWithDrawError,
-		isClaimRewardError,
 	};
 }
 

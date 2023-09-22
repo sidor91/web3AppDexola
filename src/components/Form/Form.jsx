@@ -22,7 +22,8 @@ function Form({ setAmountToStake }) {
 	const [buttonTitle, setButtonTitle] = useState("");
 	const [placeholder, setPlaceholder] = useState("");
 	const [availableAmount, setAvailableAmount] = useState(0);
-	const [operationAmount, setOperationAmount] = useState(0)
+	const [operationAmount, setOperationAmount] = useState(0);
+	const [isError, setIsError] = useState(false);
 	const { pathname } = useLocation();
 	const { BALANCE, REWARDS } = useContractReadData();
 	const { struBalance, isConnected } = useAccountAndBalance();
@@ -35,7 +36,7 @@ function Form({ setAmountToStake }) {
 		isTransactionSuccess,
 		isLoading,
 		isApprovalTransactionLoading,
-		isError,
+		// isError,
 	} = useTransaction();
 
 	useEffect(() => {
@@ -67,6 +68,7 @@ function Form({ setAmountToStake }) {
 		const amountToSend = parseEther(amount.toString());
 		const rewardsAvailableAmount = parseEther(availableAmount.toString());
 		try {
+			setIsError(false);
 			switch (pathname) {
 				case "/stake":
 					setOperationAmount(amountToSend);
@@ -81,6 +83,7 @@ function Form({ setAmountToStake }) {
 					await claimReward(rewardsAvailableAmount);
 			}
 		} catch ({ message }) {
+			setIsError(true);
 			const errorLines = message.split("\n");
 			const errorMessage = errorLines[0];
 			console.log(errorMessage);

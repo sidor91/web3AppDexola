@@ -1,63 +1,9 @@
 import { Oval } from "react-loader-spinner";
-import { useState, useEffect } from "react";
-import { Container, TextContainer } from "./Loader.styled";
+import { Container, TextContainer, Message, Amount } from "./Loader.styled";
 import { formatEther } from "viem";
 
-function Loader({
-	pathname,
-	// isLoading,
-	// isError,
-	// loadingOperation,
-	operationAmount,
-	isApprovalLoading,
-	// isTransactionSuccess,
-	// isTransactionError,
-}) {
-	const [loadingMessage, setLoadingMessage] = useState("");
-
-	useEffect(() => {
-		const amount = formatEther(operationAmount);
-		// if (isLoading) {
-		switch (pathname) {
-			case "/stake":
-				setLoadingMessage(`Adding ${amount} STRU to Staking`);
-				break;
-			case "/withdraw":
-				setLoadingMessage(`Withdrawing ${amount} STRU from Staking`);
-				break;
-			case "/rewards":
-				setLoadingMessage(`Claiming rewards of ${amount} STRU`);
-		}
-		// }
-		// else if (isTransactionSuccess && loadingOperation !== "Approving") {
-		// 	setOperationStatusIcon(successIcon);
-		// 	switch (pathname) {
-		// 		case "/stake":
-		// 			setLoadingMessage(`${amount} STRU Successfully added to Staking`);
-		// 			break;
-		// 		case "/withdraw":
-		// 			setLoadingMessage(
-		// 				`${amount} STRU were successfully withdrawn from Staking`
-		// 			);
-		// 			break;
-		// 		case "/rewards":
-		// 			setLoadingMessage(
-		// 				`${amount} STRU were successfully added to your STRU wallet balance`
-		// 			);
-		// 	}
-		// } else if (isError) {
-		// 	setOperationStatusIcon(errorIcon);
-		// 	setLoadingMessage("Connection Error. Please try again");
-		// }
-	}, [
-		pathname,
-		// loadingOperation,
-		operationAmount,
-		// isLoading,
-		// isTransactionSuccess,
-		// isTransactionError,
-		// isError,
-	]);
+function Loader({ pathname, operationAmount, isApprovalLoading }) {
+	const amount = formatEther(operationAmount);
 
 	return (
 		<Container>
@@ -71,7 +17,25 @@ function Loader({
 				strokeWidth={6}
 				strokeWidthSecondary={6}
 			/>
-			<TextContainer>{loadingMessage}</TextContainer>
+			<TextContainer>
+				{pathname === "/stake" && (
+					<Message>
+						{isApprovalLoading ? "Approving" : "Adding"}{" "}
+						{<Amount>{`${amount} STRU`}</Amount>} {"to Staking"}
+					</Message>
+				)}
+				{pathname === "/withdraw" && (
+					<Message>
+						{`Withdrawing`} {<Amount>{`${amount} STRU`}</Amount>}{" "}
+						{"from Staking"}
+					</Message>
+				)}
+				{pathname === "/rewards" && (
+					<Message>
+						{`Claiming rewards of`} {<Amount>{`${amount} STRU`}</Amount>}
+					</Message>
+				)}
+			</TextContainer>
 		</Container>
 	);
 }

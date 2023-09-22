@@ -1,4 +1,10 @@
-import { TextContainer } from "./OperationStatusToast.styled";
+import {
+	TextContainer,
+	Container,
+	Message,
+	Amount,
+	EmphasisTetx,
+} from "./OperationStatusToast.styled";
 import { useEffect, useState } from "react";
 import errorIcon from "@/assets/errorIcon.svg";
 import successIcon from "@/assets/successIcon.svg";
@@ -12,7 +18,7 @@ function OperationStatusToast({
 }) {
 	const amount = formatEther(operationAmount);
 	const [operationStatusIcon, setOperationStatusIcon] = useState(null);
-	const [loadingMessage, setLoadingMessage] = useState("");
+	// const [loadingMessage, setLoadingMessage] = useState("");
 	const [isVisible, setIsVisible] = useState(true);
 
 	useEffect(() => {
@@ -28,32 +34,46 @@ function OperationStatusToast({
 	useEffect(() => {
 		if (isTransactionSuccess) {
 			setOperationStatusIcon(successIcon);
-			switch (pathname) {
-				case "/stake":
-					setLoadingMessage(`${amount} STRU Successfully added to Staking`);
-					break;
-				case "/withdraw":
-					setLoadingMessage(
-						`${amount} STRU were successfully withdrawn from Staking`
-					);
-					break;
-				case "/rewards":
-					setLoadingMessage(
-						`${amount} STRU were successfully added to your STRU wallet balance`
-					);
-			}
 		} else if (isError) {
 			setOperationStatusIcon(errorIcon);
-			setLoadingMessage("Connection Error. Please try again");
 		}
-	}, []);
+	}, [isTransactionSuccess, isError]);
 
-	return (
-		isVisible ? <>
-			<img width={32} height={32} src={operationStatusIcon} />
-			<TextContainer>{loadingMessage}</TextContainer>
-		</> : null
-	);
+
+	return isVisible ? (
+		<Container>
+			<img src={operationStatusIcon} alt="status icon" height={32} width={32} />
+			{isTransactionSuccess && (
+				<TextContainer>
+					{pathname === "/stake" && (
+						<Message>
+							<Amount>{`${amount} STRU`}</Amount>{" "}
+							{"Successfully added to Staking"}
+						</Message>
+					)}
+					{pathname === "/withdraw" && (
+						<Message>
+							<Amount>{`${amount} STRU`}</Amount>{" "}
+							{"were successfully withdrawn from Staking"}
+						</Message>
+					)}
+					{pathname === "/rewards" && (
+						<Message>
+							<Amount>{`${amount} STRU`}</Amount>
+							{"were successfully added to your STRU wallet balance"}
+						</Message>
+					)}
+				</TextContainer>
+			)}
+			{isError && (
+				<TextContainer>
+					<Message>
+						<EmphasisTetx>Connection Error</EmphasisTetx> Please try again
+					</Message>
+				</TextContainer>
+			)}
+		</Container>
+	) : null;
 }
 
 export default OperationStatusToast;

@@ -16,10 +16,6 @@ function useTransaction() {
 		isWithdrawLoading,
 		claimRewardWrite,
 		isClaimRewardsLoading,
-		isApprovalError,
-		isStakeError,
-		isWithDrawError,
-		isClaimRewardError,
 	} = useContractWriteOperations();
 	const [hash, setHash] = useState(null);
 	const [isApprovalTransactionLoading, setIsApprovalTransactionLoading] =
@@ -48,22 +44,6 @@ function useTransaction() {
 			isWithdrawLoading,
 			isClaimRewardsLoading,
 			isTransactionLoading,
-		]
-	);
-
-	const isError = useMemo(
-		() =>
-			isApprovalError ||
-			isStakeError ||
-			isWithDrawError ||
-			isClaimRewardError ||
-			isTransactionError,
-		[
-			isApprovalError,
-			isStakeError,
-			isWithDrawError,
-			isClaimRewardError,
-			isTransactionError,
 		]
 	);
 
@@ -110,7 +90,6 @@ function useTransaction() {
 		isTransactionSuccess,
 		isLoading,
 		isApprovalTransactionLoading,
-		isError,
 		stake,
 		withdraw,
 		claimReward,

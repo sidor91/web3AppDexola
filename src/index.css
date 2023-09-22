@@ -89,8 +89,14 @@
 	--font-input-tablet: normal 500 16px/1.5 "Roboto Mono";
 	--font-input-web: normal 700 16px/1.5 "Roboto Mono";
 
+	--font-operation-status-text-mobile: normal 400 14px/1.7 "Roboto Mono";
+	--font-operation-status-text-tablet-web: normal 400 16px/1.5 "Roboto Mono";
+
+	--font-operation-status-amount-mobile: normal 700 14px/1.7 "Roboto Mono";
+	--font-operation-status-amount-tablet-web: normal 700 16px/1.5 "Roboto Mono";
 
 	--font-form-error-message: normal 500 13px/1.85 "Roboto Mono";
+	
 
 	--color-white: #fff;
 	--color-black: #000;
