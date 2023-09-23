@@ -48,8 +48,9 @@ function useTransaction() {
 	);
 
 	const stake = async (value) => {
-		const allowance = formatEther(allowanceAmount);
-		if (Number(value) > Number(allowance)) {
+		const allowance = Number(formatEther(allowanceAmount));
+		
+		if (Number(formatEther(value)) > allowance) {
 			setIsApprovalTransactionLoading(true);
 			const { hash: approvalHash } = await approvalWrite({
 				args: [VITE_STRU_STAKING_CONTRACT, value],
@@ -58,7 +59,7 @@ function useTransaction() {
 				hash: approvalHash,
 			});
 			approvalStatus && setIsApprovalTransactionLoading(false);
-			if (approvalStatus === "success") {		
+			if (approvalStatus === "success") {
 				const { hash: stakeHash } = await stakeWrite({
 					args: [value],
 				});

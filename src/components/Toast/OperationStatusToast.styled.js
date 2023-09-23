@@ -1,12 +1,6 @@
 import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
 
-export const Container = styled.div`
-	display: flex;
-	gap: 16px;
-	justify-content: center;
-	align-items: center;
-`;
 export const TextContainer = styled.div``;
 
 export const Message = styled.p`

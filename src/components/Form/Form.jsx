@@ -6,6 +6,7 @@ import {
 	LabelText,
 	LabelValue,
 	LabelUnits,
+	OperationStatusContainer,
 } from "./Form.styled";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -24,6 +25,7 @@ function Form({ setAmountToStake }) {
 	const [availableAmount, setAvailableAmount] = useState(0);
 	const [operationAmount, setOperationAmount] = useState(0);
 	const [isError, setIsError] = useState(false);
+	const [isSuccess, setIsSuccess] = useState(false);
 	const { pathname } = useLocation();
 	const { BALANCE, REWARDS } = useContractReadData();
 	const { struBalance, isConnected } = useAccountAndBalance();
@@ -31,12 +33,9 @@ function Form({ setAmountToStake }) {
 		stake,
 		withdraw,
 		claimReward,
-		// loadingOperation,
-		// operationAmount,
 		isTransactionSuccess,
 		isLoading,
 		isApprovalTransactionLoading,
-		// isError,
 	} = useTransaction();
 
 	useEffect(() => {
@@ -56,7 +55,7 @@ function Form({ setAmountToStake }) {
 				setAvailableAmount(() => (isConnected ? REWARDS : 0));
 		}
 	}, [pathname, isConnected, struBalance, BALANCE, REWARDS]);
-	
+
 
 	const validationSchema =
 		pathname !== "/rewards" &&
@@ -69,6 +68,7 @@ function Form({ setAmountToStake }) {
 		const rewardsAvailableAmount = parseEther(availableAmount.toString());
 		try {
 			setIsError(false);
+			setIsSuccess(false);
 			switch (pathname) {
 				case "/stake":
 					setOperationAmount(amountToSend);
@@ -82,6 +82,7 @@ function Form({ setAmountToStake }) {
 					setOperationAmount(rewardsAvailableAmount);
 					await claimReward(rewardsAvailableAmount);
 			}
+			setIsSuccess(true);
 		} catch ({ message }) {
 			setIsError(true);
 			const errorLines = message.split("\n");
@@ -125,23 +126,27 @@ function Form({ setAmountToStake }) {
 					<LabelUnits>STRU</LabelUnits>
 				</Label>
 				<SubmitButton type="submit">{buttonTitle}</SubmitButton>
-				{isLoading &&
-					!isError && (
-						<Loader
-							pathname={pathname}
-							isApprovalLoading={isApprovalTransactionLoading}
-							operationAmount={operationAmount}
-						/>
-					)}
-				{(isTransactionSuccess || isError) && (
-					<OperationStatusToast
-						isError={isError}
-						isTransactionSuccess={isTransactionSuccess}
+			</StyledForm>
+			<OperationStatusContainer>
+				{isLoading && !isError && (
+					<Loader
 						pathname={pathname}
+						isApprovalLoading={isApprovalTransactionLoading}
 						operationAmount={operationAmount}
 					/>
 				)}
-			</StyledForm>
+				{(isTransactionSuccess || isError) && !isLoading && (
+					<OperationStatusToast
+						isError={isError}
+						isTransactionSuccess={isSuccess}
+						// isTransactionSuccess={isTransactionSuccess}
+						pathname={pathname}
+						operationAmount={operationAmount}
+						setIsSuccess={setIsSuccess}
+						setIsError={setIsError}
+					/>
+				)}
+			</OperationStatusContainer>
 		</>
 	);
 }

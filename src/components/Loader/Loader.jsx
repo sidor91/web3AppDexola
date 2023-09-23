@@ -1,12 +1,12 @@
 import { Oval } from "react-loader-spinner";
-import { Container, TextContainer, Message, Amount } from "./Loader.styled";
+import { TextContainer, Message, Amount } from "./Loader.styled";
 import { formatEther } from "viem";
 
 function Loader({ pathname, operationAmount, isApprovalLoading }) {
 	const amount = formatEther(operationAmount);
 
 	return (
-		<Container>
+		<>
 			<Oval
 				height={32}
 				width={32}
@@ -36,7 +36,7 @@ function Loader({ pathname, operationAmount, isApprovalLoading }) {
 					</Message>
 				)}
 			</TextContainer>
-		</Container>
+		</>
 	);
 }
 

@@ -105,3 +105,29 @@ export const SubmitButton = styled(StyledButton)`
 		margin-bottom: 32px;
 	}
 `;
+
+export const OperationStatusContainer = styled.div`
+	position: absolute;
+	bottom: 136px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100%;
+
+	display: flex;
+	gap: 16px;
+	justify-content: center;
+	align-items: center;
+
+	@media ${media.minTablet} {
+		width: fit-content;
+		bottom: -340px;
+		left: unset;
+		transform: unset;
+		right: 0;
+	}
+
+	@media ${media.minDesktop} {
+		bottom: -80px;
+		right: -69px;
+	}
+`;
