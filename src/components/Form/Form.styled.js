@@ -12,6 +12,7 @@ export const InputContainer = styled.div`
 	position: relative;
 	width: 100%;
 	border-radius: 0%;
+	
 	@media ${media.minTablet} {
 		width: fit-content;
 	}
@@ -19,6 +20,7 @@ export const InputContainer = styled.div`
 
 export const Input = styled.input`
 	width: 100%;
+	box-sizing: border-box;
 	border: none;
 	background-color: transparent;
 	padding-bottom: 8px;
