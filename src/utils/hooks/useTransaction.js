@@ -22,8 +22,8 @@ function useTransaction() {
 		useState(false);
 
 	const {
-		isError: isTransactionError,
-		isSuccess: isTransactionSuccess,
+		// isError: isTransactionError,
+		// isSuccess: isTransactionSuccess,
 		isLoading: isTransactionLoading,
 	} = useWaitForTransaction({
 		hash,
@@ -87,8 +87,8 @@ function useTransaction() {
 	};
 
 	return {
-		isTransactionError,
-		isTransactionSuccess,
+		// isTransactionError,
+		// isTransactionSuccess,
 		isLoading,
 		isApprovalTransactionLoading,
 		stake,

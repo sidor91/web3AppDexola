@@ -76,6 +76,9 @@ export const InputErrorMessage = styled.span`
 	bottom: 6px;
 	left: 0;
 	color: var(--color-warning-rose);
+	white-space: nowrap;
+
+	font: var(--font-reward-rate-units-mobile);
 `;
 
 export const Label = styled.label`

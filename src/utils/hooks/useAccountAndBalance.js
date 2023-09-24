@@ -17,7 +17,7 @@ function useAccountAndBalance() {
 		watch: true,
 	});
 
-	const struBalance = useMemo(() => struData && Number(struData.formatted).toFixed(0), [struData]);
+	const struBalance = useMemo(() => struData && Number(struData.formatted).toFixed(2), [struData]);
 
 	const { data: sepoliaData} = useBalance({
 		address,

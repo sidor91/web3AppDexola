@@ -35,7 +35,7 @@ function Form({ setAmountToStake }) {
 		stake,
 		withdraw,
 		claimReward,
-		isTransactionSuccess,
+		// isTransactionSuccess,
 		isLoading,
 		isApprovalTransactionLoading,
 	} = useTransaction();
@@ -145,7 +145,7 @@ function Form({ setAmountToStake }) {
 						operationAmount={operationAmount}
 					/>
 				)}
-				{(isTransactionSuccess || isError) && !isLoading && (
+				{(isSuccess || isError) && !isLoading && (
 					<OperationStatusToast
 						isError={isError}
 						isTransactionSuccess={isSuccess}
