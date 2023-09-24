@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
+import { Tooltip } from "react-tooltip";
 
 export const Container = styled.div`
 	display: flex;
@@ -85,12 +86,13 @@ export const Description = styled.p`
 `;
 
 export const IconHelper = styled.img`
-	display: inline-flex;
+	/* display: inline-block;
 	margin: 0;
-	padding: 0;
+	padding: 0; */
 	width: 10px;
 	height: 10px;
 	margin-left: 5px;
+	cursor: pointer;
 
 	@media ${media.minTablet} {
 		margin-left: 8px;
@@ -101,6 +103,19 @@ export const IconHelper = styled.img`
 	@media ${media.minDesktop} {
 		width: 18px;
 		height: 18px;
-        order: 3;
 	}
+`;
+
+export const TooltipLink = styled.a`
+	@media ${media.minDesktop} {
+		order: 3;
+	}
+`;
+
+
+export const TooltipContainer = styled.div`
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	order: 3;
 `;

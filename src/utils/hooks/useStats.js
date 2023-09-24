@@ -47,7 +47,7 @@ function useStats() {
 		},
 	];
 
-	return { statsArray, BALANCE, REWARDS };
+	return statsArray;
 }
 
 export default useStats;

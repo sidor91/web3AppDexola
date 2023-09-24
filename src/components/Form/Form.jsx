@@ -7,6 +7,8 @@ import {
 	LabelValue,
 	LabelUnits,
 	OperationStatusContainer,
+	InputContainer,
+	InputErrorMessage,
 } from "./Form.styled";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -56,11 +58,13 @@ function Form({ setAmountToStake }) {
 		}
 	}, [pathname, isConnected, struBalance, BALANCE, REWARDS]);
 
-
 	const validationSchema =
 		pathname !== "/rewards" &&
 		Yup.object({
-			amount: Yup.number("amount should be a number").required("required"),
+			amount: Yup.number("amount should be a number")
+				.min(0.000000000000000001, "The minimum amount is 0.000000000000000001")
+				.max(availableAmount, `The maximum amount is ${availableAmount}`)
+				.required("required"),
 		});
 
 	const onSubmit = async ({ amount }) => {
@@ -102,23 +106,29 @@ function Form({ setAmountToStake }) {
 		validationSchema,
 	});
 
+	const inputError = formik.touched.amount && formik.errors.amount && formik.errors.amount !== 'required';
+
 	return (
 		<>
 			<StyledForm onSubmit={formik.handleSubmit}>
 				{pathname !== "/rewards" && (
-					<Input
-						placeholder={placeholder}
-						type="number"
-						min="1e-18"
-						max={availableAmount}
-						name="amount"
-						onChange={(e) => {
-							formik.handleChange(e);
-							setAmountToStake(e.target.value);
-						}}
-						value={formik.values.amount}
-						onBlur={formik.handleBlur}
-					/>
+					<InputContainer>
+						<Input
+							placeholder={placeholder}
+							type="number"
+							name="amount"
+							onChange={(e) => {
+								formik.handleChange(e);
+								setAmountToStake(e.target.value);
+							}}
+							value={formik.values.amount}
+							onBlur={formik.handleBlur}
+							$iserror={inputError}
+						/>
+						{inputError && (
+							<InputErrorMessage>{formik.errors.amount}</InputErrorMessage>
+						)}
+					</InputContainer>
 				)}
 				<Label>
 					<LabelText>Available:</LabelText>
@@ -139,7 +149,6 @@ function Form({ setAmountToStake }) {
 					<OperationStatusToast
 						isError={isError}
 						isTransactionSuccess={isSuccess}
-						// isTransactionSuccess={isTransactionSuccess}
 						pathname={pathname}
 						operationAmount={operationAmount}
 						setIsSuccess={setIsSuccess}

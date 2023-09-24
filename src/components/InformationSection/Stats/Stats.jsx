@@ -7,14 +7,27 @@ import {
 	Description,
 	DescriptionContainer,
 	IconHelper,
+	TooltipLink,
+	TooltipContainer,
 } from "./Stats.styled";
 import useStats from "@/utils/hooks/useStats";
 import helpIcon from "@/assets/helpIcon.svg";
-import "react-tooltip/dist/react-tooltip.css";
+import DraggableTooltip from "@/components/Tooltip/Tooltip.jsx";
+import { useState } from "react";
+import useWindowDimensions from "@/utils/hooks/useWindowDimensions";
 import { Tooltip } from "react-tooltip";
 
 function Stats() {
-	const { statsArray } = useStats();
+	const [isTooltipShown, setIsTooltipShown] = useState(false);
+	const [tooltipId, setTooltipId] = useState('')
+	const statsArray = useStats();
+	const dimensions = useWindowDimensions();
+
+	const handleTooltipClick = (index) => {
+		setIsTooltipShown(true);
+		setTooltipId(index);
+	}
+
 	return (
 		<Container>
 			{statsArray.map(({ value, units, description, helperText }, index) => (
@@ -24,16 +37,44 @@ function Stats() {
 						{units && <Units>{units}</Units>}
 					</ValueContainer>
 					{helperText && (
-						<a data-tooltip-id="my-tooltip" data-tooltip-content={helperText}>
-							<IconHelper src={helpIcon} />
-						</a>
+						<TooltipContainer>
+							{dimensions < 1440 && (
+								<>
+									<IconHelper
+										src={helpIcon}
+										onClick={() => {
+											handleTooltipClick(index);
+										}}
+									/>
+									{isTooltipShown && tooltipId === index && (
+										<DraggableTooltip
+											id={index}
+											title={description}
+											description={helperText}
+											isShown={isTooltipShown}
+											setIsShown={setIsTooltipShown}
+										/>
+									)}
+								</>
+							)}
+							{dimensions >= 1440 && (
+								<>
+									<TooltipLink
+										data-tooltip-id="my-tooltip"
+										data-tooltip-content={helperText}
+									>
+										<IconHelper src={helpIcon} />
+									</TooltipLink>
+								</>
+							)}
+						</TooltipContainer>
 					)}
 					<DescriptionContainer>
 						<Description>{description}</Description>
 					</DescriptionContainer>
 				</SubContainer>
 			))}
-			<Tooltip id="my-tooltip" />
+			<Tooltip id="my-tooltip" style={{backgroundColor: 'white', color: 'black'}}/>
 		</Container>
 	);
 }

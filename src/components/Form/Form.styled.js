@@ -8,6 +8,10 @@ flex-direction: column;
 padding-top: 32px;
 `;
 
+export const InputContainer = styled.div`
+position: relative;
+`
+
 export const Input = styled.input`
 	border: none;
 	background-color: transparent;
@@ -16,6 +20,10 @@ export const Input = styled.input`
 	border-bottom: 1px solid var(--color-white);
 	font: var(--font-input-mobile);
 	color: var(--color-white);
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: ${(props) =>
+		props.$iserror ? `var(--color-warning-rose)` : `{var(--color-white)}`};
 
 	&[type="number"] {
 		appearance: textfield;
@@ -53,6 +61,13 @@ export const Input = styled.input`
 			line-height: 1.5;
 		}
 	}
+`;
+
+export const InputErrorMessage = styled.span`
+	position: absolute;
+	bottom: 6px;
+	left: 0;
+	color: var(--color-warning-rose);
 `;
 
 export const Label = styled.label`

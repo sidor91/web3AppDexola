@@ -60,6 +60,8 @@
 	--font-available-value-mobile: normal 700 14px "Roboto Mono";
 	--font-available-value-tablet-web: normal 700 16px "Roboto Mono";
 
+	--font-tooltip-title-mobile-tablet: normal 700 16px "Roboto Mono";
+
 	--font-available-units-mobile: normal 400 14px "Roboto Mono";
 	--font-available-units-tablet-web: normal 400 16px "Roboto Mono";
 
@@ -103,8 +105,8 @@
 	--color-accent-blue: #204ffe;
 	--color-dark-grey: #2f2f2f;
 	--color-light-grey: #b3b3b3;
-	/* --color-background: #060412; */
-	/* --color-warning-rose: #eb3795; */
+	--color-grabber: rgba(60, 60, 67, 0.30);
+	--color-warning-rose: #eb3795;
 	--color-button: rgb(39, 42, 46);
 	--color-button-hover: rgba(39, 42, 46, 0.9);
 
