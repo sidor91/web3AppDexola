@@ -6,6 +6,7 @@ export const StyledFooter = styled.footer`
 	min-width: var(--width-mobile);
 	border-top: 1px solid var(--color-accent-blue);
 	box-sizing: border-box;
+	margin-top: auto;
 
 	@media ${media.minTablet} {
 		margin-top: 0;

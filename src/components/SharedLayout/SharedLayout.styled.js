@@ -4,9 +4,12 @@ import topBackgroundMobile from "@/assets/topBackgroundMobile.webp";
 import topBackgroundTablet from "@/assets/topBackgroundTablet.webp";
 import topBackgroundWeb from "@/assets/topBackgroundDesktop.webp";
 
-// export const Container = styled.div`
-
-// `;
+export const Container = styled.div`
+max-width: 100vw;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+`;
 
 // export const Main = styled.main`
 // 	background-color: var(--color-black);
