@@ -28,10 +28,10 @@ function DraggableTooltip({ title, description, setIsShown, isShown }) {
 					}}
 				>
 					<SubContainer
-						draggable={true}
-						onDragStart={(e) => {
-							handleClose(e);
-						}}
+						// draggable={true}
+						// onDragStart={(e) => {
+						// 	handleClose(e);
+						// }}
 						$isshown={isTooltipShown}
 					>
 						<Graber></Graber>
