@@ -11,6 +11,7 @@ padding-top: 32px;
 export const InputContainer = styled.div`
 	position: relative;
 	width: 100%;
+	border-radius: 0%;
 	@media ${media.minTablet} {
 		width: fit-content;
 	}
@@ -24,6 +25,7 @@ export const Input = styled.input`
 	margin-bottom: 34px;
 	font: var(--font-input-mobile);
 	color: var(--color-white);
+	border-radius: 0%;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: ${(props) =>
