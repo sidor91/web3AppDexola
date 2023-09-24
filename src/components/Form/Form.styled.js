@@ -9,9 +9,12 @@ padding-top: 32px;
 `;
 
 export const InputContainer = styled.div`
-position: relative;
-width: 100%;
-`
+	position: relative;
+	width: 100%;
+	@media ${media.minTablet} {
+		width: fit-content;
+	}
+`;
 
 export const Input = styled.input`
 	width: 100%;
