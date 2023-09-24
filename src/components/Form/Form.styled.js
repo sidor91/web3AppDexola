@@ -10,14 +10,15 @@ padding-top: 32px;
 
 export const InputContainer = styled.div`
 position: relative;
+width: 100%;
 `
 
 export const Input = styled.input`
+	width: 100%;
 	border: none;
 	background-color: transparent;
 	padding-bottom: 8px;
 	margin-bottom: 34px;
-	border-bottom: 1px solid var(--color-white);
 	font: var(--font-input-mobile);
 	color: var(--color-white);
 	border-bottom-width: 1px;
