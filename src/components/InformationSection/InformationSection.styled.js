@@ -1,31 +1,9 @@
 import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
 import { H1heading, StyledSection } from "@/components/SharedElements.styled";
-import topBackgroundMobile from "@/assets/topBackgroundMobile.webp";
-import topBackgroundTablet from "@/assets/topBackgroundTablet.webp";
-import topBackgroundWeb from "@/assets/topBackgroundDesktop.webp";
 
 export const Section = styled(StyledSection)`
-	/* background-image: url(${topBackgroundMobile}); */
-	/* position: sticky;
-	top: ${({ $isconnected }) => ($isconnected ? "30" : "46px")};
-	left: 0;
-	z-index: 88; */
-	/* background-color: var(--color-black); */
 
-	@media ${media.minTablet} {
-		/* background-image: url(${topBackgroundTablet}); */
-		/* background-position: center;
-		background-size: cover;
-		background-repeat: no-repeat; */
-		/* top: 69px; */
-		/* position: initial;
-		z-index: 1; */
-	}
-
-	@media ${media.minDesktop} {
-		/* background-image: url(${topBackgroundWeb}); */
-	}
 `;
 
 export const Container = styled.div`
