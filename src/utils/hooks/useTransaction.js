@@ -16,14 +16,14 @@ function useTransaction() {
 		isWithdrawLoading,
 		claimRewardWrite,
 		isClaimRewardsLoading,
+		exitWrite,
+		isExitLoading,
 	} = useContractWriteOperations();
 	const [hash, setHash] = useState(null);
 	const [isApprovalTransactionLoading, setIsApprovalTransactionLoading] =
 		useState(false);
 
 	const {
-		// isError: isTransactionError,
-		// isSuccess: isTransactionSuccess,
 		isLoading: isTransactionLoading,
 	} = useWaitForTransaction({
 		hash,
@@ -36,7 +36,8 @@ function useTransaction() {
 			isStakeLoading ||
 			isWithdrawLoading ||
 			isClaimRewardsLoading ||
-			isTransactionLoading,
+			isTransactionLoading ||
+			isExitLoading,
 		[
 			isApprovalLoading,
 			isApprovalTransactionLoading,
@@ -44,6 +45,7 @@ function useTransaction() {
 			isWithdrawLoading,
 			isClaimRewardsLoading,
 			isTransactionLoading,
+			isExitLoading,
 		]
 	);
 
@@ -86,14 +88,18 @@ function useTransaction() {
 		setHash(hash);
 	};
 
+	const exit = async () => {
+		const { hash } = await exitWrite();
+		setHash(hash);
+	};
+
 	return {
-		// isTransactionError,
-		// isTransactionSuccess,
 		isLoading,
 		isApprovalTransactionLoading,
 		stake,
 		withdraw,
 		claimReward,
+		exit,
 	};
 }
 

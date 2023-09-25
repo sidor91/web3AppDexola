@@ -18,6 +18,7 @@ import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
 import { useDebouncedCallback } from "use-debounce";
 
 
+
 function OperationsSection() {
 	const [title, setTitle] = useState("");
 	const { pathname } = useLocation();

@@ -14,37 +14,34 @@ function useContractWriteOperations() {
 		enabled: isConnected,
 	});
 
-	const {
-		writeAsync: approvalWrite,
-		isLoading: isApprovalLoading,
-	} = useContractWrite({
-		...token,
-		functionName: "approve",
+	const { writeAsync: approvalWrite, isLoading: isApprovalLoading } =
+		useContractWrite({
+			...token,
+			functionName: "approve",
+		});
+
+	const { writeAsync: stakeWrite, isLoading: isStakeLoading } =
+		useContractWrite({
+			...contract,
+			functionName: "stake",
+		});
+
+	const { writeAsync: withdrawWrite, isLoading: isWithdrawLoading } =
+		useContractWrite({
+			...contract,
+			functionName: "withdraw",
+		});
+
+	const { writeAsync: exitWrite, isLoading: isExitLoading } = useContractWrite({
+		...contract,
+		functionName: "exit",
 	});
 
-	const {
-		writeAsync: stakeWrite,
-		isLoading: isStakeLoading,
-	} = useContractWrite({
-		...contract,
-		functionName: "stake",
-	});
-
-	const {
-		writeAsync: withdrawWrite,
-		isLoading: isWithdrawLoading,
-	} = useContractWrite({
-		...contract,
-		functionName: "withdraw",
-	});
-
-	const {
-		writeAsync: claimRewardWrite,
-		isLoading: isClaimRewardsLoading,
-	} = useContractWrite({
-		...contract,
-		functionName: "claimReward",
-	});
+	const { writeAsync: claimRewardWrite, isLoading: isClaimRewardsLoading } =
+		useContractWrite({
+			...contract,
+			functionName: "claimReward",
+		});
 
 	return {
 		allowanceAmount,
@@ -56,6 +53,8 @@ function useContractWriteOperations() {
 		isWithdrawLoading,
 		claimRewardWrite,
 		isClaimRewardsLoading,
+		exitWrite,
+		isExitLoading,
 	};
 }
 

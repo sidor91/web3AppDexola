@@ -119,11 +119,16 @@ export const LabelUnits = styled.span`
 	}
 `;
 
+export const SubmitButtonContainer = styled.div`
+display: flex;
+`
+
 export const SubmitButton = styled(StyledButton)`
 	padding-top: 12px;
 	padding-bottom: 12px;
 	line-height: 1.5;
 	margin-bottom: 56px;
+	width: 100%;
 
 	@media ${media.minTablet} {
 		padding: 12px 40px;
@@ -131,6 +136,14 @@ export const SubmitButton = styled(StyledButton)`
 		margin-bottom: 32px;
 	}
 `;
+
+export const ExitButton = styled(SubmitButton)`
+background-color: transparent;
+
+&:hover{
+	background-color: transparent;
+}
+`
 
 export const OperationStatusContainer = styled.div`
 	position: absolute;

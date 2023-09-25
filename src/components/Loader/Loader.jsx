@@ -2,7 +2,12 @@ import { Oval } from "react-loader-spinner";
 import { TextContainer, Message, Amount } from "./Loader.styled";
 import { formatEther } from "viem";
 
-function Loader({ pathname, operationAmount, isApprovalLoading }) {
+function Loader({
+	pathname,
+	operationAmount,
+	isApprovalLoading,
+	isExitOperation,
+}) {
 	const amount = formatEther(operationAmount);
 
 	return (
@@ -24,11 +29,14 @@ function Loader({ pathname, operationAmount, isApprovalLoading }) {
 						{<Amount>{`${amount} STRU`}</Amount>} {"to Staking"}
 					</Message>
 				)}
-				{pathname === "/withdraw" && (
+				{pathname === "/withdraw" && !isExitOperation && (
 					<Message>
 						{`Withdrawing`} {<Amount>{`${amount} STRU`}</Amount>}{" "}
 						{"from Staking"}
 					</Message>
+				)}
+				{pathname === "/withdraw" && isExitOperation && (
+					<Message>{`Withdrawing all tokens and all rewards`}</Message>
 				)}
 				{pathname === "/rewards" && (
 					<Message>

@@ -16,6 +16,8 @@ function OperationStatusToast({
 	operationAmount,
 	setIsSuccess,
 	setIsError,
+	isExitOperation,
+setIsExitOperation
 }) {
 	const amount = formatEther(operationAmount);
 	const [operationStatusIcon, setOperationStatusIcon] = useState(null);
@@ -26,6 +28,7 @@ function OperationStatusToast({
 			setIsVisible(false);
 			setIsSuccess(false);
 			setIsError(false);
+			setIsExitOperation(false);
 		}, 5000);
 
 		return () => {
@@ -59,10 +62,15 @@ function OperationStatusToast({
 									{"Successfully added to Staking"}
 								</Message>
 							)}
-							{pathname === "/withdraw" && (
+							{pathname === "/withdraw" && !isExitOperation && (
 								<Message>
 									<Amount>{`${amount} STRU`}</Amount>{" "}
 									{"were successfully withdrawn from Staking"}
+								</Message>
+							)}
+							{pathname === "/withdraw" && isExitOperation && (
+								<Message>
+									{"All tokens and all rewards were successfully withdrawn"}
 								</Message>
 							)}
 							{pathname === "/rewards" && (

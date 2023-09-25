@@ -32,8 +32,7 @@ export const ValueContainer = styled.div`
 
 export const Value = styled.p`
 	display: inline-flex;
-	
-	
+
 	font: var(--font-counter-numbers-mobile);
 
 	@media ${media.minTablet} {
@@ -41,6 +40,7 @@ export const Value = styled.p`
 	}
 
 	@media ${media.minDesktop} {
+		margin-right: 12px;
 		font: var(--font-counter-numbers-web);
 	}
 `;
@@ -64,6 +64,7 @@ export const Units = styled.p`
 		font: var(--font-counter-units-web);
 		line-height: normal;
 		margin-right: 12px;
+		margin-left: 0;
 	}
 `;
 

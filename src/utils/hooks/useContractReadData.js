@@ -49,6 +49,8 @@ function useContractReadData() {
 		if (balanceData) {
 			const value = Number(formatEther(balanceData));
 			return value.toFixed(2);
+		} else {
+			return 0;
 		}
 	}, [balanceData]);
 
@@ -57,6 +59,8 @@ function useContractReadData() {
 			const value = Number(formatEther(rewardsData));
 			const result = value.toFixed(2);
 			return result;
+		} else {
+			return 0;
 		}
 	}, [rewardsData]);
 
@@ -66,6 +70,8 @@ function useContractReadData() {
 			const timeStamp = Date.now() / 1000;
 			const daysValue = Math.ceil((value - timeStamp) / 86400);
 			return daysValue;
+		} else {
+			return 0;
 		}
 	}, [daysData]);
 
@@ -73,20 +79,19 @@ function useContractReadData() {
 		if (rewardForDuration && totalSupply) {
 			const result = Math.floor((rewardForDuration * 100) / totalSupply);
 			return result;
+		} else {
+			return 0;
 		}
 	}, [rewardForDuration, totalSupply]);
 
 		const REWARDRATE = useMemo(() => {
-			if (
-				remaining &&
-				rewardRateMethodValue &&
-				totalSupply &&
-				BALANCE
-			) {
+			if (remaining && rewardRateMethodValue && totalSupply && BALANCE) {
 				const available = remaining * rewardRateMethodValue;
 				const value =
 					(Number(BALANCE) * available) / totalSupply + Number(amountToStake);
 				return Math.floor(value);
+			} else {
+				return 0;
 			}
 		}, [remaining, rewardRateMethodValue, amountToStake, totalSupply, BALANCE]);
 	

@@ -8,9 +8,9 @@ export const StyledFooter = styled.footer`
 	box-sizing: border-box;
 	margin-top: auto;
 
-	@media ${media.minTablet} {
+	/* @media ${media.minTablet} {
 		margin-top: 0;
-	}
+	} */
 `;
 
 export const Container = styled.div`

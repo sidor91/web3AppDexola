@@ -9,6 +9,8 @@ import {
 	OperationStatusContainer,
 	InputContainer,
 	InputErrorMessage,
+	ExitButton,
+	SubmitButtonContainer,
 } from "./Form.styled";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -20,6 +22,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Loader from "@/components/Loader/Loader.jsx";
 import OperationStatusToast from "@/components/Toast/OperationStatusToast.jsx";
+import useWindowDimensions from "@/utils/hooks/useWindowDimensions.js";
 
 function Form({ setAmountToStake }) {
 	const [buttonTitle, setButtonTitle] = useState("");
@@ -28,14 +31,16 @@ function Form({ setAmountToStake }) {
 	const [operationAmount, setOperationAmount] = useState(0);
 	const [isError, setIsError] = useState(false);
 	const [isSuccess, setIsSuccess] = useState(false);
+	const [isExitOperation, setIsExitOperation] = useState(false)
 	const { pathname } = useLocation();
 	const { BALANCE, REWARDS } = useContractReadData();
 	const { struBalance, isConnected } = useAccountAndBalance();
+	const dimensions = useWindowDimensions();
 	const {
 		stake,
 		withdraw,
 		claimReward,
-		// isTransactionSuccess,
+		exit,
 		isLoading,
 		isApprovalTransactionLoading,
 	} = useTransaction();
@@ -61,16 +66,17 @@ function Form({ setAmountToStake }) {
 	const validationSchema =
 		pathname !== "/rewards" &&
 		Yup.object({
-			amount: Yup.number("amount should be a number")
+			amount: Yup.number("Amount should be a number")
 				.min(0.000000000000000001, "The minimum amount is 0.000000000000000001")
 				.max(availableAmount, `The maximum amount is ${availableAmount}`)
-				.required("required"),
+				.required("Required"),
 		});
 
 	const onSubmit = async ({ amount }) => {
 		const amountToSend = parseEther(amount.toString());
 		const rewardsAvailableAmount = parseEther(availableAmount.toString());
 		try {
+			setIsExitOperation(false);
 			setIsError(false);
 			setIsSuccess(false);
 			switch (pathname) {
@@ -98,6 +104,22 @@ function Form({ setAmountToStake }) {
 		setAmountToStake(0);
 	};
 
+	const onExit = async () => {
+		const isAmountAvailable = BALANCE || REWARDS;
+		try {
+			setIsExitOperation(true);
+			setIsError(false);
+			setIsSuccess(false);
+			await exit();
+			setIsSuccess(true);
+		} catch (error) {
+			setIsError(true);
+			const errorLines = message.split("\n");
+			const errorMessage = errorLines[0];
+			console.log(errorMessage);
+		}
+	}
+
 	const formik = useFormik({
 		initialValues: {
 			amount: "",
@@ -106,8 +128,7 @@ function Form({ setAmountToStake }) {
 		validationSchema,
 	});
 
-	const inputError = formik.touched.amount && formik.errors.amount && formik.errors.amount !== 'required';
-
+	const inputError = formik.touched.amount && formik.errors.amount;
 	return (
 		<>
 			<StyledForm onSubmit={formik.handleSubmit}>
@@ -135,7 +156,14 @@ function Form({ setAmountToStake }) {
 					<LabelValue>{availableAmount}</LabelValue>
 					<LabelUnits>STRU</LabelUnits>
 				</Label>
-				<SubmitButton type="submit">{buttonTitle}</SubmitButton>
+				<SubmitButtonContainer>
+					<SubmitButton type="submit">{buttonTitle}</SubmitButton>
+					{dimensions >= 1440 && pathname === "/withdraw" && (
+						<ExitButton type="button" onClick={onExit}>
+							withdraw all & Claim rewards
+						</ExitButton>
+					)}
+				</SubmitButtonContainer>
 			</StyledForm>
 			<OperationStatusContainer>
 				{isLoading && !isError && (
@@ -143,6 +171,7 @@ function Form({ setAmountToStake }) {
 						pathname={pathname}
 						isApprovalLoading={isApprovalTransactionLoading}
 						operationAmount={operationAmount}
+						isExitOperation={isExitOperation}
 					/>
 				)}
 				{(isSuccess || isError) && !isLoading && (
@@ -153,6 +182,8 @@ function Form({ setAmountToStake }) {
 						operationAmount={operationAmount}
 						setIsSuccess={setIsSuccess}
 						setIsError={setIsError}
+						isExitOperation={isExitOperation}
+						setIsExitOperation={setIsExitOperation}
 					/>
 				)}
 			</OperationStatusContainer>
