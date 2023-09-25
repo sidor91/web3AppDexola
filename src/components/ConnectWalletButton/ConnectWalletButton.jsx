@@ -30,7 +30,7 @@ function ConnectWalletButton({}) {
 			{!isConnected ? (
 				<Button
 					onClick={() => onOpen()}
-					aria-label="join now"
+					aria-label="Connect Wallet"
 					disabled={loading}
 					ref={buttonRef}
 					id="connectWallet"
@@ -53,7 +53,7 @@ function ConnectWalletButton({}) {
 							</BalanceText>
 							<BalanceText>{addressToShow}...</BalanceText>
 						</>
-					) }
+					)}
 				</BalanceContainer>
 			)}
 		</>

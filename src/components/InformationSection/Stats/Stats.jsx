@@ -42,6 +42,7 @@ function Stats() {
 								<>
 									<IconHelper
 										src={helpIcon}
+										alt="info"
 										onClick={() => {
 											handleTooltipClick(index);
 										}}

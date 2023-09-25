@@ -12,7 +12,7 @@ function NotAuthorizedSection() {
     
 	return (
 		<Container>
-			<Icon src={walletIcon} width={96} height={96} />
+			<Icon src={walletIcon} alt="Wallet not connected" width={96} height={96} />
 			<Text>To start staking you need to connect you wallet first</Text>
             <Button onClick={handleClick}>Connect Wallet</Button>
 		</Container>
