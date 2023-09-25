@@ -92,6 +92,8 @@ export const LinkTextActive = styled(LinkText)`
 
 		@media ${media.minTablet} {
 			height: 8px;
+			width: calc(100% + 64px);
+			left: -32px;
 		}
 	}
 `;
