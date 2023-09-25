@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
-import { Tooltip } from "react-tooltip";
 
 export const Container = styled.div`
 	display: flex;

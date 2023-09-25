@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import errorIcon from "@/assets/errorIcon.svg";
 import successIcon from "@/assets/successIcon.svg";
 import { formatEther } from "viem";
+import PropTypes from "prop-types";
 
 function OperationStatusToast({
 	pathname,
@@ -34,7 +35,7 @@ setIsExitOperation
 		return () => {
 			clearTimeout(timer);
 		};
-	}, []);
+	}, [setIsError, setIsExitOperation, setIsSuccess]);
 
 	useEffect(() => {
 		if (isTransactionSuccess) {
@@ -95,3 +96,15 @@ setIsExitOperation
 }
 
 export default OperationStatusToast;
+
+
+OperationStatusToast.propTypes = {
+	pathname: PropTypes.string,
+	isError: PropTypes.bool,
+	isTransactionSuccess: PropTypes.bool,
+	operationAmount: PropTypes.string,
+	setIsSuccess: PropTypes.func,
+	setIsError: PropTypes.bool,
+	isExitOperation: PropTypes.bool,
+	setIsExitOperation: PropTypes.func,
+};

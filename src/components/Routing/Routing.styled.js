@@ -87,7 +87,7 @@ export const LinkTextActive = styled(LinkText)`
 		height: 6px;
 		background-color: var(--color-accent-blue);
 		position: absolute;
-		bottom: -16px;
+		bottom: -17px;
 		left: 0;
 
 		@media ${media.minTablet} {

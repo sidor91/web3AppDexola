@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
-import { StyledButton, Paragraph } from "@/components/SharedElements.styled";
+import { StyledButton } from "@/components/SharedElements.styled";
 
 export const StyledForm = styled.form`
 display: flex;
@@ -79,6 +79,11 @@ export const InputErrorMessage = styled.span`
 	white-space: nowrap;
 
 	font: var(--font-reward-rate-units-mobile);
+
+	@media ${media.minTablet} {
+		bottom: 8px;
+		font-size: 14px;
+	}
 `;
 
 export const Label = styled.label`
@@ -127,7 +132,7 @@ export const SubmitButton = styled(StyledButton)`
 	padding-top: 12px;
 	padding-bottom: 12px;
 	line-height: 1.5;
-	margin-bottom: 56px;
+	margin-bottom: 65px;
 	width: 100%;
 
 	@media ${media.minTablet} {

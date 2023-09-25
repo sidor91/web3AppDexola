@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
 	Container,
 	SubContainer,
@@ -6,7 +6,7 @@ import {
 	Title,
 	Description,
 } from "./Tooltip.styled";
-// import Draggable from "react-draggable";
+import PropTypes from "prop-types";
 
 function DraggableTooltip({ title, description, setIsShown, isShown }) {
 	const [isTooltipShown, setIsToolTipShown] = useState(true);
@@ -45,3 +45,11 @@ function DraggableTooltip({ title, description, setIsShown, isShown }) {
 }
 
 export default DraggableTooltip;
+
+
+DraggableTooltip.propTypes = {
+	title: PropTypes.string,
+	description: PropTypes.string,
+	setIsShown: PropTypes.func,
+	isShown: PropTypes.bool,
+};

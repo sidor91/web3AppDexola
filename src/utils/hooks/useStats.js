@@ -1,7 +1,6 @@
 import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import useContractReadData from "@/utils/hooks/useContractReadData";
-import { formatEther } from "viem";
 
 function useStats() {
 	const [balance, setBalance] = useState(0);

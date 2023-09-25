@@ -7,10 +7,6 @@ export const StyledFooter = styled.footer`
 	border-top: 1px solid var(--color-accent-blue);
 	box-sizing: border-box;
 	margin-top: auto;
-
-	/* @media ${media.minTablet} {
-		margin-top: 0;
-	} */
 `;
 
 export const Container = styled.div`

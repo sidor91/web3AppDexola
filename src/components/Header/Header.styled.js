@@ -13,11 +13,6 @@ export const StyledHeader = styled.header`
 	align-items: center;
 	margin-left: auto;
 	margin-right: auto;
-	/* position: sticky;
-	top: 0;
-	z-index: 88; */
-	/* background-color: var(--color-black); */
-	/* background-color: transparent; */
 	
 	@media ${media.minTablet} {
 		padding: 11px 48px;

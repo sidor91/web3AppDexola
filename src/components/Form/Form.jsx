@@ -1,3 +1,13 @@
+import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { parseEther } from "viem";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import PropTypes from "prop-types";
+import useWindowDimensions from "@/utils/hooks/useWindowDimensions.js";
+import useTransaction from "@/utils/hooks/useTransaction";
+import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
+import useContractReadData from "@/utils/hooks/useContractReadData";
 import {
 	StyledForm,
 	Input,
@@ -12,17 +22,9 @@ import {
 	ExitButton,
 	SubmitButtonContainer,
 } from "./Form.styled";
-import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import useTransaction from "@/utils/hooks/useTransaction";
-import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
-import useContractReadData from "@/utils/hooks/useContractReadData";
-import { parseEther } from "viem";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import Loader from "@/components/Loader/Loader.jsx";
 import OperationStatusToast from "@/components/Toast/OperationStatusToast.jsx";
-import useWindowDimensions from "@/utils/hooks/useWindowDimensions.js";
+
 
 function Form({ setAmountToStake }) {
 	const [buttonTitle, setButtonTitle] = useState("");
@@ -31,7 +33,7 @@ function Form({ setAmountToStake }) {
 	const [operationAmount, setOperationAmount] = useState(0);
 	const [isError, setIsError] = useState(false);
 	const [isSuccess, setIsSuccess] = useState(false);
-	const [isExitOperation, setIsExitOperation] = useState(false)
+	const [isExitOperation, setIsExitOperation] = useState(false);
 	const { pathname } = useLocation();
 	const { BALANCE, REWARDS } = useContractReadData();
 	const { struBalance, isConnected } = useAccountAndBalance();
@@ -76,7 +78,6 @@ function Form({ setAmountToStake }) {
 		const amountToSend = parseEther(amount.toString());
 		const rewardsAvailableAmount = parseEther(availableAmount.toString());
 		try {
-			setIsExitOperation(false);
 			setIsError(false);
 			setIsSuccess(false);
 			switch (pathname) {
@@ -105,20 +106,20 @@ function Form({ setAmountToStake }) {
 	};
 
 	const onExit = async () => {
-		const isAmountAvailable = BALANCE || REWARDS;
 		try {
 			setIsExitOperation(true);
 			setIsError(false);
 			setIsSuccess(false);
 			await exit();
 			setIsSuccess(true);
-		} catch (error) {
+		} catch ({ message }) {
 			setIsError(true);
+			setIsExitOperation(false);
 			const errorLines = message.split("\n");
 			const errorMessage = errorLines[0];
 			console.log(errorMessage);
 		}
-	}
+	};
 
 	const formik = useFormik({
 		initialValues: {
@@ -176,12 +177,12 @@ function Form({ setAmountToStake }) {
 				)}
 				{(isSuccess || isError) && !isLoading && (
 					<OperationStatusToast
-						isError={isError}
 						isTransactionSuccess={isSuccess}
+						setIsSuccess={setIsSuccess}
+						isError={isError}
+						setIsError={setIsError}
 						pathname={pathname}
 						operationAmount={operationAmount}
-						setIsSuccess={setIsSuccess}
-						setIsError={setIsError}
 						isExitOperation={isExitOperation}
 						setIsExitOperation={setIsExitOperation}
 					/>
@@ -192,3 +193,7 @@ function Form({ setAmountToStake }) {
 }
 
 export default Form;
+
+Form.propTypes = {
+	setAmountToStake: PropTypes.func,
+};

@@ -1,6 +1,7 @@
 import { Oval } from "react-loader-spinner";
 import { TextContainer, Message, Amount } from "./Loader.styled";
 import { formatEther } from "viem";
+import PropTypes from "prop-types";
 
 function Loader({
 	pathname,
@@ -9,7 +10,7 @@ function Loader({
 	isExitOperation,
 }) {
 	const amount = formatEther(operationAmount);
-
+console.log(operationAmount);
 	return (
 		<>
 			<Oval
@@ -49,3 +50,10 @@ function Loader({
 }
 
 export default Loader;
+
+Loader.propTypes = {
+	pathname: PropTypes.string,
+	operationAmount: PropTypes.string,
+	isApprovalLoading: PropTypes.bool,
+	isExitOperation: PropTypes.bool,
+};

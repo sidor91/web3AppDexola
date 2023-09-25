@@ -1,6 +1,5 @@
 import styled, { keyframes, css } from "styled-components";
-import { media } from "@/utils/mediaRules";
-import { StyledButton, Paragraph } from "@/components/SharedElements.styled";
+import { Paragraph } from "@/components/SharedElements.styled";
 
 export const Container = styled.div`
 	background: rgba(0, 0, 0, 0.6);

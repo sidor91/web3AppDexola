@@ -3,7 +3,6 @@ import { media } from "@/utils/mediaRules";
 import { H1heading, StyledSection } from "@/components/SharedElements.styled";
 
 export const Section = styled(StyledSection)`
-
 `;
 
 export const Container = styled.div`

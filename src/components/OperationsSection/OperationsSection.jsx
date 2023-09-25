@@ -17,14 +17,12 @@ import useContractReadData from "@/utils/hooks/useContractReadData";
 import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
 import { useDebouncedCallback } from "use-debounce";
 
-
-
 function OperationsSection() {
 	const [title, setTitle] = useState("");
 	const { pathname } = useLocation();
 	const { REWARDRATE, setAmountToStake } = useContractReadData();
 	const { isConnected } = useAccountAndBalance();
-	
+
 	const debouncedREWARDRATE = useDebouncedCallback((value) => {
 		setAmountToStake(value);
 	}, 500);
@@ -53,7 +51,7 @@ function OperationsSection() {
 								{pathname === "/stake" && (
 									<RewardRateContainer>
 										<Text>{"Reward rate:"}</Text>
-										<RateValue>{REWARDRATE || 0}</RateValue>
+										<RateValue>{REWARDRATE}</RateValue>
 										<RateUnits>{"STRU/week"}</RateUnits>
 									</RewardRateContainer>
 								)}

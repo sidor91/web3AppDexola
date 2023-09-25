@@ -7,7 +7,7 @@ import {
 } from "@/components/SharedElements.styled";
 
 export const Section = styled(StyledSection)`
-background-color: var(--color-black);
+	background-color: var(--color-black);
 `;
 
 export const Container = styled.div`
@@ -30,7 +30,6 @@ export const Container = styled.div`
 `;
 
 export const SubContainer = styled.div`
-/* margin-top: -1px; */
 position: relative;
 	@media ${media.minTablet} {
 		padding-left: 24px;
