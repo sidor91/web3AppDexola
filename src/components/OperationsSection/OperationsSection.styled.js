@@ -40,7 +40,7 @@ export const SubContainer = styled.div`
 
 	@media ${media.minDesktop} {
 		margin-bottom: 108px;
-		background-color: var(--color-black);
+		/* background-color: var(--color-black); */
 	}
 `;
 

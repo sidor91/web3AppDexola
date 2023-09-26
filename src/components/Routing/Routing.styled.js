@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
 import { NavLink } from "react-router-dom";
 
+
 export const Container = styled.div`
 	width: 100%;
 	background-color: var(--color-black);
+
 	border-radius: 16px 16px 0px 0px;
 	border-bottom: 1px solid var(--color-accent-blue);
 

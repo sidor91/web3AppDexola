@@ -7,24 +7,25 @@ import InformationSection from "@/components/InformationSection/InformationSecti
 import {
 	BackgroundContainer,
 	Container,
-	MainBackgroundContainer,
 } from "./SharedLayout.styled";
+import Routing from "@/components/Routing/Routing";
+import useWindowDimensions from "@/utils/hooks/useWindowDimensions.js";
 
 function SharedLayout() {
+	const dimensions = useWindowDimensions();
 	return (
 		<Container>
 			<BackgroundContainer>
 				<Header />
 				<InformationSection />
 			</BackgroundContainer>
-			<MainBackgroundContainer>
+				{dimensions >= 1440 && <Routing />}
 				<main>
 					<Suspense fallback={<Fallback />}>
 						<Outlet />
 					</Suspense>
 				</main>
 				<Footer />
-			</MainBackgroundContainer>
 		</Container>
 	);
 }

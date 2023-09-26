@@ -13,31 +13,30 @@ export const Container = styled.div`
 	flex-direction: column;
 	overflow-x: hidden;
 	background-color: var(--color-black);
-`;
 
-export const MainBackgroundContainer = styled.div`
-background-color: var(--color-black);
 	@media ${media.minDesktop} {
 		background: radial-gradient(
 			42.93% 42.93% at 50% 50%,
 			#2f4bc9 0%,
-			#080808 100%
+			#000000 100%
 		);
-		background-position-y: 200px;
+		background-position-y: 525px;
 		background-position-x: center;
 		background-size: 2193px 1330px;
 	}
 `;
 
 
+
 export const BackgroundContainer = styled.div`
-	position: sticky;
+	/* position: sticky;
 	top: 0;
-	z-index: 88;
+	z-index: 88; */
 	background-size: 2860px 1548px;
 	background-image: url(${mobileBackground});
 	background-position-x: center;
 	background-position-y: top;
+	overflow: hidden;
 
 	@media ${media.minTablet} {
 		background-image: url(${tabletBackground});

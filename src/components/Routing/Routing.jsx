@@ -8,37 +8,37 @@ import {
 
 function Routing() {
 	return (
-		<Container>
-			<RoutingSection>
-				<NavigationLink to="stake">
-					{({ isActive }) =>
-						isActive ? (
-							<LinkTextActive>Stake</LinkTextActive>
-						) : (
-							<LinkText>Stake</LinkText>
-						)
-					}
-				</NavigationLink>
-				<NavigationLink to="withdraw">
-					{({ isActive }) =>
-						isActive ? (
-							<LinkTextActive>Withdraw</LinkTextActive>
-						) : (
-							<LinkText>Withdraw</LinkText>
-						)
-					}
-				</NavigationLink>
-				<NavigationLink to="rewards">
-					{({ isActive }) =>
-						isActive ? (
-							<LinkTextActive>Claim rewards</LinkTextActive>
-						) : (
-							<LinkText>Claim rewards</LinkText>
-						)
-					}
-				</NavigationLink>
-			</RoutingSection>
-		</Container>
+			<Container>
+				<RoutingSection>
+					<NavigationLink to="stake">
+						{({ isActive }) =>
+							isActive ? (
+								<LinkTextActive>Stake</LinkTextActive>
+							) : (
+								<LinkText>Stake</LinkText>
+							)
+						}
+					</NavigationLink>
+					<NavigationLink to="withdraw">
+						{({ isActive }) =>
+							isActive ? (
+								<LinkTextActive>Withdraw</LinkTextActive>
+							) : (
+								<LinkText>Withdraw</LinkText>
+							)
+						}
+					</NavigationLink>
+					<NavigationLink to="rewards">
+						{({ isActive }) =>
+							isActive ? (
+								<LinkTextActive>Claim rewards</LinkTextActive>
+							) : (
+								<LinkText>Claim rewards</LinkText>
+							)
+						}
+					</NavigationLink>
+				</RoutingSection>
+			</Container>
 	);
 }
 
