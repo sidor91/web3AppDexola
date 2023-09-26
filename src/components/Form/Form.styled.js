@@ -150,6 +150,7 @@ background-color: transparent;
 }
 `
 
+
 export const OperationStatusContainer = styled.div`
 	position: absolute;
 	bottom: 136px;
@@ -158,6 +159,7 @@ export const OperationStatusContainer = styled.div`
 	width: 100%;
 
 	display: flex;
+	flex-direction: column;
 	gap: 16px;
 	justify-content: center;
 	align-items: center;

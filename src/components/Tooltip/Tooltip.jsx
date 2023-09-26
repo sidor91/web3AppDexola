@@ -27,13 +27,7 @@ function DraggableTooltip({ title, description, setIsShown, isShown }) {
 						handleClose(e);
 					}}
 				>
-					<SubContainer
-						// draggable={true}
-						// onDragStart={(e) => {
-						// 	handleClose(e);
-						// }}
-						$isshown={isTooltipShown}
-					>
+					<SubContainer $isshown={isTooltipShown}>
 						<Graber></Graber>
 						<Title>{title}</Title>
 						<Description>{description}</Description>
@@ -45,7 +39,6 @@ function DraggableTooltip({ title, description, setIsShown, isShown }) {
 }
 
 export default DraggableTooltip;
-
 
 DraggableTooltip.propTypes = {
 	title: PropTypes.string,

@@ -5,10 +5,8 @@ import { formatEther } from "viem";
 const { VITE_STRU_STAKING_CONTRACT } = import.meta.env;
 
 // This hook recieves all the data from the useContractWriteOperations hook,
-// makes all the transaction async requests,
-// and keeps all the transaction information such as isLoading state and hash. 
-
-// It returns async functions to be used in Form component and isLoading state
+//  and makes all the transaction async requests. 
+// It returns async functions to be used in Form component.
 
 function useTransaction() {
 	const {
@@ -22,14 +20,12 @@ function useTransaction() {
 	const [isApprovalTransactionLoading, setIsApprovalTransactionLoading] =
 		useState(false);
 
-
 	const stake = async (value) => {
 		const allowance = Number(formatEther(allowanceAmount));
-		// Before doing the write method for staking, we check the allowance amount and,
-		// if it is less than the amount of the current operation, we do the approve method and then the stake method,
-		//if it is more, we immediately do the stake method
+		// Before doing the 'stake' method, we check the allowance amount and,
+		// if it is less than the amount of the current transaction, we do the 'approve' method and then the 'stake' method.
 		if (Number(formatEther(value)) > allowance) {
-			setIsApprovalTransactionLoading(true);
+			setIsApprovalTransactionLoading(true); // using this state to display whether in the process of approval or staking taking place
 			// receiving the hash and passing it to waitForTransaction method to create a Promise and wait for the transaction to get done
 			const { hash: approvalHash } = await approvalWrite({
 				args: [VITE_STRU_STAKING_CONTRACT, value],
@@ -43,16 +39,18 @@ function useTransaction() {
 				const { hash: stakeHash } = await stakeWrite({
 					args: [value],
 				});
+				// Return the Promise to use it during the submission to control loading state as well as and success/error states
 				const response = await waitForTransaction({
 					hash: stakeHash,
 				});
 				return response;
 			}
-			// As was already mentioned above, if the allowance >= current operation's amount we immediately proceed with "stake" method
+			// If the allowance >= current operation's amount we immediately proceed with "stake" method
 		} else {
 			const { hash: stakeHash } = await stakeWrite({
 				args: [value],
 			});
+			// Return the Promise to use it during the submission to control loading state as well as and success/error states
 			const response = await waitForTransaction({
 				hash: stakeHash,
 			});
@@ -60,11 +58,12 @@ function useTransaction() {
 		}
 	};
 
+	// By the same schema we are doing withdraw, claimReward and exit functions, except the 'approve' method
 	const withdraw = async (value) => {
 		const { hash } = await withdrawWrite({
 			args: [value],
 		});
-		const response = await waitForTransaction({hash});
+		const response = await waitForTransaction({ hash });
 		return response;
 	};
 

@@ -1,4 +1,5 @@
 import {
+	Container,
 	TextContainer,
 	Message,
 	Amount,
@@ -46,7 +47,7 @@ setIsExitOperation
 	}, [isTransactionSuccess, isError]);
 
 	return (
-		<>
+		<Container>
 			{isVisible && (
 				<>
 					<img
@@ -91,7 +92,7 @@ setIsExitOperation
 					)}
 				</>
 			)}
-		</>
+		</Container>
 	);
 }
 

@@ -1,5 +1,5 @@
 import { Oval } from "react-loader-spinner";
-import { TextContainer, Message, Amount } from "./Loader.styled";
+import { Container, TextContainer, Message, Amount } from "./Loader.styled";
 import { formatEther } from "viem";
 import PropTypes from "prop-types";
 
@@ -12,7 +12,7 @@ function Loader({
 	const amount = formatEther(transactionAmount);
 
 	return (
-		<>
+		<Container>
 			<Oval
 				height={32}
 				width={32}
@@ -45,7 +45,7 @@ function Loader({
 					</Message>
 				)}
 			</TextContainer>
-		</>
+		</Container>
 	);
 }
 

@@ -36,28 +36,29 @@ function Form({ setAmountToStake }) {
 	const [isExitOperation, setIsExitOperation] = useState(false);
 	const { pathname } = useLocation();
 	const { BALANCE, REWARDS } = useContractReadData();
-	const { struBalance, isConnected } = useAccountAndBalance();
+	const { struBalance } = useAccountAndBalance();
 	const dimensions = useWindowDimensions();
 	const { stake, withdraw, claimReward, exit, isApprovalTransactionLoading } =
 		useTransaction();
 
+	// Depending on pathname we set button text, available amount and input placeholder.
 	useEffect(() => {
 		switch (pathname) {
 			case "/stake":
 				setButtonTitle("Stake");
-				setAvailableAmount(() => (isConnected ? struBalance : 0));
+				setAvailableAmount(struBalance);
 				setPlaceholder("Enter stake amount");
 				break;
 			case "/withdraw":
 				setButtonTitle("Withdraw");
-				setAvailableAmount(() => (isConnected ? BALANCE : 0));
+				setAvailableAmount(BALANCE);
 				setPlaceholder("Enter withdraw amount");
 				break;
 			case "/rewards":
 				setButtonTitle("claim rewards");
-				setAvailableAmount(() => (isConnected ? REWARDS : 0));
+				setAvailableAmount(REWARDS);
 		}
-	}, [pathname, isConnected, struBalance, BALANCE, REWARDS]);
+	}, [pathname, struBalance, BALANCE, REWARDS]);
 
 	const validationSchema =
 		pathname !== "/rewards" &&
@@ -71,30 +72,30 @@ function Form({ setAmountToStake }) {
 	const onSubmit = async ({ amount }) => {
 		const amountToSend = parseEther(amount.toString());
 		const rewardsAvailableAmount = parseEther(availableAmount.toString());
+		setIsLoading(true);
+		setIsError(false);
+		setIsSuccess(false);
+		setIsExitOperation(false);
 		try {
-			setIsLoading(true);
-			setIsError(false);
-			setIsSuccess(false);
-			setIsExitOperation(false);
 			if (pathname === "/stake") {
 				setTransactionAmount(amountToSend);
-				const stakeResponse = await stake(amountToSend);
-				stakeResponse && setIsLoading(false);
+				const response = await stake(amountToSend);
+				response && setIsLoading(false);
 			} else if (pathname === "/withdraw") {
 				setTransactionAmount(amountToSend);
-				const withdrawResponse = await withdraw(amountToSend);
-				withdrawResponse && setIsLoading(false);
+				const response = await withdraw(amountToSend);
+				response && setIsLoading(false);
 			} else if (pathname === "/rewards") {
 				setTransactionAmount(rewardsAvailableAmount);
-				const claimRewardsResponse = await claimReward();
-				claimRewardsResponse && setIsLoading(false);
+				const response = await claimReward();
+				response && setIsLoading(false);
 			}
 			setIsSuccess(true);
-		} catch ({ message }) {
+		} catch ({message}) {
 			setIsLoading(false);
 			setIsError(true);
 			const errorLines = message.split("\n");
-			const errorMessage = errorLines[0];
+			const errorMessage = `${errorLines[0]} ${errorLines[1]}`;
 			console.log(errorMessage);
 		}
 
@@ -103,20 +104,20 @@ function Form({ setAmountToStake }) {
 	};
 
 	const onExit = async () => {
+		setIsExitOperation(true);
+		setIsLoading(true);
+		setIsError(false);
+		setIsSuccess(false);
 		try {
-			setIsExitOperation(true);
-			setIsLoading(true);
-			setIsError(false);
-			setIsSuccess(false);
 			const response = await exit();
 			response && setIsLoading(false);
 			setIsSuccess(true);
-		} catch ({ message }) {
+		} catch ({message}) {
 			setIsLoading(false);
 			setIsError(true);
 			setIsExitOperation(false);
 			const errorLines = message.split("\n");
-			const errorMessage = errorLines[0];
+			const errorMessage = `${errorLines[0]} ${errorLines[1]}`;
 			console.log(errorMessage);
 		}
 	};
@@ -167,7 +168,7 @@ function Form({ setAmountToStake }) {
 				</SubmitButtonContainer>
 			</StyledForm>
 			<OperationStatusContainer>
-				{isLoading && !isError && (
+				{isLoading && (
 					<Loader
 						pathname={pathname}
 						isApprovalLoading={isApprovalTransactionLoading}
@@ -175,7 +176,7 @@ function Form({ setAmountToStake }) {
 						isExitOperation={isExitOperation}
 					/>
 				)}
-				{(isSuccess || isError) && !isLoading && (
+				{(isSuccess || isError) && (
 					<OperationStatusToast
 						isTransactionSuccess={isSuccess}
 						setIsSuccess={setIsSuccess}

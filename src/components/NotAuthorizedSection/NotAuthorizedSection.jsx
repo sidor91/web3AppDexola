@@ -4,17 +4,23 @@ import walletIcon from "@/assets/walletIcon.svg";
 
 function NotAuthorizedSection() {
 
-    const handleClick = (e) => {
-        e.preventDefault();
+    const handleClick = () => {
         const connectWalletButton = document.getElementById("connectWallet");
         connectWalletButton && connectWalletButton.click();
     }
     
 	return (
 		<Container>
-			<Icon src={walletIcon} alt="Wallet not connected" width={96} height={96} />
+			<Icon
+				src={walletIcon}
+				alt="Wallet not connected"
+				width={96}
+				height={96}
+			/>
 			<Text>To start staking you need to connect you wallet first</Text>
-            <Button onClick={handleClick}>Connect Wallet</Button>
+			<Button type="button" onClick={handleClick}>
+				Connect Wallet
+			</Button>
 		</Container>
 	);
 }

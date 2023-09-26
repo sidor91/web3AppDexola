@@ -3,13 +3,13 @@ import { Paragraph } from "@/components/SharedElements.styled";
 
 export const Container = styled.div`
 	background: rgba(0, 0, 0, 0.6);
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 998;
-    display: flex;
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 998;
+	display: flex;
 `;
 
 const slideInAnimation = keyframes`
@@ -20,7 +20,6 @@ const slideInAnimation = keyframes`
     transform: translateY(0);
   }
 `;
-
 
 const slideOutAnimation = keyframes`
   0% {
@@ -43,24 +42,21 @@ export const SubContainer = styled.div`
 	align-items: center;
 	padding-left: 16px;
 	padding-right: 16px;
-    animation-iteration-count: 1;
-
-${({ $isshown }) => {
-    if ($isshown) {
-        return css`
-					animation: ${slideInAnimation} 0.5s ease-in;
-				`;
-    } else {
-        return css`
-					animation: ${slideOutAnimation} 0.5s ease-out;
-				`;
-    }
-}}
+	${({ $isshown }) => {
+		if ($isshown) {
+			return css`
+				animation: ${slideInAnimation} 0.5s ease-in;
+			`;
+		} else {
+			return css`
+				animation: ${slideOutAnimation} 0.5s ease-out;
+			`;
+		}
+	}}
+	animation-iteration-count: 1;
 `;
 
-export const SubContainerShown = styled.div`
-
-`
+export const SubContainerShown = styled.div``;
 
 export const Graber = styled.div`
 	width: 36px;
@@ -73,12 +69,11 @@ export const Graber = styled.div`
 
 export const Title = styled.h3`
 	font: var(--font-tooltip-title-mobile-tablet);
-    color: var(--color-black);
-    z-index: 999;
-    margin-bottom: 16px;
+	color: var(--color-black);
+	z-index: 999;
+	margin-bottom: 16px;
 `;
 
 export const Description = styled(Paragraph)`
 	color: var(--color-black);
 `;
-
