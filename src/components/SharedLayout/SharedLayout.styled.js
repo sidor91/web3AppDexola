@@ -8,7 +8,7 @@ export const Container = styled.div`
 	width: 100%;
 	min-width: var(--width-mobile);
 	max-width: 100%;
-	height: 100vh;
+	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
 	overflow-x: hidden;
