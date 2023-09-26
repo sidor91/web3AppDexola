@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { formatEther } from "viem";
 import { useContractReadOperations } from "./useContractReadOperations";
 
+// This hook receives the data from the useContractRead Operations hook and, using the given formulas, returns values that are needed in the interface
+// useMemo was used to reduce the number of re-renders.
 function useContractReadData() {
 	const {
 		balanceData,
@@ -11,7 +13,8 @@ function useContractReadData() {
 		rewardForDurationData,
 		totalSupplyData,
 	} = useContractReadOperations();
-		const [amountToStake, setAmountToStake] = useState(0);
+	const [amountToStake, setAmountToStake] = useState(0);
+
 
 	const rewardForDuration = useMemo(() => {
 		if (rewardForDurationData) {
@@ -85,7 +88,7 @@ function useContractReadData() {
 	}, [rewardForDuration, totalSupply]);
 
 		const REWARDRATE = useMemo(() => {
-			if (remaining && rewardRateMethodValue && totalSupply && BALANCE) {
+			if (remaining && rewardRateMethodValue && totalSupply) {
 				const available = remaining * rewardRateMethodValue;
 				const value =
 					(Number(BALANCE) * available) / totalSupply + Number(amountToStake);
@@ -97,11 +100,11 @@ function useContractReadData() {
 	
 
 	return {
-		rewardForDuration,
-		totalSupply,
-		rewardRateMethodValue,
-		remaining,
-		amountToStake,
+		// rewardForDuration,
+		// totalSupply,
+		// rewardRateMethodValue,
+		// remaining,
+		// amountToStake,
 		setAmountToStake,
 		REWARDRATE,
 		BALANCE,

@@ -3,6 +3,9 @@ import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
 import { contract, token } from "@/contracts/contracts.js";
 const { VITE_STRU_STAKING_CONTRACT } = import.meta.env;
 
+// In this hook defines all the write contract operations and returns write methods. 
+// Also, it makes contract read method "allowance" and returns allowance amount, coz it rather belongs to contract write operations than to read ones.
+
 function useContractWriteOperations() {
 	const { address, isConnected } = useAccountAndBalance();
 
@@ -14,30 +17,30 @@ function useContractWriteOperations() {
 		enabled: isConnected,
 	});
 
-	const { writeAsync: approvalWrite, isLoading: isApprovalLoading } =
+	const { writeAsync: approvalWrite } =
 		useContractWrite({
 			...token,
 			functionName: "approve",
 		});
 
-	const { writeAsync: stakeWrite, isLoading: isStakeLoading } =
+	const { writeAsync: stakeWrite } =
 		useContractWrite({
 			...contract,
 			functionName: "stake",
 		});
 
-	const { writeAsync: withdrawWrite, isLoading: isWithdrawLoading } =
+	const { writeAsync: withdrawWrite } =
 		useContractWrite({
 			...contract,
 			functionName: "withdraw",
 		});
 
-	const { writeAsync: exitWrite, isLoading: isExitLoading } = useContractWrite({
+	const { writeAsync: exitWrite} = useContractWrite({
 		...contract,
 		functionName: "exit",
 	});
 
-	const { writeAsync: claimRewardWrite, isLoading: isClaimRewardsLoading } =
+	const { writeAsync: claimRewardWrite } =
 		useContractWrite({
 			...contract,
 			functionName: "claimReward",
@@ -46,15 +49,10 @@ function useContractWriteOperations() {
 	return {
 		allowanceAmount,
 		approvalWrite,
-		isApprovalLoading,
 		stakeWrite,
-		isStakeLoading,
 		withdrawWrite,
-		isWithdrawLoading,
 		claimRewardWrite,
-		isClaimRewardsLoading,
 		exitWrite,
-		isExitLoading,
 	};
 }
 

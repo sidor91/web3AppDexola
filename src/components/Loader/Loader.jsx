@@ -5,12 +5,12 @@ import PropTypes from "prop-types";
 
 function Loader({
 	pathname,
-	operationAmount,
+	transactionAmount,
 	isApprovalLoading,
 	isExitOperation,
 }) {
-	const amount = formatEther(operationAmount);
-console.log(operationAmount);
+	const amount = formatEther(transactionAmount);
+
 	return (
 		<>
 			<Oval
@@ -53,7 +53,7 @@ export default Loader;
 
 Loader.propTypes = {
 	pathname: PropTypes.string,
-	operationAmount: PropTypes.string,
+	transactionAmount: PropTypes.bigint,
 	isApprovalLoading: PropTypes.bool,
 	isExitOperation: PropTypes.bool,
 };

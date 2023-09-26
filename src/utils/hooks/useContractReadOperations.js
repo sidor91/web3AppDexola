@@ -2,6 +2,7 @@ import useAccountAndBalance from "@/utils/hooks/useAccountAndBalance";
 import { useContractRead } from "wagmi";
 import { contract } from "@/contracts/contracts.js";
 
+// This hook fetches all the data from the contract and return values
 export const useContractReadOperations = () => {
 	const { address, isConnected } = useAccountAndBalance();
 

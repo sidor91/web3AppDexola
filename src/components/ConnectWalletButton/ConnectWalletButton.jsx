@@ -15,12 +15,8 @@ function ConnectWalletButton() {
 	const [loading, setLoading] = useState(false);
 	const { open } = useWeb3Modal();
 	const dimensions = useWindowDimensions();
-	const {
-		addressToShow,
-		struBalance = 0,
-		sepoliaBalance = 0,
-		isConnected,
-	} = useAccountAndBalance();
+	const { addressToShow, struBalance, sepoliaBalance, isConnected } =
+		useAccountAndBalance();
 	const buttonRef = useRef(null);
 
 	async function onOpen() {
@@ -33,7 +29,7 @@ function ConnectWalletButton() {
 		<>
 			{!isConnected ? (
 				<Button
-					onClick={() => onOpen()}
+					onClick={onOpen}
 					aria-label="Connect Wallet"
 					disabled={loading}
 					ref={buttonRef}

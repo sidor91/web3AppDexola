@@ -23,7 +23,7 @@ function OperationsSection() {
 	const { REWARDRATE, setAmountToStake } = useContractReadData();
 	const { isConnected } = useAccountAndBalance();
 
-	const debouncedREWARDRATE = useDebouncedCallback((value) => {
+	const debouncedSetAmountToStake = useDebouncedCallback((value) => {
 		setAmountToStake(value);
 	}, 500);
 
@@ -56,7 +56,7 @@ function OperationsSection() {
 									</RewardRateContainer>
 								)}
 							</TitleContainer>
-							<Form setAmountToStake={debouncedREWARDRATE} />
+							<Form setAmountToStake={debouncedSetAmountToStake} />
 						</>
 					) : (
 						<NotAuthorizedSection />

@@ -14,13 +14,13 @@ function OperationStatusToast({
 	pathname,
 	isError,
 	isTransactionSuccess,
-	operationAmount,
+	transactionAmount,
 	setIsSuccess,
 	setIsError,
 	isExitOperation,
 setIsExitOperation
 }) {
-	const amount = formatEther(operationAmount);
+	const amount = formatEther(transactionAmount);
 	const [operationStatusIcon, setOperationStatusIcon] = useState(null);
     const [isVisible, setIsVisible] = useState(true); 
 
@@ -102,9 +102,9 @@ OperationStatusToast.propTypes = {
 	pathname: PropTypes.string,
 	isError: PropTypes.bool,
 	isTransactionSuccess: PropTypes.bool,
-	operationAmount: PropTypes.string,
+	transactionAmount: PropTypes.bigint,
 	setIsSuccess: PropTypes.func,
-	setIsError: PropTypes.bool,
+	setIsError: PropTypes.func,
 	isExitOperation: PropTypes.bool,
 	setIsExitOperation: PropTypes.func,
 };

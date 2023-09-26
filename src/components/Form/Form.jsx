@@ -25,27 +25,21 @@ import {
 import Loader from "@/components/Loader/Loader.jsx";
 import OperationStatusToast from "@/components/Toast/OperationStatusToast.jsx";
 
-
 function Form({ setAmountToStake }) {
 	const [buttonTitle, setButtonTitle] = useState("");
 	const [placeholder, setPlaceholder] = useState("");
 	const [availableAmount, setAvailableAmount] = useState(0);
-	const [operationAmount, setOperationAmount] = useState(0);
+	const [transactionAmount, setTransactionAmount] = useState(0);
 	const [isError, setIsError] = useState(false);
 	const [isSuccess, setIsSuccess] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [isExitOperation, setIsExitOperation] = useState(false);
 	const { pathname } = useLocation();
 	const { BALANCE, REWARDS } = useContractReadData();
 	const { struBalance, isConnected } = useAccountAndBalance();
 	const dimensions = useWindowDimensions();
-	const {
-		stake,
-		withdraw,
-		claimReward,
-		exit,
-		isLoading,
-		isApprovalTransactionLoading,
-	} = useTransaction();
+	const { stake, withdraw, claimReward, exit, isApprovalTransactionLoading } =
+		useTransaction();
 
 	useEffect(() => {
 		switch (pathname) {
@@ -78,23 +72,31 @@ function Form({ setAmountToStake }) {
 		const amountToSend = parseEther(amount.toString());
 		const rewardsAvailableAmount = parseEther(availableAmount.toString());
 		try {
+			setIsLoading(true);
 			setIsError(false);
 			setIsSuccess(false);
+			setIsExitOperation(false);
 			switch (pathname) {
 				case "/stake":
-					setOperationAmount(amountToSend);
-					await stake(amountToSend);
+					setTransactionAmount(amountToSend);
+					const stakeResponse = await stake(amountToSend);
+					stakeResponse && setIsLoading(false);
 					break;
 				case "/withdraw":
-					setOperationAmount(amountToSend);
-					await withdraw(amountToSend);
+					setTransactionAmount(amountToSend);
+					const withdrawResponse = await withdraw(amountToSend);
+					withdrawResponse && setIsLoading(false);
 					break;
 				case "/rewards":
-					setOperationAmount(rewardsAvailableAmount);
-					await claimReward(rewardsAvailableAmount);
+					setTransactionAmount(rewardsAvailableAmount);
+					const claimRewardsResponse = await claimReward(
+						rewardsAvailableAmount
+					);
+					claimRewardsResponse && setIsLoading(false);
 			}
 			setIsSuccess(true);
 		} catch ({ message }) {
+			setIsLoading(false);
 			setIsError(true);
 			const errorLines = message.split("\n");
 			const errorMessage = errorLines[0];
@@ -108,11 +110,14 @@ function Form({ setAmountToStake }) {
 	const onExit = async () => {
 		try {
 			setIsExitOperation(true);
+			setIsLoading(true);
 			setIsError(false);
 			setIsSuccess(false);
-			await exit();
+			const response = await exit();
+			response && setIsLoading(false);
 			setIsSuccess(true);
 		} catch ({ message }) {
+			setIsLoading(false);
 			setIsError(true);
 			setIsExitOperation(false);
 			const errorLines = message.split("\n");
@@ -171,7 +176,7 @@ function Form({ setAmountToStake }) {
 					<Loader
 						pathname={pathname}
 						isApprovalLoading={isApprovalTransactionLoading}
-						operationAmount={operationAmount}
+						transactionAmount={transactionAmount}
 						isExitOperation={isExitOperation}
 					/>
 				)}
@@ -182,7 +187,7 @@ function Form({ setAmountToStake }) {
 						isError={isError}
 						setIsError={setIsError}
 						pathname={pathname}
-						operationAmount={operationAmount}
+						transactionAmount={transactionAmount}
 						isExitOperation={isExitOperation}
 						setIsExitOperation={setIsExitOperation}
 					/>
