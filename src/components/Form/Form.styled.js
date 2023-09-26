@@ -90,7 +90,7 @@ export const Label = styled.label`
 	margin-bottom: ${({ $isrewardspage }) => ($isrewardspage ? "296px" : "224px")};
 
 	@media ${media.minTablet} {
-		margin-bottom: ${({ $isrewardspage }) => ($isrewardspage ? "138px" : "62px")};
+		margin-bottom: ${({ $isrewardspage }) => ($isrewardspage ? "136px" : "62px")};
 	}
 `;
 
