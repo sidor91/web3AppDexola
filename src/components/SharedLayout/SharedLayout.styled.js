@@ -2,11 +2,13 @@ import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
 
 export const Container = styled.div`
-max-width: 100vw;
-min-height: 100vh;
-display: flex;
-flex-direction: column;
-overflow-x: hidden;
+	width: 100%;
+	min-width: var(--width-mobile);
+	max-width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	overflow-x: hidden;
 `;
 
 
