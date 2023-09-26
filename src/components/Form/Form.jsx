@@ -153,7 +153,7 @@ function Form({ setAmountToStake }) {
 						)}
 					</InputContainer>
 				)}
-				<Label>
+				<Label $isrewardspage={pathname === "/rewards"}>
 					<LabelText>Available:</LabelText>
 					<LabelValue>{availableAmount}</LabelValue>
 					<LabelUnits>STRU</LabelUnits>

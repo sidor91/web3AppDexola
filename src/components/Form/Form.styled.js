@@ -87,10 +87,10 @@ export const InputErrorMessage = styled.span`
 `;
 
 export const Label = styled.label`
-	margin-bottom: 224px;
+	margin-bottom: ${({ $isrewardspage }) => ($isrewardspage ? "296px" : "224px")};
 
 	@media ${media.minTablet} {
-		margin-bottom: 62px;
+		margin-bottom: ${({ $isrewardspage }) => ($isrewardspage ? "138px" : "62px")};
 	}
 `;
 
