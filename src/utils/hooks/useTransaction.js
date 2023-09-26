@@ -1,7 +1,6 @@
 import useContractWriteOperations from "./useContractWriteOperations";
-import { useWaitForTransaction } from "wagmi";
 import { waitForTransaction } from "@wagmi/core";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { formatEther } from "viem";
 const { VITE_STRU_STAKING_CONTRACT } = import.meta.env;
 

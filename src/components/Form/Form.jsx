@@ -76,23 +76,18 @@ function Form({ setAmountToStake }) {
 			setIsError(false);
 			setIsSuccess(false);
 			setIsExitOperation(false);
-			switch (pathname) {
-				case "/stake":
-					setTransactionAmount(amountToSend);
-					const stakeResponse = await stake(amountToSend);
-					stakeResponse && setIsLoading(false);
-					break;
-				case "/withdraw":
-					setTransactionAmount(amountToSend);
-					const withdrawResponse = await withdraw(amountToSend);
-					withdrawResponse && setIsLoading(false);
-					break;
-				case "/rewards":
-					setTransactionAmount(rewardsAvailableAmount);
-					const claimRewardsResponse = await claimReward(
-						rewardsAvailableAmount
-					);
-					claimRewardsResponse && setIsLoading(false);
+			if (pathname === "/stake") {
+				setTransactionAmount(amountToSend);
+				const stakeResponse = await stake(amountToSend);
+				stakeResponse && setIsLoading(false);
+			} else if (pathname === "/withdraw") {
+				setTransactionAmount(amountToSend);
+				const withdrawResponse = await withdraw(amountToSend);
+				withdrawResponse && setIsLoading(false);
+			} else if (pathname === "/rewards") {
+				setTransactionAmount(rewardsAvailableAmount);
+				const claimRewardsResponse = await claimReward();
+				claimRewardsResponse && setIsLoading(false);
 			}
 			setIsSuccess(true);
 		} catch ({ message }) {
