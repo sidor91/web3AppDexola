@@ -7,7 +7,7 @@ import {
 } from "@/components/SharedElements.styled";
 
 export const Section = styled(StyledSection)`
-	background-color: var(--color-black);
+	background-color: transparent;
 `;
 
 export const Container = styled.div`
@@ -30,7 +30,7 @@ export const Container = styled.div`
 `;
 
 export const SubContainer = styled.div`
-position: relative;
+	position: relative;
 	@media ${media.minTablet} {
 		padding-left: 24px;
 		padding-right: 24px;
@@ -40,6 +40,7 @@ position: relative;
 
 	@media ${media.minDesktop} {
 		margin-bottom: 108px;
+		background-color: var(--color-black);
 	}
 `;
 
@@ -75,6 +76,7 @@ export const RateValue = styled.p`
 
 export const RateUnits = styled.p`
 	font: var(--font-reward-rate-units-mobile);
+	text-transform: uppercase;
 
 	@media ${media.minTablet} {
 		font: var(--font-reward-rate-units-tablet-web);

@@ -25,7 +25,7 @@ function useTransaction() {
 		// Before doing the 'stake' method, we check the allowance amount and,
 		// if it is less than the amount of the current transaction, we do the 'approve' method and then the 'stake' method.
 		if (Number(formatEther(value)) > allowance) {
-			setIsApprovalTransactionLoading(true); // using this state to display whether in the process of approval or staking taking place
+			setIsApprovalTransactionLoading(true); // using this state to display whether the process of approval or staking taking place
 			// receiving the hash and passing it to waitForTransaction method to create a Promise and wait for the transaction to get done
 			const { hash: approvalHash } = await approvalWrite({
 				args: [VITE_STRU_STAKING_CONTRACT, value],

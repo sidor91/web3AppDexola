@@ -7,6 +7,10 @@ export const StyledFooter = styled.footer`
 	border-top: 1px solid var(--color-accent-blue);
 	box-sizing: border-box;
 	margin-top: auto;
+
+	@media ${media.minDesktop} {
+		background-color: transparent;
+	}
 `;
 
 export const Container = styled.div`

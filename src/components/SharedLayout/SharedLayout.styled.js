@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { media } from "@/utils/mediaRules";
+import mobileBackground from "@/assets/mobile_background.webp";
+import tabletBackground from "@/assets/tablet_background.webp";
+import desktopBackground from "@/assets/desktop_background.webp";
 
 export const Container = styled.div`
 	width: 100%;
@@ -9,6 +12,21 @@ export const Container = styled.div`
 	display: flex;
 	flex-direction: column;
 	overflow-x: hidden;
+	background-color: var(--color-black);
+`;
+
+export const MainBackgroundContainer = styled.div`
+background-color: var(--color-black);
+	@media ${media.minDesktop} {
+		background: radial-gradient(
+			42.93% 42.93% at 50% 50%,
+			#2f4bc9 0%,
+			#080808 100%
+		);
+		background-position-y: 200px;
+		background-position-x: center;
+		background-size: 2193px 1330px;
+	}
 `;
 
 
@@ -16,22 +34,19 @@ export const BackgroundContainer = styled.div`
 	position: sticky;
 	top: 0;
 	z-index: 88;
-	background: radial-gradient(
-		42.93% 42.93% at 50% 50%,
-		#2f4bc9 0%,
-		#080808 100%
-	);
 	background-size: 2860px 1548px;
-	background-position-y: -300px;
+	background-image: url(${mobileBackground});
 	background-position-x: center;
-	
+	background-position-y: top;
+
 	@media ${media.minTablet} {
+		background-image: url(${tabletBackground});
 		background-size: 1467px 825px;
-		background-position-y: 1500px;
 	}
 
 	@media ${media.minDesktop} {
+		background-image: url(${desktopBackground});
+		background-position-y: -31px;
 		background-size: 2193px 1330px;
-		background-position-y: -300px;
 	}
 `;
