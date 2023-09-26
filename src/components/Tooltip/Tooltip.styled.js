@@ -3,7 +3,7 @@ import { Paragraph } from "@/components/SharedElements.styled";
 
 export const Container = styled.div`
 	background: rgba(0, 0, 0, 0.6);
-	width: 100vw;
+	width: 100%;
 	height: 100vh;
 	position: absolute;
 	top: 0;

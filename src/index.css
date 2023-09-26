@@ -122,7 +122,7 @@
 }
 
 body {
-	width: 100vw;
+	width: 100%;
 	height: auto;
 	margin: 0;
 	padding: 0;
@@ -131,6 +131,10 @@ body {
 	font-family: "Roboto Mono", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+#root{
+		width: 100%;
 }
 
 a,
