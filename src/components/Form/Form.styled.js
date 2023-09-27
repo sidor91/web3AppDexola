@@ -87,10 +87,17 @@ export const InputErrorMessage = styled.span`
 `;
 
 export const Label = styled.label`
-	margin-bottom: ${({ $isrewardspage }) => ($isrewardspage ? "296px" : "224px")};
+	margin-bottom: ${({ $isrewardspage }) =>
+		$isrewardspage ? "292px" : "224px"};
 
 	@media ${media.minTablet} {
-		margin-bottom: ${({ $isrewardspage }) => ($isrewardspage ? "136px" : "62px")};
+		margin-bottom: ${({ $isrewardspage }) =>
+			$isrewardspage ? "134px" : "62px"};
+	}
+
+	@media ${media.minDesktop} {
+		margin-bottom: ${({ $isrewardspage }) =>
+			$isrewardspage ? "136px" : "62px"};
 	}
 `;
 
