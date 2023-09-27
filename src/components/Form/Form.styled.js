@@ -142,6 +142,15 @@ export const SubmitButton = styled(StyledButton)`
 	margin-bottom: 65px;
 	width: 100%;
 
+	&:disabled {
+		opacity: 70%;
+		cursor: initial;
+
+		&:hover {
+			background-color: var(--color-button);
+		}
+	}
+
 	@media ${media.minTablet} {
 		padding: 12px 40px;
 		width: fit-content;
@@ -150,12 +159,20 @@ export const SubmitButton = styled(StyledButton)`
 `;
 
 export const ExitButton = styled(SubmitButton)`
-background-color: transparent;
-
-&:hover{
 	background-color: transparent;
-}
-`
+
+	&:hover {
+		background-color: transparent;
+	}
+
+	&:disabled {
+		cursor: initial;
+
+		&:hover {
+			background-color: transparent;
+		}
+	}
+`;
 
 
 export const OperationStatusContainer = styled.div`

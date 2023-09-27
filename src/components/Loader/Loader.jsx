@@ -4,12 +4,11 @@ import { formatEther } from "viem";
 import PropTypes from "prop-types";
 
 function Loader({
-	pathname,
+	transactionType,
 	transactionAmount,
 	isApprovalLoading,
-	isExitOperation,
 }) {
-	const amount = formatEther(transactionAmount);
+	const amount = transactionAmount && formatEther(transactionAmount);
 
 	return (
 		<Container>
@@ -24,22 +23,22 @@ function Loader({
 				strokeWidthSecondary={6}
 			/>
 			<TextContainer>
-				{pathname === "/stake" && (
+				{transactionType === "stake" && (
 					<Message>
 						{isApprovalLoading ? "Approving" : "Adding"}{" "}
 						{<Amount>{`${amount} STRU`}</Amount>} {"to Staking"}
 					</Message>
 				)}
-				{pathname === "/withdraw" && !isExitOperation && (
+				{transactionType === "withdraw" && (
 					<Message>
 						{`Withdrawing`} {<Amount>{`${amount} STRU`}</Amount>}{" "}
 						{"from Staking"}
 					</Message>
 				)}
-				{pathname === "/withdraw" && isExitOperation && (
+				{transactionType === "exit" && (
 					<Message>{`Withdrawing all tokens and all rewards`}</Message>
 				)}
-				{pathname === "/rewards" && (
+				{transactionType === "rewards" && (
 					<Message>
 						{`Claiming rewards of`} {<Amount>{`${amount} STRU`}</Amount>}
 					</Message>
@@ -52,8 +51,7 @@ function Loader({
 export default Loader;
 
 Loader.propTypes = {
-	pathname: PropTypes.string,
+	transactionType: PropTypes.string,
 	transactionAmount: PropTypes.bigint,
 	isApprovalLoading: PropTypes.bool,
-	isExitOperation: PropTypes.bool,
 };

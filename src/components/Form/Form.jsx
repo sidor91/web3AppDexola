@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { parseEther } from "viem";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -30,10 +30,10 @@ function Form({ setAmountToStake }) {
 	const [placeholder, setPlaceholder] = useState("");
 	const [availableAmount, setAvailableAmount] = useState(0);
 	const [transactionAmount, setTransactionAmount] = useState(0);
+	const [transactionType, setTransactionType] = useState('');
 	const [isError, setIsError] = useState(false);
 	const [isSuccess, setIsSuccess] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [isExitOperation, setIsExitOperation] = useState(false);
 	const { pathname } = useLocation();
 	const { BALANCE, REWARDS } = useContractReadData();
 	const { struBalance } = useAccountAndBalance();
@@ -60,14 +60,24 @@ function Form({ setAmountToStake }) {
 		}
 	}, [pathname, struBalance, BALANCE, REWARDS]);
 
-	const validationSchema =
-		pathname !== "/rewards" &&
-		Yup.object({
-			amount: Yup.number("Amount should be a number")
-				.min(0.000000000000000001, "The minimum amount is 0.000000000000000001")
-				.max(availableAmount, `The maximum amount is ${availableAmount}`)
-				.required("Required"),
-		});
+	// For claim rewards page we don't need a validation Schema because of absence of input. 
+	// For "exit" operation we don't need it as well coz this transaction doesn't require any value from input.
+	const validationSchema = useMemo(() => {
+		if (pathname !== "/rewards" && transactionType !== "exit") {
+			return Yup.object({
+				amount: Yup.number("Amount should be a number")
+					.min(
+						0.000000000000000001,
+						"The minimum amount is 0.000000000000000001"
+					)
+					.max(availableAmount, `The maximum amount is ${availableAmount}`)
+					.required("Required"),
+			});
+		} else {
+			return null;
+		}
+	}, [pathname, transactionType, availableAmount]);
+		
 
 	const onSubmit = async ({ amount }) => {
 		const amountToSend = parseEther(amount.toString());
@@ -77,14 +87,20 @@ function Form({ setAmountToStake }) {
 		setIsSuccess(false);
 		try {
 			if (pathname === "/stake") {
+				setTransactionType('stake')
 				setTransactionAmount(amountToSend);
 				const response = await stake(amountToSend);
 				response && setIsLoading(false);
-			} else if (pathname === "/withdraw") {
+			} else if (pathname === "/withdraw" && transactionType !== 'exit') {
+				setTransactionType("withdraw");
 				setTransactionAmount(amountToSend);
 				const response = await withdraw(amountToSend);
 				response && setIsLoading(false);
+			} else if (transactionType === 'exit') {
+				const response = await exit();
+				response && setIsLoading(false);
 			} else if (pathname === "/rewards") {
+				setTransactionType("rewards");
 				setTransactionAmount(rewardsAvailableAmount);
 				const response = await claimReward();
 				response && setIsLoading(false);
@@ -100,25 +116,6 @@ function Form({ setAmountToStake }) {
 
 		formik.handleReset();
 		setAmountToStake(0);
-	};
-
-	const onExit = async () => {
-		setIsExitOperation(true);
-		setIsLoading(true);
-		setIsError(false);
-		setIsSuccess(false);
-		try {
-			const response = await exit();
-			response && setIsLoading(false);
-			setIsSuccess(true);
-		} catch ({message}) {
-			setIsLoading(false);
-			setIsError(true);
-			setIsExitOperation(false);
-			const errorLines = message.split("\n");
-			const errorMessage = `${errorLines[0]} ${errorLines[1]}`;
-			console.log(errorMessage);
-		}
 	};
 
 	const formik = useFormik({
@@ -158,9 +155,23 @@ function Form({ setAmountToStake }) {
 					<LabelUnits>STRU</LabelUnits>
 				</Label>
 				<SubmitButtonContainer>
-					<SubmitButton type="submit">{buttonTitle}</SubmitButton>
+					<SubmitButton
+						type="submit"
+						onClick={() => {
+							setTransactionType("");
+						}}
+						disabled={isLoading}
+					>
+						{buttonTitle}
+					</SubmitButton>
 					{dimensions >= 1440 && pathname === "/withdraw" && (
-						<ExitButton type="button" onClick={onExit}>
+						<ExitButton
+							type="submit"
+							onClick={() => {
+								setTransactionType("exit");
+							}}
+							disabled={isLoading}
+						>
 							withdraw all & Claim rewards
 						</ExitButton>
 					)}
@@ -169,22 +180,19 @@ function Form({ setAmountToStake }) {
 			<OperationStatusContainer>
 				{isLoading && (
 					<Loader
-						pathname={pathname}
+						transactionType={transactionType}
 						isApprovalLoading={isApprovalTransactionLoading}
 						transactionAmount={transactionAmount}
-						isExitOperation={isExitOperation}
 					/>
 				)}
-				{(isSuccess || isError) && (
+				{(isSuccess || isError) && !isLoading && (
 					<OperationStatusToast
 						isTransactionSuccess={isSuccess}
 						setIsSuccess={setIsSuccess}
 						isError={isError}
 						setIsError={setIsError}
-						pathname={pathname}
+						transactionType={transactionType}
 						transactionAmount={transactionAmount}
-						isExitOperation={isExitOperation}
-						setIsExitOperation={setIsExitOperation}
 					/>
 				)}
 			</OperationStatusContainer>

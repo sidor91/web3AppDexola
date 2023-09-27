@@ -12,14 +12,12 @@ import { formatEther } from "viem";
 import PropTypes from "prop-types";
 
 function OperationStatusToast({
-	pathname,
+	transactionType,
 	isError,
 	isTransactionSuccess,
 	transactionAmount,
 	setIsSuccess,
 	setIsError,
-	isExitOperation,
-setIsExitOperation
 }) {
 	const amount = formatEther(transactionAmount);
 	const [operationStatusIcon, setOperationStatusIcon] = useState(null);
@@ -30,13 +28,12 @@ setIsExitOperation
 			setIsVisible(false);
 			setIsSuccess(false);
 			setIsError(false);
-			setIsExitOperation(false);
 		}, 5000);
 
 		return () => {
 			clearTimeout(timer);
 		};
-	}, [setIsError, setIsExitOperation, setIsSuccess]);
+	}, [setIsError, setIsSuccess]);
 
 	useEffect(() => {
 		if (isTransactionSuccess) {
@@ -58,24 +55,24 @@ setIsExitOperation
 					/>
 					{isTransactionSuccess && (
 						<TextContainer>
-							{pathname === "/stake" && (
+							{transactionType === "stake" && (
 								<Message>
 									<Amount>{`${amount} STRU`}</Amount>{" "}
 									{"Successfully added to Staking"}
 								</Message>
 							)}
-							{pathname === "/withdraw" && !isExitOperation && (
+							{transactionType === "withdraw" && (
 								<Message>
 									<Amount>{`${amount} STRU`}</Amount>{" "}
 									{"were successfully withdrawn from Staking"}
 								</Message>
 							)}
-							{pathname === "/withdraw" && isExitOperation && (
+							{transactionType === "exit" && (
 								<Message>
 									{"All tokens and all rewards were successfully withdrawn"}
 								</Message>
 							)}
-							{pathname === "/rewards" && (
+							{transactionType === "rewards" && (
 								<Message>
 									<Amount>{`${amount} STRU`}</Amount>{" "}
 									{"were successfully added to your STRU wallet balance"}
@@ -100,12 +97,10 @@ export default OperationStatusToast;
 
 
 OperationStatusToast.propTypes = {
-	pathname: PropTypes.string,
+	transactionType: PropTypes.string,
 	isError: PropTypes.bool,
 	isTransactionSuccess: PropTypes.bool,
 	transactionAmount: PropTypes.bigint,
 	setIsSuccess: PropTypes.func,
 	setIsError: PropTypes.func,
-	isExitOperation: PropTypes.bool,
-	setIsExitOperation: PropTypes.func,
 };
