@@ -13,7 +13,7 @@ export const StyledHeader = styled.header`
 	align-items: center;
 	margin-left: auto;
 	margin-right: auto;
-	
+
 	@media ${media.minTablet} {
 		padding: 11px 48px;
 	}

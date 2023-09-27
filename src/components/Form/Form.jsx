@@ -75,7 +75,6 @@ function Form({ setAmountToStake }) {
 		setIsLoading(true);
 		setIsError(false);
 		setIsSuccess(false);
-		setIsExitOperation(false);
 		try {
 			if (pathname === "/stake") {
 				setTransactionAmount(amountToSend);

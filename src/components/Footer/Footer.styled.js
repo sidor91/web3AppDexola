@@ -31,6 +31,7 @@ export const Container = styled.div`
 	@media ${media.minDesktop} {
 		padding-left: 40px;
 		padding-right: 40px;
+		padding-bottom: 26px;
 	}
 `;
 
