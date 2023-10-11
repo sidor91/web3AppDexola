@@ -14,80 +14,75 @@ import PropTypes from "prop-types";
 function OperationStatusToast({
 	transactionType,
 	isError,
-	isTransactionSuccess,
+	isSuccess,
 	transactionAmount,
-	setIsSuccess,
-	setIsError,
+	removeTransactionFromStack,
+	id,
 }) {
-	const amount = formatEther(transactionAmount);
 	const [operationStatusIcon, setOperationStatusIcon] = useState(null);
-    const [isVisible, setIsVisible] = useState(true); 
+	const [amount, setAmount] = useState(0);
+
+	useEffect(() => {
+		if (transactionAmount) {
+			const value = formatEther(transactionAmount);
+			setAmount(value);
+		}
+	}, [transactionAmount]);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			setIsVisible(false);
-			setIsSuccess(false);
-			setIsError(false);
-		}, 5000);
+			removeTransactionFromStack(id);
+		}, 4000);
 
 		return () => {
 			clearTimeout(timer);
 		};
-	}, [setIsError, setIsSuccess]);
+	}, [removeTransactionFromStack, id]);
 
 	useEffect(() => {
-		if (isTransactionSuccess) {
+		if (isSuccess) {
 			setOperationStatusIcon(successIcon);
 		} else if (isError) {
 			setOperationStatusIcon(errorIcon);
 		}
-	}, [isTransactionSuccess, isError]);
+	}, [isSuccess, isError]);
 
 	return (
 		<Container>
-			{isVisible && (
-				<>
-					<img
-						src={operationStatusIcon}
-						alt="status icon"
-						height={32}
-						width={32}
-					/>
-					{isTransactionSuccess && (
-						<TextContainer>
-							{transactionType === "stake" && (
-								<Message>
-									<Amount>{`${amount} STRU`}</Amount>{" "}
-									{"Successfully added to Staking"}
-								</Message>
-							)}
-							{transactionType === "withdraw" && (
-								<Message>
-									<Amount>{`${amount} STRU`}</Amount>{" "}
-									{"were successfully withdrawn from Staking"}
-								</Message>
-							)}
-							{transactionType === "exit" && (
-								<Message>
-									{"All tokens and all rewards were successfully withdrawn"}
-								</Message>
-							)}
-							{transactionType === "rewards" && (
-								<Message>
-									<Amount>{`${amount} STRU`}</Amount>{" "}
-									{"were successfully added to your STRU wallet balance"}
-								</Message>
-							)}
-						</TextContainer>
+			<img src={operationStatusIcon} alt="status icon" height={32} width={32} />
+			{isSuccess && (
+				<TextContainer>
+					{transactionType === "stake" && (
+						<Message>
+							<Amount>{`${amount} STRU`}</Amount>{" "}
+							{"Successfully added to Staking"}
+						</Message>
 					)}
-					{isError && (
-						<TextContainer>
-							<Message>
-								<EmphasisTetx>Connection Error.</EmphasisTetx> Please try again
-							</Message>
-						</TextContainer>
+					{transactionType === "withdraw" && (
+						<Message>
+							<Amount>{`${amount} STRU`}</Amount>{" "}
+							{"were successfully withdrawn from Staking"}
+						</Message>
 					)}
-				</>
+					{transactionType === "exit" && (
+						<Message>
+							{"All tokens and all rewards were successfully withdrawn"}
+						</Message>
+					)}
+					{transactionType === "rewards" && (
+						<Message>
+							<Amount>{`${amount} STRU`}</Amount>{" "}
+							{"were successfully added to your STRU wallet balance"}
+						</Message>
+					)}
+				</TextContainer>
+			)}
+			{isError && (
+				<TextContainer>
+					<Message>
+						<EmphasisTetx>Connection Error.</EmphasisTetx> Please try again
+					</Message>
+				</TextContainer>
 			)}
 		</Container>
 	);
@@ -95,12 +90,11 @@ function OperationStatusToast({
 
 export default OperationStatusToast;
 
-
 OperationStatusToast.propTypes = {
 	transactionType: PropTypes.string,
 	isError: PropTypes.bool,
-	isTransactionSuccess: PropTypes.bool,
+	isSuccess: PropTypes.bool,
 	transactionAmount: PropTypes.bigint,
-	setIsSuccess: PropTypes.func,
-	setIsError: PropTypes.func,
+	removeTransactionFromStack: PropTypes.func,
+	id: PropTypes.string,
 };

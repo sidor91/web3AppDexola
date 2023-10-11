@@ -24,23 +24,25 @@ import {
 } from "./Form.styled";
 import Loader from "@/components/Loader/Loader.jsx";
 import OperationStatusToast from "@/components/Toast/OperationStatusToast.jsx";
+import useFormSubmit from "@/utils/hooks/useFormSubmit.js";
 
 function Form({ setAmountToStake }) {
 	const [buttonTitle, setButtonTitle] = useState("");
 	const [placeholder, setPlaceholder] = useState("");
 	const [availableAmount, setAvailableAmount] = useState(0);
-	const [transactionAmount, setTransactionAmount] = useState(0);
 	const [transactionType, setTransactionType] = useState('');
-	const [isError, setIsError] = useState(false);
-	const [isSuccess, setIsSuccess] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
 	const { pathname } = useLocation();
 	const { BALANCE, REWARDS } = useContractReadData();
 	const { struBalance } = useAccountAndBalance();
 	const dimensions = useWindowDimensions();
-	const { stake, withdraw, claimReward, exit, isApprovalTransactionLoading } =
-		useTransaction();
-
+	const {
+		stake,
+		withdraw,
+		claimReward,
+		exit,
+		isApprovalTransactionLoading,
+	} = useTransaction();
+	const { transactionsStack, onSubmitHandler, removeTransactionFromStack } = useFormSubmit();
 	// Depending on pathname we set button text, available amount and input placeholder.
 	useEffect(() => {
 		switch (pathname) {
@@ -82,37 +84,16 @@ function Form({ setAmountToStake }) {
 	const onSubmit = async ({ amount }) => {
 		const amountToSend = parseEther(amount.toString());
 		const rewardsAvailableAmount = parseEther(availableAmount.toString());
-		setIsLoading(true);
-		setIsError(false);
-		setIsSuccess(false);
-		try {
+
 			if (pathname === "/stake") {
-				setTransactionType('stake')
-				setTransactionAmount(amountToSend);
-				const response = await stake(amountToSend);
-				response && setIsLoading(false);
+				onSubmitHandler(stake, amountToSend, "stake");
 			} else if (pathname === "/withdraw" && transactionType !== 'exit') {
-				setTransactionType("withdraw");
-				setTransactionAmount(amountToSend);
-				const response = await withdraw(amountToSend);
-				response && setIsLoading(false);
+				onSubmitHandler(withdraw, amountToSend, "withdraw");
 			} else if (transactionType === 'exit') {
-				const response = await exit();
-				response && setIsLoading(false);
+				onSubmitHandler(exit, null, "exit");
 			} else if (pathname === "/rewards") {
-				setTransactionType("rewards");
-				setTransactionAmount(rewardsAvailableAmount);
-				const response = await claimReward();
-				response && setIsLoading(false);
+				onSubmitHandler(claimReward, rewardsAvailableAmount, "rewards");
 			}
-			setIsSuccess(true);
-		} catch ({message}) {
-			setIsLoading(false);
-			setIsError(true);
-			const errorLines = message.split("\n");
-			const errorMessage = `${errorLines[0]} ${errorLines[1]}`;
-			console.log(errorMessage);
-		}
 
 		formik.handleReset();
 		setAmountToStake(0);
@@ -160,7 +141,6 @@ function Form({ setAmountToStake }) {
 						onClick={() => {
 							setTransactionType("");
 						}}
-						disabled={isLoading}
 					>
 						{buttonTitle}
 					</SubmitButton>
@@ -170,7 +150,6 @@ function Form({ setAmountToStake }) {
 							onClick={() => {
 								setTransactionType("exit");
 							}}
-							disabled={isLoading}
 						>
 							withdraw all & Claim rewards
 						</ExitButton>
@@ -178,23 +157,37 @@ function Form({ setAmountToStake }) {
 				</SubmitButtonContainer>
 			</StyledForm>
 			<OperationStatusContainer>
-				{isLoading && (
-					<Loader
-						transactionType={transactionType}
-						isApprovalLoading={isApprovalTransactionLoading}
-						transactionAmount={transactionAmount}
-					/>
-				)}
-				{(isSuccess || isError) && !isLoading && (
-					<OperationStatusToast
-						isTransactionSuccess={isSuccess}
-						setIsSuccess={setIsSuccess}
-						isError={isError}
-						setIsError={setIsError}
-						transactionType={transactionType}
-						transactionAmount={transactionAmount}
-					/>
-				)}
+				{transactionsStack.length > 0 &&
+					transactionsStack.map(
+						({
+							isLoading,
+							isError,
+							isSuccess,
+							id,
+							transactionAmount,
+							transactionType,
+						}) => (
+							<div key={id}>
+								{isLoading && (
+									<Loader
+										transactionType={transactionType}
+										isApprovalLoading={isApprovalTransactionLoading}
+										transactionAmount={transactionAmount}
+									/>
+								)}
+								{(isSuccess || isError) && !isLoading && (
+									<OperationStatusToast
+										isSuccess={isSuccess}
+										isError={isError}
+										transactionType={transactionType}
+										transactionAmount={transactionAmount}
+										removeTransactionFromStack={removeTransactionFromStack}
+										id={id}
+									/>
+								)}
+							</div>
+						)
+					)}
 			</OperationStatusContainer>
 		</>
 	);
