@@ -25,25 +25,31 @@ function useTransaction() {
 		// Before doing the 'stake' method, we check the allowance amount and,
 		// if it is less than the amount of the current transaction, we do the 'approve' method and then the 'stake' method.
 		if (Number(formatEther(value)) > allowance) {
-			setIsApprovalTransactionLoading(true); // using this state to display whether the process of approval or staking taking place
+			 // using this state to display whether the process of approval or staking taking place
 			// receiving the hash and passing it to waitForTransaction method to create a Promise and wait for the transaction to get done
-			const { hash: approvalHash } = await approvalWrite({
-				args: [VITE_STRU_STAKING_CONTRACT, value],
-			});
-			const { status: approvalStatus } = await waitForTransaction({
-				hash: approvalHash,
-			});
-			// when the transaction is done we recieve a result of Promise and proceed with the next, "stake" method
-			approvalStatus && setIsApprovalTransactionLoading(false);
-			if (approvalStatus === "success") {
-				const { hash: stakeHash } = await stakeWrite({
-					args: [value],
+			try {
+				setIsApprovalTransactionLoading(true);
+				const { hash: approvalHash } = await approvalWrite({
+					args: [VITE_STRU_STAKING_CONTRACT, value],
 				});
-				// Return the Promise to use it during the submission to control loading state as well as and success/error states
-				const response = await waitForTransaction({
-					hash: stakeHash,
+				const { status: approvalStatus } = await waitForTransaction({
+					hash: approvalHash,
 				});
-				return response;
+				// when the transaction is done we recieve a result of Promise and proceed with the next, "stake" method
+				approvalStatus && setIsApprovalTransactionLoading(false);
+				if (approvalStatus === "success") {
+					const { hash: stakeHash } = await stakeWrite({
+						args: [value],
+					});
+					// Return the Promise to use it during the submission to control loading state as well as and success/error states
+					const response = await waitForTransaction({
+						hash: stakeHash,
+					});
+					return response;
+				} 
+			} catch (error) {
+				setIsApprovalTransactionLoading(false);
+				throw new Error(error)
 			}
 			// If the allowance >= current operation's amount we immediately proceed with "stake" method
 		} else {

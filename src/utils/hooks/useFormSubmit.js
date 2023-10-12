@@ -1,15 +1,11 @@
 import {
-	// useEffect,
 	useState
 } from "react";
 import { nanoid } from "nanoid";
-// import { formatEther, parseEther } from "viem";
-// import { waitForTransaction } from "@wagmi/core";
 
 function useFormSubmit() {
 	const [transactionsStack, setTransactionsStack] = useState([]);
 
-	
 	const updateTransaction = (transactionId, newValue) => {
 		const updatedTransactionsStack = [...transactionsStack];
 		const transactionIndexToUpdate = updatedTransactionsStack.findIndex(
@@ -63,17 +59,17 @@ function useFormSubmit() {
 		]);
 
 		try {
-			const response = await transaction(transactionAmount);
+		const response = await transaction(transactionAmount);
 			if (response) {
 				transactionObject.setIsLoading(false);
 				transactionObject.setIsSuccess(true);
 				updateTransaction(transactionId, transactionObject);
 			}
-		} catch ({ message }) {
+		} catch (error) {
 			transactionObject.setIsLoading(false);
 			transactionObject.setIsError(true);
 			updateTransaction(transactionId, transactionObject);
-			const errorLines = message.split("\n");
+			const errorLines = error.message.split("\n");
 			const errorMessage = `${errorLines[0]} ${errorLines[1]}`;
 			console.log(errorMessage);
 		}

@@ -30,7 +30,7 @@ function Form({ setAmountToStake }) {
 	const [buttonTitle, setButtonTitle] = useState("");
 	const [placeholder, setPlaceholder] = useState("");
 	const [availableAmount, setAvailableAmount] = useState(0);
-	const [transactionType, setTransactionType] = useState('');
+	const [transactionType, setTransactionType] = useState("");
 	const { pathname } = useLocation();
 	const { BALANCE, REWARDS } = useContractReadData();
 	const { struBalance } = useAccountAndBalance();
@@ -42,7 +42,8 @@ function Form({ setAmountToStake }) {
 		exit,
 		isApprovalTransactionLoading,
 	} = useTransaction();
-	const { transactionsStack, onSubmitHandler, removeTransactionFromStack } = useFormSubmit();
+	const { transactionsStack, onSubmitHandler, removeTransactionFromStack } =
+		useFormSubmit();
 	// Depending on pathname we set button text, available amount and input placeholder.
 	useEffect(() => {
 		switch (pathname) {
@@ -62,7 +63,7 @@ function Form({ setAmountToStake }) {
 		}
 	}, [pathname, struBalance, BALANCE, REWARDS]);
 
-	// For claim rewards page we don't need a validation Schema because of absence of input. 
+	// For claim rewards page we don't need a validation Schema because of absence of input.
 	// For "exit" operation we don't need it as well coz this transaction doesn't require any value from input.
 	const validationSchema = useMemo(() => {
 		if (pathname !== "/rewards" && transactionType !== "exit") {
@@ -79,21 +80,20 @@ function Form({ setAmountToStake }) {
 			return null;
 		}
 	}, [pathname, transactionType, availableAmount]);
-		
 
 	const onSubmit = async ({ amount }) => {
 		const amountToSend = parseEther(amount.toString());
 		const rewardsAvailableAmount = parseEther(availableAmount.toString());
 
-			if (pathname === "/stake") {
-				onSubmitHandler(stake, amountToSend, "stake");
-			} else if (pathname === "/withdraw" && transactionType !== 'exit') {
-				onSubmitHandler(withdraw, amountToSend, "withdraw");
-			} else if (transactionType === 'exit') {
-				onSubmitHandler(exit, null, "exit");
-			} else if (pathname === "/rewards") {
-				onSubmitHandler(claimReward, rewardsAvailableAmount, "rewards");
-			}
+		if (pathname === "/stake") {
+			onSubmitHandler(stake, amountToSend, "stake");
+		} else if (pathname === "/withdraw" && transactionType !== "exit") {
+			onSubmitHandler(withdraw, amountToSend, "withdraw");
+		} else if (transactionType === "exit") {
+			onSubmitHandler(exit, null, "exit");
+		} else if (pathname === "/rewards") {
+			onSubmitHandler(claimReward, rewardsAvailableAmount, "rewards");
+		}
 
 		formik.handleReset();
 		setAmountToStake(0);

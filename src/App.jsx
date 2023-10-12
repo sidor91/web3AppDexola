@@ -1,13 +1,13 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Fallback from "@/components/Fallback/Fallback";
-
+import SharedLayout from "@/components/SharedLayout/SharedLayout";
 const OperationsSection = lazy(() =>
 	import("@/components/OperationsSection/OperationsSection")
 );
-const SharedLayout = lazy(() =>
-	import("@/components/SharedLayout/SharedLayout")
-);
+// const SharedLayout = lazy(() =>
+// 	import("@/components/SharedLayout/SharedLayout")
+// );
 
 function App() {
 	return (
